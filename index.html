@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ONDRI@Home Hub</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name='author' content='Hannah'>
+        <meta name='description' content="This is a Hub created by ONDRI@Home to be used to complement data collected from wearable sensors.">
+        <link href="styles/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    </head>
+<body onload="getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');">
+
+    <!-- Header -->
+    <div class="header">
+        <img src="images/ONDRI.ico" alt='Ontatio Neurodegenerative Disease Research Initiative Logo' width="200" height="80"> 
+        <h1>Welcome to the ONDRI@Home Hub!</h1>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="topnav" id="myTopnav">
+        <a href="index.html" class="active">Home</a>
+        <a href="info.html">Preferences</a>
+        <a href="sleep.html">Sleep</a>
+        <a href="activity.html">Activity</a>
+        <a href="mood.html">Mood</a>
+        <a href="falls.html">Falls</a>
+        <a href="javascript:void(0);" class="icon" onclick="respNav()">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+
+      <!-- Content -->
+      <div class="row">
+        <div class="side">
+            <p id="p-username">Welcome! Please log in</p>
+            <button onclick='setUsername()' style='display: block' class="btn" id="btn-username">Change Username</button>
+            <p>Today's Date:</p>
+            <p id="current-date"></p>
+            <p>Current Time:</p>
+            <p id="current-time"></p>
+        </div>
+        <div class="main">
+            <h2>Entries made today:</h2>
+            <div class="dailylog">
+                <p id="num-sleep" class="metric">0</p>
+                <p class="metric">Sleep</p>
+                <a href="sleep.html"><button class="btn">View</button></a>
+                
+            </div>
+            <div class="dailylog">
+                <p id="num-activity" class="metric" style="background-color: rgb(167, 142, 207);">0</p>
+                <p class="metric" style="background-color: rgb(167, 142, 207);">Activity</p>
+                <a href="activity.html"><button class="btn">View</button></a>
+            </div>
+            <div class="dailylog">
+                <p id="num-mood" class="metric" style="background-color: rgb(224, 135, 52);">0</p>
+                <p class="metric" style="background-color: rgb(224, 135, 52);">Mood</p>
+                <a href="mood.html"><button class="btn">View</button></a>
+            </div>
+            <!-- checkmark: &#10003, x-mark: &#10007 -->
+            <div class="dailylog">
+                <p id="num-falls" class="metric" style="background-color: rgb(120, 214, 132);">0</p>
+                <p class="metric" style="background-color: rgb(120, 214, 132);">Falls</p>
+                <a href="falls.html"><button class="btn">View</button></a>
+            </div>
+            <div>
+                <a href="info.html"> <button class="btn">Update preferences</button></a>
+            </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <h2>Footer</h2>
+        <button onclick="topFunction()" id="top-btn" title="Go to top">Top</button>
+      </div>
+
+      <script src="scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ONDRI@Home Hub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name='author' content='Hannah'>
+    <meta name='description' content="This is a Hub created by ONDRI@Home to be used to complement data collected from wearable sensors.">
+    <link href="styles/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  </head>
+<body onload="checkSleepEntries()">
+
+  <!-- Header -->
+  <div class="header">
+    <img src="images/ONDRI.ico" alt='Ontatio Neurodegenerative Disease Research Initiative Logo' width="200" height="80"> 
+    <h1>Welcome to the ONDRI@Home Hub!</h1>
+  </div>
+
+  <!-- Navigation Bar -->
+  <div class="topnav" id="myTopnav">
+      <a href="index.html" >Home</a>
+      <a href="info.html">Preferences</a>
+      <a href="sleep.html" class="active">Sleep</a>
+      <a href="activity.html">Activity</a>
+      <a href="mood.html">Mood</a>
+      <a href="falls.html">Falls</a>
+      <a href="javascript:void(0);" class="icon" onclick="respNav()">
+        <i class="fa fa-bars"></i>
+      </a>
+  </div>
+
+  <!-- Content -->
+  <div class="row">
+    <div class="side">
+        <p id="p-username">Welcome! Please log in</p>
+        <button onclick='setUsername()' style='display: block' class="btn" id="btn-username">Change Username</button>
+        <p>Today's Date:</p>
+        <p id="current-date"></p>
+        <p>Current Time:</p>
+        <p id="current-time"></p>
+    </div>
+    <div class="main">
+
+      <!-- Sleep page with Checkboxes -->
+
+      <h2>Daily Log: Sleep</h2>
+      <p id="logmsg1"></p>
+      <p id="logmsg2"></p>
+      <p id="logmsg3"></p>
+      <p id="logmsg4"></p>
+      <div id="nap-entries"></div>
+
+      <div class="sleep-container" id="sleep-quality">
+        <p>How would you rate last night's sleep quality?</p>
+          <button class="btn" style="background-color: #04c3db;" onclick=";sleepQuality('Very Good')" id="sleepqual1">Very Good</button>
+          <button class="btn" style="background-color: #4ecdde;" onclick=";sleepQuality('Fairly Good')" id="sleepqual2">Fairly Good</button>
+          <button class="btn" style="background-color: #81d3de;" onclick=";sleepQuality('Fairly Bad')" id="sleepqual3">Fairly Bad</button>
+          <button class="btn" style="background-color: #a9d8de;" onclick=";sleepQuality('Very Bad')" id="sleepqual4">Very Bad</button>
+          <button class="btn" onclick="logSleepQuality()" id="log-sleep-quality">Submit</button>
+        </div>
+
+      <div class="sleep-container" id="bedtime">
+        <p>What time did you go to bed?</p>
+        <div class="dropdown">
+          <button class="dropbtn" id="bedtime-hour">Hour
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a onclick="changeHour(1, 'bedtime-hour')">1</a>
+            <a onclick="changeHour(2, 'bedtime-hour')">2</a>
+            <a onclick="changeHour(3, 'bedtime-hour')">3</a>
+            <a onclick="changeHour(4, 'bedtime-hour')">4</a>
+            <a onclick="changeHour(5, 'bedtime-hour')">5</a>
+            <a onclick="changeHour(6, 'bedtime-hour')">6</a>
+            <a onclick="changeHour(7, 'bedtime-hour')">7</a>
+            <a onclick="changeHour(8, 'bedtime-hour')">8</a>
+            <a onclick="changeHour(9, 'bedtime-hour')">9</a>
+            <a onclick="changeHour(10, 'bedtime-hour')">10</a>
+            <a onclick="changeHour(11, 'bedtime-hour')">11</a>
+            <a onclick="changeHour(12, 'bedtime-hour')">12</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn" id="bedtime-minutes">Minutes
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a onclick="changeMin('00', 'bedtime-minutes')">00</a>
+            <a onclick="changeMin('10', 'bedtime-minutes')">10</a>
+            <a onclick="changeMin('20', 'bedtime-minutes')">20</a>
+            <a onclick="changeMin('30', 'bedtime-minutes')">30</a>
+            <a onclick="changeMin('40', 'bedtime-minutes')">40</a>
+            <a onclick="changeMin('50', 'bedtime-minutes')">50</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn" id="bedtime-ampm">AM/PM
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a onclick="changeAMPM('AM', 'bedtime-ampm');">AM</a>
+            <a onclick="changeAMPM('PM', 'bedtime-ampm');">PM</a>
+          </div>
+        </div>
+        <button class="btn" onclick="logBedTime()" id="log-bed-time">Submit</button>
+      </div>
+      <br><br>
+      <div class="sleep-container" id="waketime">
+        <p>What time did you wake up?</p>
+        <div class="dropdown">
+          <button class="dropbtn" id="waketime-hour">Hour
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a onclick="changeHour(1, 'waketime-hour')">1</a>
+            <a onclick="changeHour(2, 'waketime-hour')">2</a>
+            <a onclick="changeHour(3, 'waketime-hour')">3</a>
+            <a onclick="changeHour(4, 'waketime-hour')">4</a>
+            <a onclick="changeHour(5, 'waketime-hour')">5</a>
+            <a onclick="changeHour(6, 'waketime-hour')">6</a>
+            <a onclick="changeHour(7, 'waketime-hour')">7</a>
+            <a onclick="changeHour(8, 'waketime-hour')">8</a>
+            <a onclick="changeHour(9, 'waketime-hour')">9</a>
+            <a onclick="changeHour(10, 'waketime-hour')">10</a>
+            <a onclick="changeHour(11, 'waketime-hour')">11</a>
+            <a onclick="changeHour(12, 'waketime-hour')">12</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn" id="waketime-minutes">Minutes
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a onclick="changeMin('00', 'waketime-minutes')">00</a>
+            <a onclick="changeMin('10', 'waketime-minutes')">10</a>
+            <a onclick="changeMin('20', 'waketime-minutes')">20</a>
+            <a onclick="changeMin('30', 'waketime-minutes')">30</a>
+            <a onclick="changeMin('40', 'waketime-minutes')">40</a>
+            <a onclick="changeMin('50', 'waketime-minutes')">50</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn" id="waketime-ampm">AM/PM
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a onclick="changeAMPM('AM', 'waketime-ampm');">AM</a>
+            <a onclick="changeAMPM('PM', 'waketime-ampm');">PM</a>
+          </div>
+        </div>
+        <button class="btn" onclick="logWakeTime()" id="log-wake-time">Submit</button>
+      </div>
+      <br><br>
+      <div class="sleep-container" id="nap">
+        <p>If you had a nap (daytime sleep), when did it start and how long was it?</p>
+        <div class="dropdown">
+          <button class="dropbtn" id="nap-hour">Hour
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a onclick="changeHour(1, 'nap-hour')">1</a>
+            <a onclick="changeHour(2, 'nap-hour')">2</a>
+            <a onclick="changeHour(3, 'nap-hour')">3</a>
+            <a onclick="changeHour(4, 'nap-hour')">4</a>
+            <a onclick="changeHour(5, 'nap-hour')">5</a>
+            <a onclick="changeHour(6, 'nap-hour')">6</a>
+            <a onclick="changeHour(7, 'nap-hour')">7</a>
+            <a onclick="changeHour(8, 'nap-hour')">8</a>
+            <a onclick="changeHour(9, 'nap-hour')">9</a>
+            <a onclick="changeHour(10, 'nap-hour')">10</a>
+            <a onclick="changeHour(11, 'nap-hour')">11</a>
+            <a onclick="changeHour(12, 'nap-hour')">12</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn" id="nap-minutes">Minutes
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a onclick="changeMin('00', 'nap-minutes')">00</a>
+            <a onclick="changeMin('10', 'nap-minutes')">10</a>
+            <a onclick="changeMin('20', 'nap-minutes')">20</a>
+            <a onclick="changeMin('30', 'nap-minutes')">30</a>
+            <a onclick="changeMin('40', 'nap-minutes')">40</a>
+            <a onclick="changeMin('50', 'nap-minutes')">50</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn" id="nap-ampm">AM/PM
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a onclick="changeAMPM('AM', 'nap-ampm');">AM</a>
+            <a onclick="changeAMPM('PM', 'nap-ampm');">PM</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn" id="nap-dur">Duration
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a onclick="changeDuration('10 minutes', 'nap-dur');">10 min</a>
+            <a onclick="changeDuration('20 minutes', 'nap-dur');">20 min</a>
+            <a onclick="changeDuration('30 minutes', 'nap-dur');">30 min</a>
+            <a onclick="changeDuration('40 minutes', 'nap-dur');">40 min</a>
+            <a onclick="changeDuration('50 minutes', 'nap-dur');">50 min</a>
+            <a onclick="changeDuration('1 hour', 'nap-dur');">1 hour</a>
+            <a onclick="changeDuration('1 hour 10 minutes', 'nap-dur');">1 hour 10 min</a>
+            <a onclick="changeDuration('1 hour 20 minutes', 'nap-dur');">1 hour 20 min</a>
+            <a onclick="changeDuration('1 hour 20 minutes', 'nap-dur');">1 hour 30 min</a>
+            <a onclick="changeDuration('1 hour 20 minutes', 'nap-dur');">1 hour 40 min</a>
+            <a onclick="changeDuration('1 hour 20 minutes', 'nap-dur');">1 hour 50 min</a>
+            <a onclick="changeDuration('2 hours', 'nap-dur');">2 hours</a>
+            <a onclick="changeDuration('2 hours 10 minutes', 'nap-dur');">2 hours 10 min</a>
+            <a onclick="changeDuration('2 hours 20 minutes', 'nap-dur');">2 hours 20 min</a>
+            <a onclick="changeDuration('2 hours 30 minutes', 'nap-dur');">2 hours 30 min</a>
+            <a onclick="changeDuration('2 hours 40 minutes', 'nap-dur');">2 hours 40 min</a>
+            <a onclick="changeDuration('2 hours 50 minutes', 'nap-dur');">2 hours 50 min</a>
+            <a onclick="changeDuration('3 hours', 'nap-dur');">3 hours</a>
+          </div>
+        </div>
+        <button class="btn" onclick="logNap()" id="log-nap">Submit</button>
+      </div>
+      <br><br>
+      <button class="btn" id='sleep-clear-button' onclick="clearStorage('logmessage1');clearStorage('logmessage2');clearStorage('logmessage3');clearStorage('logmessage4');resetCount('sleepCount');newArrayLocalStorage('NapEntryArray')">Clear Logged Sleep</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <h2>Footer</h2>
+    <button onclick="topFunction()" id="top-btn" title="Go to top">Top</button>
+  </div>    
+
+    <script src="scripts/main.js"></script>
+  </body>
+</html> 

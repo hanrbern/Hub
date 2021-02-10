@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ONDRI@Home Hub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name='author' content='Hannah'>
+    <meta name='description' content="This is a Hub created by ONDRI@Home to be used to complement data collected from wearable sensors.">
+    <link href="styles/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  </head>
+<body onload="checkFallEntries();createPAndXButtonFromArray('FallEntryArray', 'fallCount', 'fall-entries');">
+
+  <!-- Header -->
+  <div class="header">
+    <img src="images/ONDRI.ico" alt='Ontatio Neurodegenerative Disease Research Initiative Logo' width="200" height="80"> 
+    <h1>Welcome to the ONDRI@Home Hub!</h1>
+  </div>
+
+  <!-- Navigation Bar -->
+  <div class="topnav" id="myTopnav">
+    <a href="index.html" >Home</a>
+    <a href="info.html">Preferences</a>
+    <a href="sleep.html">Sleep</a>
+    <a href="activity.html">Activity</a>
+    <a href="mood.html">Mood</a>
+    <a href="falls.html" class="active">Falls</a>
+    <a href="javascript:void(0);" class="icon" onclick="respNav()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+
+
+  <!-- Content -->
+  <div class="row">
+    <div class="side">
+        <p id="p-username">Welcome! Please log in</p>
+        <button onclick='setUsername()' style='display: block' class="btn" id="btn-username">Change Username</button>
+        <p>Today's Date:</p>
+        <p id="current-date"></p>
+        <p>Current Time:</p>
+        <p id="current-time"></p>
+    </div>
+    <div class="main">
+      <h2>Daily Log: Falls</h2>
+      <p id='fall-statement'>You have not recorded any falls for today.</p>
+      <p id='fall-entries'></p>
+      <button class="btn" id='falls-clear-button' style="display: none" onclick="clearStorage('FallEntryArray'); resetCount('fallCount')">Clear Falls</button>
+      
+      <div id='fall-or-near-fall'>
+        <p>Did you experience any falls or near falls today?</p>
+        <input onclick="fallType('fall');" type="image" src="images/fall_words.ico" width="190" height="210" id='fall-image'>
+        <input onclick="fallType('near-fall');" type="image" src="images/almostfall_words.ico" width="200" height="210" id='almostfall-image'>
+      </div>
+      <div id = 'fall-time'>
+        <p> When was it?</p>
+        <button style="display: inline-block;" class="btn" onclick="fallType('fall-morning')" id="fall-morning">Morning</button>
+        <button class="btn" onclick="fallType('fall-daytime')" id="fall-daytime">Daytime</button>
+        <button class="btn" onclick="fallType('fall-evening')" id="fall-evening">Evening</button>
+        <button class="btn" onclick="fallType('fall-nighttime')" id="fall-nighttime">Nighttime</button>
+      </div>
+      <div id='fall-location'>
+        <p> Where were you?</p>
+        <button style="display: inline-block;" class="btn" onclick="fallType('inside')" id="fall-inside">Inside</button>
+        <button class="btn" onclick="fallType('outside')" id="fall-outside">Outside</button>
+          <div id='fall-location-inside'>
+            <button style="display: inline-block;" class="btn" onclick="fallType('inside-bathroom')" id="inside-bathroom">In the bathroom</button>
+            <button style="display: inline-block;" class="btn" onclick="fallType('inside-stairs')" id="inside-stairs">On the stairs</button>
+            <button style="display: inline-block;" class="btn" onclick="fallType('inside-bedroom')" id="inside-bedroom">In the bedroom</button>
+            <button style="display: inline-block;" class="btn" onclick="fallType('inside-other')" id="inside-other">Other</button>
+          </div>
+      </div>
+       <div id = 'fall-activity'>
+        <p> What were you doing before you fell or almost fell?</p>
+        <button style="display: inline-block;" class="btn" onclick="fallType('fall-standing-still')" id="fall-standing-still">Standing still</button>
+        <button class="btn" onclick="fallType('fall-standing-up')" id="fall-standing-up">Standing up</button>
+        <button class="btn" onclick="fallType('fall-sitting-down')" id="fall-sitting-down">Sitting down</button>
+        <button class="btn" onclick="fallType('fall-walking')" id="fall-walking">Walking</button>
+        <button class="btn" onclick="fallType('fall-rushing')" id="fall-rushing">Rushing</button>
+      </div>
+      <div id='fall-cause'>
+        <p> How did you fall or almost fall?</p>
+        <button style="display: inline-block;" class="btn" onclick="fallType('tripped')" id="tripped">Tripped</button>
+        <button class="btn" onclick="fallType('slipped')" id="slipped">Slipped</button>
+        <button class="btn" onclick="fallType('dizzy')" id="dizzy">Dizzy</button>
+        <button class="btn" onclick="fallType('legs-weak')" id="legs-weak">Legs felt weak</button>
+        <button class="btn" onclick="fallType('lost-balance')" id="lost-balance">Lost balance for another reason</button>
+        <button class="btn" onclick="fallType('no-recall')" id="no-recall">Don't recall</button>
+      </div>
+      <div id='injured-question'>
+        <p> Were you injured?</p>
+        <button style="display: inline-block;" class="btn" onclick="fallType('not-injured');" id="not-injured">I was not injured.</button>
+        <button class="btn" onclick="fallType('injured');" id="injured">I was injured.</button>
+        <div id='medical-questions'>
+          <button style="display: inline-block;" class="btn" onclick="fallType('no-medical')" id="no-medical">I did not get medical help.</button>
+          <button class="btn" onclick="fallType('medical')" id="medical">I did get medical help (e.g. Doctor, Hospital).</button>
+        </div>
+      </div>
+      <div id='fall-walking-aid'>
+        <p>Were you using your walking aid?</p>
+        <button class="btn" onclick="fallType('yes-walking-aid')" id="yes-walking-aid">Yes</button>
+        <button class="btn" onclick="fallType('no-walking-aid')" id="no-walking-aid">No</button>
+      </div>
+      <div id = 'fall-more-details'>
+        <p> If there is anything else that you would like to add, please write it below (e.g. slipped on ice, happened at 10:30 AM, tripped on dog leash). Otherwise, leave it blank and click submit.</p>
+        <textarea rows='6' cols='50' style='resize: none; font-size: 18px' id='fall-textarea'></textarea>
+      </div>
+      <button id='submit-fall' onclick="submitFall()" class="btn" style="background-color: rgb(167, 232, 211);">Submit</button>
+    </div>
+    </div>
+     <!-- Footer -->
+    <div class="footer">
+      <h2>Footer</h2>
+      <button onclick="topFunction()" id="top-btn" title="Go to top">Top</button>
+    </div>
+
+    <h1></h1>
+
+
+
+    <script src="scripts/main.js"></script>
+  </body>
+</html> 

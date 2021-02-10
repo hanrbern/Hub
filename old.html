@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name='author' content='Hannah'>
+    <meta name='description' content="This is a Hub created by ONDRI@Home to be used to complement data collected from wearable sensors.">
+    <title>ONDRI@Home Hub - Homepage</title>
+    <link href="styles/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel='shortcut icon' href='favicon.ico' type='images/ONDRI.ico'> 
+  </head>
+<body>
+
+    <div class='navbar-top'>
+      <img id='logo' src="images/ONDRI.ico" alt='Ontatio Neurodegenerative Disease Research Initiative Logo' width="200" height="80">
+      <p> ONDRI@Home Hub </p>
+      <div class="dropdown">
+        <button class='dropbtn'> Daily Logs
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class='dropdown-content'>
+          <a href="sleep.html">Sleep</a>
+          <a href="mood.html">Mood</a>
+          <a href='activity.html'>Activity</a>
+          <a href='mobility.html'>Mobility</a>
+        </div>
+      </div>
+      <a href='#contact'>Contact</a>
+      <a class="active" href='index.html'>Home</a>
+    </div>
+
+  <h1> Welcome! </h1>
+  
+
+  <p style="margin: 0; display: inline;"> Today's Date:</p>
+  <p id="current-date" style="margin: 0; display: inline;"></p>
+  <p style="margin: 0; display: block;"> Current Time:</p>
+  <p id="current-time" style="margin: 0; display: inline;"></p>
+
+
+  <button onclick='setUserName()' style='display: block'> Change Username </button>
+
+  <script src="scripts/main.js"></script>
+    
+  </body>
+</html> 

@@ -472,11 +472,17 @@ function recordActivity(activity){
   } 
 }
 
+function touchEndFunction(id){
+  var id = id;
+  $(document.getElementById(id)).removeClass('hover')
+}
+
 function changeHour(hour, id){
   var hour = hour;
   var id = id;
   document.getElementById(id).innerHTML = hour;
   showSubmit();
+  ontouchend = "touchEndFunction(id)";
 }
 
 function changeMin(minutes, id){
@@ -484,6 +490,7 @@ function changeMin(minutes, id){
   var id = id;
   document.getElementById(id).innerHTML = minutes;
   showSubmit();
+  ontouchend = "touchEndFunction(id)";
 }
 
 function changeAMPM(AMPM, id){
@@ -491,6 +498,7 @@ function changeAMPM(AMPM, id){
   var id = id;
   document.getElementById(id).innerHTML = AMPM;
   showSubmit();
+  ontouchend = "touchEndFunction(id)";
 }
 
 function changeDuration(duration, id){
@@ -498,6 +506,7 @@ function changeDuration(duration, id){
   var id = id;
   document.getElementById(id).innerHTML = duration;
   showSubmit();
+  ontouchend = "touchEndFunction(id)";
 }
 
 function showSubmit(){

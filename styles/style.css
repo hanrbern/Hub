@@ -127,15 +127,6 @@ TWO-COLUMN LAYOUT
 }
 }
 
-/* - - - - - 
-FOOTER 
-- - - - - - */
-
-.footer {
-    padding: 20px;
-    text-align: center;
-    background-color: #dae6eb;
-}
 
 /* BUTTONS */
 .btn {
@@ -169,7 +160,7 @@ FOOTER
 #top-btn {
     display: none;
     position: fixed;
-    bottom: 20px;
+    bottom: 30px;
     right: 30px;
     z-index: 99;
     border: none;
@@ -599,11 +590,41 @@ visibility: visible;
     background-color: #f1f1f1;
 }
 
-#copyright {
-    text-align: center;
-    width: 200px;
-    position: relative;
+/* - - - - - 
+    FOOTER 
+- - - - - - */
+
+.footer {
+    background-color: #dae6eb;
+    bottom: 0px;
+    box-sizing: border-box;
+    clear: both;
+    color: black;
+    direction: ltr;
+    display: block;
+    filter: none;
+    font-size: 15px;
+    font-weight: normal;
+    height: 28px;
+    line-height: 20px;
+    overflow-x: visible;
+    overflow-y: visible;
+    position: fixed;
+    text-align: left;
+    text-size-adjust: 100%;
+    width: 100%;
+}
+
+.copyright {
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: normal;
+    height: 28px;
+    line-height: 28px;
+    margin-left: 8px;
+    margin-right: 8px;
+    text-align: left;
+    text-size-adjust: 100%;
     float: right;
-    margin-top: 40px;
-    margin-right: 0px;
 }

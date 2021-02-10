@@ -45,6 +45,7 @@
     </div>
     <div class="main">
       <h2>Daily Log: Falls</h2>
+      <a href="info.html" style="text-decoration: none;"> <button class="btn" id="bring-to-preferences"">Answer walking aid question</button></a>
       <p id='fall-statement'>You have not recorded any falls for today.</p>
       <p id='fall-entries'></p>
       <button class="btn" id='falls-clear-button' style="display: none" onclick="clearStorage('FallEntryArray'); resetCount('fallCount')">Clear Falls</button>
@@ -112,11 +113,12 @@
     </div>
      <!-- Footer -->
      <div class="footer">
-      <div id="copyright">
-        <span>&#169 NiMBaL 2020-2021</span>
+      <div class='copyright'>
+          <span>&#169 NiMBaL 2020-2021</span>
       </div>
-      <button onclick="topFunction()" id="top-btn" title="Go to top">Top</button>  
-    </div>
+    </div>    
+    <button onclick="topFunction()" id="top-btn" title="Go to top">Top</button>
+   
 
     <script src="scripts/main.js"></script>
   </body>

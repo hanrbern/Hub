@@ -1431,6 +1431,13 @@ function checkFallEntries(){
   } else {
     document.getElementById('fall-statement').style.display = 'none';
   }
+
+  if (!localStorage.getItem('walkingAid')){
+    document.getElementById('bring-to-preferences').style.display = 'inline';
+  } else {
+    document.getElementById('bring-to-preferences').style.display = 'none';
+  }
+
 }
 
 // - - - -

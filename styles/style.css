@@ -533,7 +533,7 @@ visibility: visible;
 }
 
 #activity-input {
-    background-image: url('https://github.com/hanrbern/Hub/blob/main/images/searchicon.ico');
+    background-image: url('https://raw.githubusercontent.com/hanrbern/Hub/main/images/searchicon.ico');
     background-size: 20px;
     background-position: 10px 12px;
     background-repeat: no-repeat;
@@ -568,7 +568,7 @@ visibility: visible;
 /* COLLAPSIBLE */
 
 .collapsible {
-    background-image: url('https://github.com/hanrbern/Hub/blob/main/images/plus.png');
+    background-image: url('https://github.com/hanrbern/Hub/blob/main/images/plus.png?raw=true');
     background-size: 30px;
     background-position: right center;
     background-repeat: no-repeat;
@@ -582,7 +582,7 @@ visibility: visible;
 }
 
 .active {
-    background-image: url('https://github.com/hanrbern/Hub/blob/main/images/minus.png');
+    background-image: url('https://github.com/hanrbern/Hub/blob/main/images/minus.png?raw=true');
 }
 
 .active, .collapsible:hover {

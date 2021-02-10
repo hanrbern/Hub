@@ -836,6 +836,7 @@ function sleepQuality(x) {
     document.getElementById('sleepqual3').style.background = '#81d3de';
     document.getElementById('sleepqual4').style.background = 'rgb(245, 191, 76)';
   }
+  document.getElementById('log-sleep-quality').style.display = 'inline';
 }
 
 function logSleepQuality(){
@@ -850,7 +851,6 @@ function logSleepQuality(){
     // Create button to remove the sleepquality entry
     createClearButton('logmsg1', 'logmessage1', 'clearlogmsg1', 'sleep-quality', 'sleepCount');
   }
-  document.getElementById('log-sleep-quality').style.display = 'inline';
 }
 
 function logBedTime(){

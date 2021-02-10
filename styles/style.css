@@ -115,6 +115,9 @@ TWO-COLUMN LAYOUT
     .row {
       flex-direction: column;
     }
+    .side {
+        display: none;
+    }
   }
 
 @media screen and (max-width: 400px) {
@@ -594,4 +597,13 @@ visibility: visible;
     display: none;
     overflow: hidden;
     background-color: #f1f1f1;
+}
+
+#copyright {
+    text-align: center;
+    width: 200px;
+    position: relative;
+    float: right;
+    margin-top: 40px;
+    margin-right: 0px;
 }

@@ -621,10 +621,10 @@ function activityButtonsFromPreferences(){
         // show time and duration sections
         document.getElementById('start-and-duration').style.display = 'block';
         // reset start and durations
-        document.getElementById('dropdown-hour-preferences').innerHTML = 'Hour';
-        document.getElementById('dropdown-minutes-preferences').innerHTML = 'Minutes';
-        document.getElementById('dropdown-ampm-preferences').innerHTML = 'AM/PM';
-        document.getElementById('activity-dur-preferences').innerHTML = 'Duration';
+        document.getElementById('dropdown-hour-preferences').innerHTML = 'Hour <i class="fa fa-caret-down"></i>';
+        document.getElementById('dropdown-minutes-preferences').innerHTML = 'Minutes <i class="fa fa-caret-down"></i>';
+        document.getElementById('dropdown-ampm-preferences').innerHTML = 'AM/PM <i class="fa fa-caret-down"></i>';
+        document.getElementById('activity-dur-preferences').innerHTML = 'Duration <i class="fa fa-caret-down"></i>';
         document.getElementById('activity-submit-preferences').style.display = 'none';
       }
     }
@@ -716,10 +716,10 @@ function submitActivityFromPreferences(){
   // reset acivity buttons
   buttonsInDiv('All', 'activities-from-preferences');
   // rest question buttons
-  document.getElementById('dropdown-hour-preferences').innerHTML = 'Hour';
-  document.getElementById('dropdown-minutes-preferences').innerHTML = 'Minutes';
-  document.getElementById('dropdown-ampm-preferences').innerHTML = 'AM/PM';
-  document.getElementById('activity-dur-preferences').innerHTML = 'Duration';
+  document.getElementById('dropdown-hour-preferences').innerHTML = 'Hour <i class="fa fa-caret-down"></i>';
+  document.getElementById('dropdown-minutes-preferences').innerHTML = 'Minutes <i class="fa fa-caret-down"></i>';
+  document.getElementById('dropdown-ampm-preferences').innerHTML = 'AM/PM <i class="fa fa-caret-down"></i>';
+  document.getElementById('activity-dur-preferences').innerHTML = 'Duration <i class="fa fa-caret-down"></i>';
   // hide questions
   document.getElementById('start-and-duration').style.display = 'none';
 }
@@ -841,6 +841,7 @@ function logSleepQuality(){
     // Create button to remove the sleepquality entry
     createClearButton('logmsg1', 'logmessage1', 'clearlogmsg1', 'sleep-quality', 'sleepCount');
   }
+  document.getElementById('log-sleep-quality').style.display = 'inline';
 }
 
 function logBedTime(){
@@ -910,10 +911,10 @@ function logNap(){
 
   localStorage.setItem('NapEntryArray', JSON.stringify(array));
 
-  document.getElementById('nap-hour').innerHTML = 'Hour';
-  document.getElementById('nap-minutes').innerHTML = 'Minutes';
-  document.getElementById('nap-ampm').innerHTML = 'AM/PM';
-  document.getElementById('nap-dur').innerHTML = 'Duration';
+  document.getElementById('nap-hour').innerHTML = 'Hour <i class="fa fa-caret-down"></i>';
+  document.getElementById('nap-minutes').innerHTML = 'Minutes <i class="fa fa-caret-down"></i>';
+  document.getElementById('nap-ampm').innerHTML = 'AM/PM <i class="fa fa-caret-down"></i>';
+  document.getElementById('nap-dur').innerHTML = 'Duration <i class="fa fa-caret-down"></i>';
   document.getElementById('log-nap').style.display = 'none';
 }
 
@@ -1478,21 +1479,21 @@ function submitMoodAndLikert(){
   var count = localStorage.getItem('moodCount');
   count = 0; 
   var afraid = localStorage.getItem('afraid');
-  if (afraid !== 'null'){count += 1};
+  if (afraid !== 'null' || afraid !== null){count += 1};
   var confused = localStorage.getItem('confused');
-  if (confused !== 'null'){count += 1};
+  if (confused !== 'null' || confused !== null){count += 1};
   var sad = localStorage.getItem('sad');
-  if (sad !== 'null'){count += 1};
+  if (sad !== 'null' || sad !== null){count += 1};
   var angry = localStorage.getItem('angry');
-  if (angry !== 'null'){count += 1};
+  if (angry !== 'null' || angry !== null){count += 1};
   var energetic = localStorage.getItem('energetic');
-  if (energetic !== 'null'){count += 1};
+  if (energetic !== 'null' || energetic !== null){count += 1};
   var tired = localStorage.getItem('tired');
-  if (tired !== 'null'){count += 1};
+  if (tired !== 'null' || tired !== null){count += 1};
   var happy = localStorage.getItem('happy');
-  if (happy !== 'null'){count += 1};
+  if (happy !== 'null' || happy !== null){count += 1};
   var tense = localStorage.getItem('tense');
-  if (tense !== 'null'){count += 1};
+  if (tense !== 'null' || tense !== null){count += 1};
   localStorage.setItem('moodCount', count);
   if (count > 0){document.getElementById('mood-statement').style.display = 'block';};
   var array = ['afraid', afraid, 'confused', confused, 'sad', sad, 'angry', angry, 'energetic', energetic, 'tired', tired, 'happy', happy, 'tense', tense];

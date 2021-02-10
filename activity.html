@@ -184,9 +184,7 @@
           <div id="start-and-duration">
             <p>Approximate start time:</p>
             <div class="dropdown">
-              <button class="dropbtn" id="dropdown-hour-preferences">Hour
-                <i class="fa fa-caret-down"></i>
-              </button>
+              <button class="dropbtn" id="dropdown-hour-preferences">Hour <i class="fa fa-caret-down"></i></button>
               <div class="dropdown-content">
                 <a onclick="changeHour(1, 'dropdown-hour-preferences')">1</a>
                 <a onclick="changeHour(2, 'dropdown-hour-preferences')">2</a>
@@ -262,8 +260,10 @@
 
     <!-- Footer -->
     <div class="footer">
-      <h2>Footer</h2>
-      <button onclick="topFunction()" id="top-btn" title="Go to top">Top</button>
+      <div id="copyright">
+        <span>&#169 NiMBaL 2020-2021</span>
+      </div>
+      <button onclick="topFunction()" id="top-btn" title="Go to top">Top</button>  
     </div>
 
     <script src="scripts/main.js"></script>

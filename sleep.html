@@ -65,10 +65,10 @@
       <div class="sleep-container" id="bedtime">
         <p>What time did you go to bed?</p>
         <div class="dropdown">
-          <button class="dropbtn" id="bedtime-hour">Hour
+          <button class="dropbtn-new" id="bedtime-hour" onclick="dropdown('dropdown-bedtime-hour')">Hour
             <i class="fa fa-caret-down"></i>
           </button>
-          <div class="dropdown-content">
+          <div class="dropdown-content-new" id="dropdown-bedtime-hour">
             <a onclick="changeHour(1, 'bedtime-hour')">1</a>
             <a onclick="changeHour(2, 'bedtime-hour')">2</a>
             <a onclick="changeHour(3, 'bedtime-hour')">3</a>
@@ -84,10 +84,10 @@
           </div>
         </div>
         <div class="dropdown">
-          <button class="dropbtn" id="bedtime-minutes">Minutes
+          <button class="dropbtn-new" id="bedtime-minutes" onclick="dropdown('dropdown-bedtime-minutes')">Minutes
             <i class="fa fa-caret-down"></i>
           </button>
-          <div class="dropdown-content">
+          <div class="dropdown-content-new" id="dropdown-bedtime-minutes">
             <a onclick="changeMin('00', 'bedtime-minutes')">00</a>
             <a onclick="changeMin('10', 'bedtime-minutes')">10</a>
             <a onclick="changeMin('20', 'bedtime-minutes')">20</a>
@@ -97,10 +97,10 @@
           </div>
         </div>
         <div class="dropdown">
-          <button class="dropbtn" id="bedtime-ampm">AM/PM
+          <button class="dropbtn-new" id="bedtime-ampm" onclick="dropdown('dropdown-bedtime-ampm')">AM/PM
             <i class="fa fa-caret-down"></i>
           </button>
-          <div class="dropdown-content">
+          <div class="dropdown-content-new" id="dropdown-bedtime-ampm">
             <a onclick="changeAMPM('AM', 'bedtime-ampm');">AM</a>
             <a onclick="changeAMPM('PM', 'bedtime-ampm');">PM</a>
           </div>
@@ -111,10 +111,10 @@
       <div class="sleep-container" id="waketime">
         <p>What time did you wake up?</p>
         <div class="dropdown">
-          <button class="dropbtn" id="waketime-hour">Hour
+          <button class="dropbtn-new" id="waketime-hour" onclick="dropdown('dropdown-waketime-hour')">Hour
             <i class="fa fa-caret-down"></i>
           </button>
-          <div class="dropdown-content">
+          <div class="dropdown-content-new" id="dropdown-waketime-hour">
             <a onclick="changeHour(1, 'waketime-hour')">1</a>
             <a onclick="changeHour(2, 'waketime-hour')">2</a>
             <a onclick="changeHour(3, 'waketime-hour')">3</a>
@@ -130,10 +130,10 @@
           </div>
         </div>
         <div class="dropdown">
-          <button class="dropbtn" id="waketime-minutes">Minutes
+          <button class="dropbtn-new" id="waketime-minutes" onclick="dropdown('dropdown-waketime-minutes')">Minutes
             <i class="fa fa-caret-down"></i>
           </button>
-          <div class="dropdown-content">
+          <div class="dropdown-content-new" id="dropdown-waketime-minutes">
             <a onclick="changeMin('00', 'waketime-minutes')">00</a>
             <a onclick="changeMin('10', 'waketime-minutes')">10</a>
             <a onclick="changeMin('20', 'waketime-minutes')">20</a>
@@ -143,10 +143,10 @@
           </div>
         </div>
         <div class="dropdown">
-          <button class="dropbtn" id="waketime-ampm">AM/PM
+          <button class="dropbtn-new" id="waketime-ampm" onclick="dropdown('dropdown-waketime-ampm')">AM/PM
             <i class="fa fa-caret-down"></i>
           </button>
-          <div class="dropdown-content">
+          <div class="dropdown-content-new" id="dropdown-waketime-ampm">
             <a onclick="changeAMPM('AM', 'waketime-ampm');">AM</a>
             <a onclick="changeAMPM('PM', 'waketime-ampm');">PM</a>
           </div>
@@ -157,10 +157,10 @@
       <div class="sleep-container" id="nap">
         <p>If you had a nap (daytime sleep), when did it start and how long was it?</p>
         <div class="dropdown">
-          <button class="dropbtn" id="nap-hour">Hour
+          <button class="dropbtn-new" onclick="dropdown('dropdown-nap-hour')" id="nap-hour">Hour
             <i class="fa fa-caret-down"></i>
           </button>
-          <div class="dropdown-content">
+          <div class="dropdown-content-new" id="dropdown-nap-hour">
             <a onclick="changeHour(1, 'nap-hour')">1</a>
             <a onclick="changeHour(2, 'nap-hour')">2</a>
             <a onclick="changeHour(3, 'nap-hour')">3</a>
@@ -176,10 +176,10 @@
           </div>
         </div>
         <div class="dropdown">
-          <button class="dropbtn" id="nap-minutes">Minutes
+          <button class="dropbtn-new" id="nap-minutes" onclick="dropdown('dropdown-nap-minutes')">Minutes
             <i class="fa fa-caret-down"></i>
           </button>
-          <div class="dropdown-content">
+          <div class="dropdown-content-new" id="dropdown-nap-minutes">
             <a onclick="changeMin('00', 'nap-minutes')">00</a>
             <a onclick="changeMin('10', 'nap-minutes')">10</a>
             <a onclick="changeMin('20', 'nap-minutes')">20</a>
@@ -189,19 +189,19 @@
           </div>
         </div>
         <div class="dropdown">
-          <button class="dropbtn" id="nap-ampm">AM/PM
+          <button class="dropbtn-new" id="nap-ampm" onclick="dropdown('dropdown-nap-ampm')">AM/PM
             <i class="fa fa-caret-down"></i>
           </button>
-          <div class="dropdown-content">
+          <div class="dropdown-content-new" id="dropdown-nap-ampm">
             <a onclick="changeAMPM('AM', 'nap-ampm');">AM</a>
             <a onclick="changeAMPM('PM', 'nap-ampm');">PM</a>
           </div>
         </div>
         <div class="dropdown">
-          <button class="dropbtn" id="nap-dur">Duration
+          <button class="dropbtn-new" id="nap-dur" onclick="dropdown('dropdown-nap-dur')">Duration
             <i class="fa fa-caret-down"></i>
           </button>
-          <div class="dropdown-content">
+          <div class="dropdown-content-new" id="dropdown-nap-dur">
             <a onclick="changeDuration('10 minutes', 'nap-dur');">10 min</a>
             <a onclick="changeDuration('20 minutes', 'nap-dur');">20 min</a>
             <a onclick="changeDuration('30 minutes', 'nap-dur');">30 min</a>
@@ -227,33 +227,6 @@
       <br><br>
       <button class="btn" id='sleep-clear-button' onclick="clearStorage('logmessage1');clearStorage('logmessage2');clearStorage('logmessage3');clearStorage('logmessage4');resetCount('sleepCount');newArrayLocalStorage('NapEntryArray')">Clear Logged Sleep</button>
     </div>
-    <div class="dropdown-new">
-      <button onclick="dropdown('newDropdown')" class="dropbtn-new" id="duration-test">Dropdown
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div id="newDropdown" class="dropdown-content-new">
-        <a onclick="changeDuration('Link 1', 'duration-test');">Link 1</a>
-        <a onclick="changeDuration('Link 2', 'duration-test');">Link 2</a>
-        <a onclick="changeDuration('Link 3', 'duration-test');">Link 3</a>
-      </div>
-    </div>
-    <div class="dropdown-new">
-      <button onclick="dropdown('newDropdown2')" class="dropbtn-new" id="duration-test2">Dropdown 2
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div id="newDropdown2" class="dropdown-content-new">
-        <a onclick="changeDuration('Link 4', 'duration-test2');">Link 4</a>
-        <a onclick="changeDuration('Link 5', 'duration-test2');">Link 5</a>
-        <a onclick="changeDuration('Link 6', 'duration-test2');">Link 6</a>
-        <a onclick="changeDuration('Link 6', 'duration-test2');">Link 7</a>
-        <a onclick="changeDuration('Link 6', 'duration-test2');">Link 8</a>
-        <a onclick="changeDuration('Link 6', 'duration-test2');">Link A</a>
-        <a onclick="changeDuration('Link 6', 'duration-test2');">Link B</a>
-        <a onclick="changeDuration('Link 6', 'duration-test2');">Link C</a>  
-      </div>
-    </div>
-
-
   </div>
 
   <!-- Footer -->

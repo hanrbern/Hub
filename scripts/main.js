@@ -128,11 +128,18 @@ function appendToStorage(name, data){
   localStorage.setItem(name, old + data)
 }
 
-function clearStorage(name){
+function clearStorage(){
   if(confirm('Are you sure you want to clear all of your logs?')){
-    var name = name;
-    localStorage.removeItem(name);
-    document.location.reload(true);
+    for (i = 0; i < arguments.length; i++){
+      let name = arguments[i];
+      localStorage.removeItem(name);
+      document.location.reload(true);
+    }
+    // sleep page
+    if (arguments[0] == 'logmessage1'){
+      resetCount('sleepCount');
+      newArrayLocalStorage('NapEntryArray');
+    }
   } else {
     return
   }
@@ -1493,50 +1500,35 @@ function changeLikertMood(divID, buttonID, likert, mood){
 // onload and onclick of the submit button
 function submitMoodAndLikert(){
   var count = localStorage.getItem('moodCount');
-  count = 0; 
-  if (afraid !== 'null' || afraid !== null){
-    count += 1
-    var afraid = localStorage.getItem('afraid');
-  };
-  if (confused !== 'null' || confused !== null){
-    count += 1
-    var confused = localStorage.getItem('confused');
-  };
-  if (sad !== 'null' || sad !== null){
-    count += 1
-    var sad = localStorage.getItem('sad');
-  };
-  if (angry !== 'null' || angry !== null){
-    count += 1
-    var angry = localStorage.getItem('angry');
-  };
-  if (energetic !== 'null' || energetic !== null){
-    count += 1
-    var energetic = localStorage.getItem('energetic');
-  };
-  if (tired !== 'null' || tired !== null){
-    count += 1
-    var tired = localStorage.getItem('tired');
-  };
-  if (happy !== 'null' || happy !== null){
-    count += 1
-    var happy = localStorage.getItem('happy');
-  };
-  if (tense !== 'null' || tense !== null){
-    count += 1
-    var tense = localStorage.getItem('tense');
-  };
+  count = 0;
+  var afraid = localStorage.getItem('afraid');
+  var confused = localStorage.getItem('confused');
+  var sad = localStorage.getItem('sad');
+  var angry = localStorage.getItem('angry');
+  var energetic = localStorage.getItem('energetic');
+  var tired = localStorage.getItem('tired');
+  var happy = localStorage.getItem('happy');
+  var tense = localStorage.getItem('tense');
+  if (afraid !== 'null' && afraid !== null && afraid !== undefined){count += 1};
+  if (confused !== 'null' && confused !== null && confused !== undefined){count += 1};
+  if (sad !== 'null' && sad !== null && sad !== undefined){count += 1};
+  if (angry !== 'null' && angry !== null && angry !== undefined){count += 1};
+  if (energetic !== 'null' && energetic !== null && energetic !== undefined){count += 1};
+  if (tired !== 'null' && tired !== null && tired !== undefined){count += 1};
+  if (happy !== 'null' && happy !== null && happy !== undefined){count += 1};
+  if (tense !== 'null' && tense !== null && tense !== undefined){count += 1};
   if (count > 0){document.getElementById('mood-statement').style.display = 'block';};
   var array = ['afraid', afraid, 'confused', confused, 'sad', sad, 'angry', angry, 'energetic', energetic, 'tired', tired, 'happy', happy, 'tense', tense];
     localStorage.setItem('moodCount', count);
   var element = document.getElementById('mood-entries');
   for (var i = 0; i < array.length; i = i + 2){
-    if (array[i+1] !== null || array[i+1] !== 'null'){
+    let likert = array[i+1];
+    if (likert !== null && likert !== 'null' && likert !== undefined){
       let p = document.createElement('p');
       let button = document.createElement("button");
       let divid = 'mood-' + array[i];
       let mood = array[i];
-      let likert = array[i+1];
+      
       p.innerHTML = array[i+1] + ' ' + array[i]; // e,g, always afraid
       p.id = "p-" + array[i]; // e.g. p-afraid
       button.id = 'button-' + array[i]; // e.g. button-afraid
@@ -1549,6 +1541,9 @@ function submitMoodAndLikert(){
         element.removeChild(p);
         element.removeChild(button);
         decreaseCountStorage('moodCount');
+        if (localStorage.getItem('moodCount') == 0 || localStorage.getItem('moodCount') == '0'){
+          document.getElementById('mood-statement').style.display = 'none';
+        }
         // reset all of the buttons to be white with black text
         var children = [].slice.call(document.getElementById(divid).getElementsByTagName('button'), 0);
         for (var i = 0; i < children.length; i++){
@@ -1557,14 +1552,14 @@ function submitMoodAndLikert(){
             document.getElementById(id).style.color = 'black';
           };
         }
+      if (!document.getElementById(p.id)){
+        element.appendChild(p);
+      };
+      if (!document.getElementById(button.id)){
+        element.appendChild(button);
+        document.getElementById('mood-' + mood).style.display = 'none';
       }
-    if (likert !== 'null' && !document.getElementById(p.id)){
-      element.appendChild(p);
-    };
-    if (likert !== 'null' && !document.getElementById(button.id)){
-      element.appendChild(button);
-      document.getElementById('mood-' + mood).style.display = 'none';
-    };
+    }
   }  
   document.getElementById('submit-mood').style.display = 'none';
 }

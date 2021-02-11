@@ -227,14 +227,29 @@
       <br><br>
       <button class="btn" id='sleep-clear-button' onclick="clearStorage('logmessage1');clearStorage('logmessage2');clearStorage('logmessage3');clearStorage('logmessage4');resetCount('sleepCount');newArrayLocalStorage('NapEntryArray')">Clear Logged Sleep</button>
     </div>
-    <div class="dropdown-test">
-      <button onclick="dropdown()" class="dropbtn-test">Dropdown
+    <div class="dropdown-new">
+      <button onclick="dropdown('newDropdown')" class="dropbtn-new" id="duration-test">Dropdown
         <i class="fa fa-caret-down"></i>
       </button>
-      <div id="testDropdown" class="dropdown-content-test">
-        <a href="#">Link 1</a>
-        <a href="#">Link 2</a>
-        <a href="#">Link 3</a>
+      <div id="newDropdown" class="dropdown-content-new">
+        <a onclick="changeDuration('Link 1', 'duration-test');">Link 1</a>
+        <a onclick="changeDuration('Link 2', 'duration-test');">Link 2</a>
+        <a onclick="changeDuration('Link 3', 'duration-test');">Link 3</a>
+      </div>
+    </div>
+    <div class="dropdown-new">
+      <button onclick="dropdown('newDropdown2')" class="dropbtn-new" id="duration-test2">Dropdown 2
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div id="newDropdown2" class="dropdown-content-new">
+        <a onclick="changeDuration('Link 4', 'duration-test2');">Link 4</a>
+        <a onclick="changeDuration('Link 5', 'duration-test2');">Link 5</a>
+        <a onclick="changeDuration('Link 6', 'duration-test2');">Link 6</a>
+        <a onclick="changeDuration('Link 6', 'duration-test2');">Link 7</a>
+        <a onclick="changeDuration('Link 6', 'duration-test2');">Link 8</a>
+        <a onclick="changeDuration('Link 6', 'duration-test2');">Link A</a>
+        <a onclick="changeDuration('Link 6', 'duration-test2');">Link B</a>
+        <a onclick="changeDuration('Link 6', 'duration-test2');">Link C</a>  
       </div>
     </div>
 

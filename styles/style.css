@@ -634,7 +634,7 @@ visibility: visible;
   }
 
 /* Dropdown Button */
-.dropbtn-test {
+.dropbtn-new {
     padding: 16px;
     font-size: 16px;
     border: none;
@@ -648,18 +648,18 @@ visibility: visible;
   }
   
   /* Dropdown button on hover & focus */
-  .dropbtn-test:hover, .dropbtn-test:focus {
+  .dropbtn-new:hover, .dropbtn-new:focus {
     background-color: #ddd;
   }
   
   /* The container <div> - needed to position the dropdown content */
-  .dropdown-test {
+  .dropdown-new {
     position: relative;
     display: inline-block;
   }
   
   /* Dropdown Content (Hidden by Default) */
-  .dropdown-content-test {
+  .dropdown-content-new {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
@@ -672,7 +672,7 @@ visibility: visible;
   }
   
   /* Links inside the dropdown */
-  .dropdown-content-test a {
+  .dropdown-content-new a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
@@ -680,7 +680,7 @@ visibility: visible;
   }
   
   /* Change color of dropdown links on hover */
-  .dropdown-content-test a:hover {background-color: #ddd}
+  .dropdown-content-new a:hover {background-color: #ddd}
   
   /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
   .show {display:block;}

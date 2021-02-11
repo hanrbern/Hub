@@ -1823,14 +1823,15 @@ function topFunction() {
 
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
-function dropdown() {
-  document.getElementById("testDropdown").classList.toggle("show");
+function dropdown(id) {
+  var id = id;
+  document.getElementById(id).classList.toggle("show");
 }
 
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn-test')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content-test");
+  if (!event.target.matches('.dropbtn-new')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content-new");
     var i;
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];

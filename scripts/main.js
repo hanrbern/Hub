@@ -1816,3 +1816,27 @@ function topFunction() {
   document.body.scrollTop = 0; // For Safari
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
+
+// - - - - -
+// DROPDOWN
+// - - - - - 
+
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function dropdown() {
+  document.getElementById("testDropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn-test')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content-test");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}

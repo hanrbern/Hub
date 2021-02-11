@@ -1494,52 +1494,70 @@ function changeLikertMood(divID, buttonID, likert, mood){
 function submitMoodAndLikert(){
   var count = localStorage.getItem('moodCount');
   count = 0; 
-  var afraid = localStorage.getItem('afraid');
-  if (afraid !== 'null' || afraid !== null){count += 1};
-  var confused = localStorage.getItem('confused');
-  if (confused !== 'null' || confused !== null){count += 1};
-  var sad = localStorage.getItem('sad');
-  if (sad !== 'null' || sad !== null){count += 1};
-  var angry = localStorage.getItem('angry');
-  if (angry !== 'null' || angry !== null){count += 1};
-  var energetic = localStorage.getItem('energetic');
-  if (energetic !== 'null' || energetic !== null){count += 1};
-  var tired = localStorage.getItem('tired');
-  if (tired !== 'null' || tired !== null){count += 1};
-  var happy = localStorage.getItem('happy');
-  if (happy !== 'null' || happy !== null){count += 1};
-  var tense = localStorage.getItem('tense');
-  if (tense !== 'null' || tense !== null){count += 1};
-  localStorage.setItem('moodCount', count);
+  if (afraid !== 'null' || afraid !== null){
+    count += 1
+    var afraid = localStorage.getItem('afraid');
+  };
+  if (confused !== 'null' || confused !== null){
+    count += 1
+    var confused = localStorage.getItem('confused');
+  };
+  if (sad !== 'null' || sad !== null){
+    count += 1
+    var sad = localStorage.getItem('sad');
+  };
+  if (angry !== 'null' || angry !== null){
+    count += 1
+    var angry = localStorage.getItem('angry');
+  };
+  if (energetic !== 'null' || energetic !== null){
+    count += 1
+    var energetic = localStorage.getItem('energetic');
+  };
+  if (tired !== 'null' || tired !== null){
+    count += 1
+    var tired = localStorage.getItem('tired');
+  };
+  if (happy !== 'null' || happy !== null){
+    count += 1
+    var happy = localStorage.getItem('happy');
+  };
+  if (tense !== 'null' || tense !== null){
+    count += 1
+    var tense = localStorage.getItem('tense');
+  };
   if (count > 0){document.getElementById('mood-statement').style.display = 'block';};
   var array = ['afraid', afraid, 'confused', confused, 'sad', sad, 'angry', angry, 'energetic', energetic, 'tired', tired, 'happy', happy, 'tense', tense];
+    localStorage.setItem('moodCount', count);
   var element = document.getElementById('mood-entries');
   for (var i = 0; i < array.length; i = i + 2){
-    let p = document.createElement('p');
-    let button = document.createElement("button");
-    let divid = 'mood-' + array[i];
-    let mood = array[i];
-    let likert = array[i+1];
-    p.innerHTML = array[i+1] + ' ' + array[i]; // e,g, always afraid
-    p.id = "p-" + array[i]; // e.g. p-afraid
-    button.id = 'button-' + array[i]; // e.g. button-afraid
-    button.innerHTML = 'X';
-    button.className = 'btnx';
-    button.onclick = function(){
-      document.getElementById(divid).style.display = 'block';
-      document.getElementById('submit-mood').style.display = 'none';
-      localStorage.setItem(mood, null);
-      element.removeChild(p);
-      element.removeChild(button);
-      decreaseCountStorage('moodCount');
-      // reset all of the buttons to be white with black text
-      var children = [].slice.call(document.getElementById(divid).getElementsByTagName('button'), 0);
-      for (var i = 0; i < children.length; i++){
-        let id = children[i].getAttribute('id');
-          document.getElementById(id).style.background = 'white';
-          document.getElementById(id).style.color = 'black';
-      };
-    }
+    if (array[i+1] !== null || array[i+1] !== 'null'){
+      let p = document.createElement('p');
+      let button = document.createElement("button");
+      let divid = 'mood-' + array[i];
+      let mood = array[i];
+      let likert = array[i+1];
+      p.innerHTML = array[i+1] + ' ' + array[i]; // e,g, always afraid
+      p.id = "p-" + array[i]; // e.g. p-afraid
+      button.id = 'button-' + array[i]; // e.g. button-afraid
+      button.innerHTML = 'X';
+      button.className = 'btnx';
+      button.onclick = function(){
+        document.getElementById(divid).style.display = 'block';
+        document.getElementById('submit-mood').style.display = 'none';
+        localStorage.setItem(mood, null);
+        element.removeChild(p);
+        element.removeChild(button);
+        decreaseCountStorage('moodCount');
+        // reset all of the buttons to be white with black text
+        var children = [].slice.call(document.getElementById(divid).getElementsByTagName('button'), 0);
+        for (var i = 0; i < children.length; i++){
+          let id = children[i].getAttribute('id');
+            document.getElementById(id).style.background = 'white';
+            document.getElementById(id).style.color = 'black';
+          };
+        }
+      }
     if (likert !== 'null' && !document.getElementById(p.id)){
       element.appendChild(p);
     };

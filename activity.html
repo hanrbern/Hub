@@ -101,10 +101,10 @@
           <div id="physical-activity-questions">
             <p>When approximately did you start this activity?</p>
             <div class="dropdown">
-              <button class="dropbtn" id="dropdown-hour">Hour
+              <button class="dropbtn-new" id="dropdown-hour" onclick="dropdown('activity-dropdown-hour')">Hour
                 <i class="fa fa-caret-down"></i>
               </button>
-              <div class="dropdown-content">
+              <div class="dropdown-content-new" id="activity-dropdown-hour">
                 <a onclick="changeHour(1, 'dropdown-hour')">1</a>
                 <a onclick="changeHour(2, 'dropdown-hour')">2</a>
                 <a onclick="changeHour(3, 'dropdown-hour')">3</a>
@@ -120,10 +120,10 @@
               </div>
             </div>
             <div class="dropdown">
-              <button class="dropbtn" id="dropdown-minutes">Minutes
+              <button class="dropbtn-new" id="dropdown-minutes" onclick="dropdown('activity-dropdown-minutes')">Minutes
                 <i class="fa fa-caret-down"></i>
               </button>
-              <div class="dropdown-content">
+              <div class="dropdown-content-new" id="activity-dropdown-minutes">
                 <a onclick="changeMin('00', 'dropdown-minutes')">00</a>
                 <a onclick="changeMin('10', 'dropdown-minutes')">10</a>
                 <a onclick="changeMin('20', 'dropdown-minutes')">20</a>
@@ -134,10 +134,10 @@
             </div>
           
             <div class="dropdown">
-              <button class="dropbtn" id="dropdown-ampm">AM/PM
+              <button class="dropbtn-new" id="dropdown-ampm" onclick="dropdown('activity-dropdown-ampm')">AM/PM
                 <i class="fa fa-caret-down"></i>
               </button>
-              <div class="dropdown-content">
+              <div class="dropdown-content-new" id="activity-dropdown-ampm">
                 <a onclick="changeAMPM('AM', 'dropdown-ampm')">AM</a>
                 <a onclick="changeAMPM('PM', 'dropdown-ampm')">PM</a>
               </div>
@@ -145,10 +145,10 @@
             <br><br>
             <p>For approximately how long did you do this activity?</p>
             <div class="dropdown">
-              <button class="dropbtn" id="activity-dur">Duration
+              <button class="dropbtn-new" id="activity-dur" onclick="dropdown('activity-dropdown-dur')">Duration
                 <i class="fa fa-caret-down"></i>
               </button>
-              <div class="dropdown-content">
+              <div class="dropdown-content-new" id="activity-dropdown-dur">
                 <a onclick="changeDuration('10 minutes', 'activity-dur')">10 min</a>
                 <a onclick="changeDuration('20 minutes', 'activity-dur')">20 min</a>
                 <a onclick="changeDuration('30 minutes', 'activity-dur')">30 min</a>
@@ -184,8 +184,10 @@
           <div id="start-and-duration">
             <p>Approximate start time:</p>
             <div class="dropdown">
-              <button class="dropbtn" id="dropdown-hour-preferences">Hour <i class="fa fa-caret-down"></i></button>
-              <div class="dropdown-content">
+              <button class="dropbtn-new" id="dropdown-hour-preferences" onclick="dropdown('activity-dropdown-hour-pref')">Hour 
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-content-new" id="activity-dropdown-hour-pref">
                 <a onclick="changeHour(1, 'dropdown-hour-preferences')">1</a>
                 <a onclick="changeHour(2, 'dropdown-hour-preferences')">2</a>
                 <a onclick="changeHour(3, 'dropdown-hour-preferences')">3</a>
@@ -201,10 +203,10 @@
               </div>
             </div>
             <div class="dropdown">
-              <button class="dropbtn" id="dropdown-minutes-preferences">Minutes
+              <button class="dropbtn-new" id="dropdown-minutes-preferences" onclick="dropdown('activity-dropdown-minutes-pref')">Minutes
                 <i class="fa fa-caret-down"></i>
               </button>
-              <div class="dropdown-content">
+              <div class="dropdown-content-new" id="activity-dropdown-minutes-pref">
                 <a onclick="changeMin('00', 'dropdown-minutes-preferences')">00</a>
                 <a onclick="changeMin('10', 'dropdown-minutes-preferences')">10</a>
                 <a onclick="changeMin('20', 'dropdown-minutes-preferences')">20</a>
@@ -215,10 +217,10 @@
             </div>
           
             <div class="dropdown">
-              <button class="dropbtn" id="dropdown-ampm-preferences">AM/PM
+              <button class="dropbtn-new" id="dropdown-ampm-preferences" onclick="dropdown('activity-dropdown-ampm-pref')">AM/PM
                 <i class="fa fa-caret-down"></i>
               </button>
-              <div class="dropdown-content">
+              <div class="dropdown-content-new" id="activity-dropdown-ampm-pref">
                 <a onclick="changeAMPM('AM', 'dropdown-ampm-preferences')">AM</a>
                 <a onclick="changeAMPM('PM', 'dropdown-ampm-preferences')">PM</a>
               </div>
@@ -226,10 +228,10 @@
             <br><br>
             <p>Approximate duration:</p>
             <div class="dropdown">
-              <button class="dropbtn" id="activity-dur-preferences">Duration
+              <button class="dropbtn-new" id="activity-dur-preferences" onclick="dropdown('activity-dropdown-dur-pref')">Duration
                 <i class="fa fa-caret-down"></i>
               </button>
-              <div class="dropdown-content">
+              <div class="dropdown-content-new" id="activity-dropdown-dur-pref">
                 <a onclick="changeDuration('10 minutes', 'activity-dur-preferences')">10 min</a>
                 <a onclick="changeDuration('20 minutes', 'activity-dur-preferences')">20 min</a>
                 <a onclick="changeDuration('30 minutes', 'activity-dur-preferences')">30 min</a>

@@ -460,15 +460,11 @@ visibility: visible;
 /* - - - - - - - - 
     PREFERENCES
 - - - - - - - - - */
-#preferences-outdoor-activities button {
+#preferences-daily-activities button {
     background: white;
 }
-#preferences-outdoor-activities button .active {
+#preferences-daily-activities button .active {
     background: dodgerblue;
-}
-
-#outdoor-selected-buttons .btn {
-    display: none;
 }
 
 #activity-input {

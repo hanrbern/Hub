@@ -209,51 +209,7 @@ function resetCheckX(name){
 // - - - - -
 // ACTIVITY
 // - - - - -
-function showSocialActivity() {
-  document.getElementById("social-activity").style.background = 'dodgerblue';
-  document.getElementById("physical-activity").style.background = 'white';
 
-  document.getElementById("physical-activity-options").style.display = 'none';
-  document.getElementById("outdoor-activities").style.display = 'none';
-  document.getElementById("indoor-activities").style.display = 'none';
-  document.getElementById("occupational-activities").style.display = 'none';
-  document.getElementById("sport-activities").style.display = 'none';
-  document.getElementById("physical-activity-questions").style.display = 'none';
-  document.getElementById('selected-activity').style.display= 'none';
-
-  var divIDs = ['physical-activity', 'physical-activity-options', 'outdoor-activities', 'indoor-activities', 'sport-activities', 'occupational-activities'];
-  for (i = 0; i < divIDs.length; i++){
-    let divID = divIDs[i];
-    let children = [].slice.call(document.getElementById(divID).getElementsByTagName('button'), 0);
-    for (j = 0; j < children.length; j++){
-      let buttonID = children[j].getAttribute('id');
-      document.getElementById(buttonID).style.background = 'white';
-    }
-  }
-}
-
-function showPhysicalActivity() {
-  document.getElementById("social-activity").style.background = 'white';
-  document.getElementById("physical-activity").style.background = 'rgb(197, 223, 226)';
-
-  document.getElementById("physical-activity-options").style.display = 'block';
-  document.getElementById("outdoor-activities").style.display = 'none';
-  document.getElementById("indoor-activities").style.display = 'none';
-  document.getElementById("occupational-activities").style.display = 'none';
-  document.getElementById("sport-activities").style.display = 'none';
-  document.getElementById("physical-activity-questions").style.display = 'none';
-  document.getElementById('selected-activity').style.display= 'none';
-  
-  var divIDs = ['physical-activity', 'physical-activity-options', 'outdoor-activities', 'indoor-activities', 'sport-activities', 'occupational-activities'];
-  for (i = 0; i < divIDs.length; i++){
-    let divID = divIDs[i];
-    let children = [].slice.call(document.getElementById(divID).getElementsByTagName('button'), 0);
-    for (j = 0; j < children.length; j++){
-      let buttonID = children[j].getAttribute('id');
-      document.getElementById(buttonID).style.background = 'white';
-    }
-  }
-}
 
 function showOutdoorActivities() {
   document.getElementById("outdoors").style.background = '#f5bf4c';
@@ -265,7 +221,7 @@ function showOutdoorActivities() {
   document.getElementById("indoor-activities").style.display = 'none';
   document.getElementById("occupational-activities").style.display = 'none';
   document.getElementById("sport-activities").style.display = 'none';
-  document.getElementById('selected-activity').style.display= 'none';
+  // document.getElementById('selected-activity').style.display= 'none';
 
   var divIDs = ['outdoor-activities', 'indoor-activities', 'sport-activities', 'occupational-activities'];
   for (i = 0; i < divIDs.length; i++){
@@ -276,207 +232,6 @@ function showOutdoorActivities() {
       document.getElementById(buttonID).style.background = 'white';
     }
   }
-}
-
-function showIndoorActivities(){
-  document.getElementById("outdoors").style.background = 'white';
-  document.getElementById("indoors").style.background = '#81b1eb';
-  document.getElementById("occupational").style.background = 'white';
-  document.getElementById("sports").style.background = 'white';
-
-  document.getElementById("indoor-activities").style.display = 'block';
-  document.getElementById("outdoor-activities").style.display = 'none';
-  document.getElementById("occupational-activities").style.display = 'none';
-  document.getElementById("sport-activities").style.display = 'none';
-  document.getElementById('selected-activity').style.display= 'none';
-
-  var divIDs = ['outdoor-activities', 'indoor-activities', 'sport-activities', 'occupational-activities'];
-  for (i = 0; i < divIDs.length; i++){
-    let divID = divIDs[i];
-    let children = [].slice.call(document.getElementById(divID).getElementsByTagName('button'), 0);
-    for (j = 0; j < children.length; j++){
-      let buttonID = children[j].getAttribute('id');
-      document.getElementById(buttonID).style.background = 'white';
-    }
-  }
-}
-
-function showOccupationalActivities(){
-  document.getElementById("outdoors").style.background = 'white';
-  document.getElementById("indoors").style.background = 'white';
-  document.getElementById("occupational").style.background = 'rgb(120, 214, 132)';
-  document.getElementById("sports").style.background = 'white';
-
-  document.getElementById("occupational-activities").style.display = 'block';
-  document.getElementById("outdoor-activities").style.display = 'none';
-  document.getElementById("indoor-activities").style.display = 'none';
-  document.getElementById("sport-activities").style.display = 'none';
-  document.getElementById('selected-activity').style.display= 'none';
-
-  var divIDs = ['outdoor-activities', 'indoor-activities', 'sport-activities', 'occupational-activities'];
-  for (i = 0; i < divIDs.length; i++){
-    let divID = divIDs[i];
-    let children = [].slice.call(document.getElementById(divID).getElementsByTagName('button'), 0);
-    for (j = 0; j < children.length; j++){
-      let buttonID = children[j].getAttribute('id');
-      document.getElementById(buttonID).style.background = 'white';
-    }
-  }
-}
-
-function showSportActivities(){
-  document.getElementById("outdoors").style.background = 'white';
-  document.getElementById("indoors").style.background = 'white';
-  document.getElementById("occupational").style.background = 'white';
-  document.getElementById("sports").style.background = 'rgb(167, 142, 207)';
-
-  document.getElementById("sport-activities").style.display = 'block';
-  document.getElementById("outdoor-activities").style.display = 'none';
-  document.getElementById("indoor-activities").style.display = 'none';
-  document.getElementById("occupational-activities").style.display = 'none';
-  document.getElementById('selected-activity').style.display= 'none';
-
-  var divIDs = ['outdoor-activities', 'indoor-activities', 'sport-activities', 'occupational-activities'];
-  for (i = 0; i < divIDs.length; i++){
-    let divID = divIDs[i];
-    let children = [].slice.call(document.getElementById(divID).getElementsByTagName('button'), 0);
-    for (j = 0; j < children.length; j++){
-      let buttonID = children[j].getAttribute('id');
-      document.getElementById(buttonID).style.background = 'white';
-    }
-  }
-}
-
-function recordActivity(activity){
-  
-  document.getElementById("physical-activity-questions").style.display = 'block';
-  document.getElementById('activity-submit-button').style.display = 'none';
-  document.getElementById('selected-activity').style.display = 'block';
-
-  var activity = activity 
-  document.getElementById('selected-activity').innerHTML = activity;
-
-  if (activity == 'Walking'){
-    document.getElementById('walking').style.background = '#81b1eb';
-    document.getElementById('jogging').style.background = 'white';
-    document.getElementById('cycling').style.background = 'white';
-    document.getElementById('yardwork-gardening').style.background = 'white';
-    document.getElementById('water-activities').style.background = 'white';
-    document.getElementById('canoeing-paddling').style.background = 'white';
-  } else if (activity == "Jogging"){
-    document.getElementById('walking').style.background = 'white';
-    document.getElementById('jogging').style.background = '#81b1eb';
-    document.getElementById('cycling').style.background = 'white';
-    document.getElementById('yardwork-gardening').style.background = 'white';
-    document.getElementById('water-activities').style.background = 'white';
-    document.getElementById('canoeing-paddling').style.background = 'white';
-  } else if (activity == "Cycling"){
-    document.getElementById('walking').style.background = 'white';
-    document.getElementById('jogging').style.background = 'white';
-    document.getElementById('cycling').style.background = '#81b1eb';
-    document.getElementById('yardwork-gardening').style.background = 'white';
-    document.getElementById('water-activities').style.background = 'white';
-    document.getElementById('canoeing-paddling').style.background = 'white';
-  } else if (activity == "Yardwork/Gardening"){
-    document.getElementById('walking').style.background = 'white';
-    document.getElementById('jogging').style.background = 'white';
-    document.getElementById('cycling').style.background = 'white';
-    document.getElementById('yardwork-gardening').style.background = '#81b1eb';
-    document.getElementById('water-activities').style.background = 'white';
-    document.getElementById('canoeing-paddling').style.background = 'white';
-  } else if (activity == "Winter activities"){
-    document.getElementById('walking').style.background = 'white';
-    document.getElementById('jogging').style.background = 'white';
-    document.getElementById('cycling').style.background = 'white';
-    document.getElementById('yardwork-gardening').style.background = 'white';
-    document.getElementById('water-activities').style.background = '#81b1eb';
-    document.getElementById('canoeing-paddling').style.background = 'white';
-  } else if (activity == "Canoeing/Paddling"){
-    document.getElementById('walking').style.background = 'white';
-    document.getElementById('jogging').style.background = 'white';
-    document.getElementById('cycling').style.background = 'white';
-    document.getElementById('yardwork-gardening').style.background = 'white';
-    document.getElementById('water-activities').style.background = 'white';
-    document.getElementById('canoeing-paddling').style.background = '#81b1eb';
-  } else if (activity == "Swimming"){
-    document.getElementById('swimming').style.background = 'rgb(120, 214, 132)';
-    document.getElementById("dancing").style.background = 'white';
-    document.getElementById("yoga-pilates").style.background = 'white';
-    document.getElementById("treadmill").style.background = 'white';
-    document.getElementById("strength").style.background = 'white';
-    document.getElementById("housework").style.background = 'white';
-  } else if (activity == "Dancing"){
-    document.getElementById('swimming').style.background = 'white';
-    document.getElementById("dancing").style.background = 'rgb(120, 214, 132)';
-    document.getElementById("yoga-pilates").style.background = 'white';
-    document.getElementById("treadmill").style.background = 'white';
-    document.getElementById("strength").style.background = 'white';
-    document.getElementById("housework").style.background = 'white';
-  } else if (activity == "Yoga/Pilates"){
-    document.getElementById('swimming').style.background = 'white';
-    document.getElementById("dancing").style.background = 'white';
-    document.getElementById("yoga-pilates").style.background = 'rgb(120, 214, 132)';
-    document.getElementById("treadmill").style.background = 'white';
-    document.getElementById("strength").style.background = 'white';
-    document.getElementById("housework").style.background = 'white';
-  } else if (activity == "Treadmill/Elliptical/Cycling"){
-    document.getElementById('swimming').style.background = 'white';
-    document.getElementById("dancing").style.background = 'white';
-    document.getElementById("yoga-pilates").style.background = 'white';
-    document.getElementById("treadmill").style.background = 'rgb(120, 214, 132)';
-    document.getElementById("strength").style.background = 'white';
-    document.getElementById("housework").style.background = 'white';
-  } else if (activity == "Strength Training"){
-    document.getElementById('swimming').style.background = 'white';
-    document.getElementById("dancing").style.background = 'white';
-    document.getElementById("yoga-pilates").style.background = 'white';
-    document.getElementById("treadmill").style.background = 'white';
-    document.getElementById("strength").style.background = 'rgb(120, 214, 132)';
-    document.getElementById("housework").style.background = 'white';
-  } else if (activity == "Housework"){
-    document.getElementById('swimming').style.background = 'white';
-    document.getElementById("dancing").style.background = 'white';
-    document.getElementById("yoga-pilates").style.background = 'white';
-    document.getElementById("treadmill").style.background = 'white';
-    document.getElementById("strength").style.background = 'white';
-    document.getElementById("housework").style.background = 'rgb(120, 214, 132)';
-  } else if (activity == "Carpentry"){
-    document.getElementById('carpentry').style.background = "rgb(167, 142, 207)";
-    document.getElementById('manual-labor').style.background = "white";
-  } else if (activity == "Manual labor"){
-    document.getElementById('carpentry').style.background = "white";
-    document.getElementById('manual-labor').style.background = "rgb(167, 142, 207)";
-  } else if (activity == "Racquet Sports"){
-    document.getElementById('racket').style.background = "#f5bf4c";
-    document.getElementById('golf').style.background = 'white';
-    document.getElementById('curling').style.background = 'white';
-    document.getElementById('lawn-bowling').style.background = 'white';
-    document.getElementById('team-sports').style.background = 'white';
-  } else if (activity == "Golf"){
-    document.getElementById('racket').style.background = "white";
-    document.getElementById('golf').style.background = '#f5bf4c';
-    document.getElementById('curling').style.background = 'white';
-    document.getElementById('lawn-bowling').style.background = 'white';
-    document.getElementById('team-sports').style.background = 'white';
-  } else if (activity == "Curling"){
-    document.getElementById('racket').style.background = "white";
-    document.getElementById('golf').style.background = 'white';
-    document.getElementById('curling').style.background = '#f5bf4c';
-    document.getElementById('lawn-bowling').style.background = 'white';
-    document.getElementById('team-sports').style.background = 'white';
-  } else if (activity == "Lawn bowling"){
-    document.getElementById('racket').style.background = "white";
-    document.getElementById('golf').style.background = 'white';
-    document.getElementById('curling').style.background = 'white';
-    document.getElementById('lawn-bowling').style.background = '#f5bf4c';
-    document.getElementById('team-sports').style.background = 'white';
-  } else if (activity == "Team sports"){
-    document.getElementById('racket').style.background = "white";
-    document.getElementById('golf').style.background = 'white';
-    document.getElementById('curling').style.background = 'white';
-    document.getElementById('lawn-bowling').style.background = 'white';
-    document.getElementById('team-sports').style.background = '#f5bf4c';
-  } 
 }
 
 function touchEndFunction(id){
@@ -554,7 +309,7 @@ function showSubmit(){
 }
 
 function submitActivity(){
-  var activity = document.getElementById('selected-activity').innerHTML;
+  // var activity = document.getElementById('selected-activity').innerHTML;
   var activityDur = document.getElementById('activity-dur').innerHTML;
   var activityStartHour = document.getElementById('dropdown-hour').innerHTML;
   var activityStartMin = document.getElementById('dropdown-minutes').innerHTML;
@@ -603,7 +358,7 @@ function submitActivity(){
   document.getElementById('curling').style.background = 'white';
   document.getElementById('lawn-bowling').style.background = 'white';
   document.getElementById('team-sports').style.background = 'white';
-  document.getElementById('selected-activity').innerHTML = "";
+  // document.getElementById('selected-activity').innerHTML = "";
 
   document.getElementById('logged-activities-original').innerHTML += message;
   // Append to storage
@@ -628,7 +383,6 @@ function activityButtonsFromPreferences(){
       button.innerHTML = array[i];
       button.className = "btn";
       element.appendChild(button);
-      recordActivity(button.innerHTML);
       button.onclick = function(){
         // change button colour
         buttonsInDiv(button.id, 'activities-from-preferences');
@@ -647,12 +401,40 @@ function activityButtonsFromPreferences(){
   }
 }
 
+function dailyActivitiesFromPreferences(){
+  if (localStorage.getItem('DailySelectedArray') == null){newArrayLocalStorage('DailySelectedArray')};
+  var array = JSON.parse(localStorage.getItem('DailySelectedArray'));
+  if (array.length == 0){
+    // button to link to preferences dispaly = 'block'
+    document.getElementById('daily-activities').style.display = 'none';
+  } else {
+    // button to link to preferences display = 'none'
+    document.getElementById('daily-activities').style.display = 'block';
+  };
+  var element = document.getElementById('daily-activities');
+  for (var i = 0; i < array.length; i++){
+    let button = document.createElement("button");
+    button.id = 'button-' + i;
+    button.innerHTML = array[i];
+    button.className = "btn";
+    element.appendChild(button);
+    button.onclick = function(){
+      // change button colour
+      buttonsInDiv(button.id, 'daily-activities');
+      // update activity in localStorage
+      // show time and duration sections
+      // reset start and durations
+      // hide submit button
+      document.getElementById('').innerHTML = 'Duration <i class="fa fa-caret-down"></i>';
+      document.getElementById('').style.display = 'none';
+    }
+  }
+}
+
 function loadActivity(){
-  document.getElementById('selected-activity').innerHTML = '';
-  document.getElementById('selected-activity').style.display = 'none';
-  document.getElementById('physical-activity-questions').style.display = 'none';
+  // document.getElementById('selected-activity').innerHTML = '';
+  // document.getElementById('selected-activity').style.display = 'none';
   document.getElementById('start-and-duration').style.display = 'none';
-  document.getElementById('logged-activities-original').innerHTML = localStorage.getItem('loggedActivities');
   if (localStorage.getItem('ActivityStatementArray') !== null){
     var arrayName = 'ActivityStatementArray';
     var divID = 'logged-activities-preferences';
@@ -664,10 +446,10 @@ function loadActivity(){
     for (var i = 0; i < array.length; i++){
       let p = document.createElement('p');
       p.innerHTML = array[i];
-      p.id = 'p-' + (i + 6);
+      p.id = 'p-' + (i + 10);
       p.style.display = 'inline';
       let button = document.createElement('button');
-      button.id = 'button-' + (i + 6);
+      button.id = 'button-' + (i + 10);
       button.style.display = 'inline';
       button.innerHTML = 'X';
       button.className = 'btnx';
@@ -709,10 +491,10 @@ function submitActivityFromPreferences(){
     for (var i = 0; i < array.length; i++){
       let p = document.createElement('p');
       p.innerHTML = array[i];
-      p.id = 'p-' + (i + 6);
+      p.id = 'p-' + (i + 10);
       p.style.display = 'inline';
       let button = document.createElement('button');
-      button.id = 'button-' + (i + 6);
+      button.id = 'button-' + (i + 10);
       button.style.display = 'inline';
       button.innerHTML = 'X';
       button.className = 'btnx';
@@ -948,9 +730,9 @@ function submitFall(){
   if (textarea == ''){
     fallMoreDetails = ' ';
   } else {
-    fallMoreDetails = 'You provided additional information: ' + textarea;
+    fallMoreDetails = '<br>You provided additional information: ' + textarea;
   }
-  fallMessage = '<br> You indicated that you ' + fallOrNearFall + ' in the ' + fallTime + ' while you were ' + fallLocation + fallLocationInside + '. You indicated that you were ' + fallActivitiy + ' before you ' + fallOrNearFall + ' and that ' + fallCause + '. ' + fallWalkingAid + ' You indicated that you were ' + fallInjured + fallMedical + fallMoreDetails;
+  fallMessage = '<br> You indicated: <br> You ' + fallOrNearFall + ' in the ' + fallTime + ' while you were ' + fallLocation + fallLocationInside + '. <br> You were ' + fallActivity + ' before you ' + fallOrNearFall + ' and that ' + fallCause + '. ' + fallWalkingAid + '<br>You were ' + fallInjured + fallMedical + fallMoreDetails;
   if (localStorage.getItem('FallEntryArray') == null){newArrayLocalStorage('FallEntryArray')};
   var retrievedData = localStorage.getItem('FallEntryArray');
   var array = JSON.parse(retrievedData);
@@ -978,7 +760,7 @@ var fallOrNearFall; // fell/almost fell
 var fallTime; // morning/daytime/evening/nighttime
 var fallLocation; // inside/outside
 var fallLocationInside; // home/not at home
-var fallActivitiy; // standing/walking/in the bathroom/on the stairs
+var fallActivity; // standing/walking/in the bathroom/on the stairs
 var fallCause; // slipped/dizzy/lost your balance/tripped over an object/tripped on the stairs/other reason
 var fallInjured; // not injured/injured
 var fallMedical; // '.'/ and got medical help./ and did not get medical help.
@@ -1075,7 +857,7 @@ function fallType(details){
       document.getElementById('fall-outside').style.background = 'white';
     } else if (details == 'outside'){
       document.getElementById('fall-inside').style.background = 'white';
-      document.getElementById('fall-outside').style.background = 'rgb(120, 214, 132)';
+      document.getElementById('fall-outside').style.background = 'rgb(255, 244, 125)';
       document.getElementById('fall-location-inside').style.display = 'none';
       document.getElementById('fall-activity').style.display = 'block';
       fallLocationInside = '';
@@ -1137,35 +919,35 @@ function fallType(details){
     document.getElementById('lost-balance').style.background = 'white';
     document.getElementById('no-recall').style.background = 'white';
     if (details == 'fall-standing-still'){
-      fallActivitiy = 'standing still';
+      fallActivity = 'standing still';
       document.getElementById('fall-standing-still').style.background = '#f5bf4c';
       document.getElementById('fall-standing-up').style.background = 'white';
       document.getElementById('fall-sitting-down').style.background = 'white';
       document.getElementById('fall-walking').style.background = 'white';
       document.getElementById('fall-rushing').style.background = 'white';  
     } else if (details == 'fall-standing-up'){
-      fallActivitiy = 'standing up';
+      fallActivity = 'standing up';
       document.getElementById('fall-standing-still').style.background = 'white';
       document.getElementById('fall-standing-up').style.background = '#f5bf4c';
       document.getElementById('fall-sitting-down').style.background = 'white';
       document.getElementById('fall-walking').style.background = 'white';
       document.getElementById('fall-rushing').style.background = 'white';  
     } else if (details == 'fall-sitting-down'){
-      fallActivitiy = 'sitting down';
+      fallActivity = 'sitting down';
       document.getElementById('fall-standing-still').style.background = 'white';
       document.getElementById('fall-standing-up').style.background = 'white';
       document.getElementById('fall-sitting-down').style.background = '#f5bf4c';
       document.getElementById('fall-walking').style.background = 'white';
       document.getElementById('fall-rushing').style.background = 'white';  
     } else if (details == 'fall-walking'){
-      fallActivitiy = 'walking';
+      fallActivity = 'walking';
       document.getElementById('fall-standing-still').style.background = 'white';
       document.getElementById('fall-standing-up').style.background = 'white';
       document.getElementById('fall-sitting-down').style.background = 'white';
       document.getElementById('fall-walking').style.background = '#f5bf4c';
       document.getElementById('fall-rushing').style.background = 'white';  
     } else if (details == 'fall-rushing'){
-      fallActivitiy = 'rushing';
+      fallActivity = 'rushing';
       document.getElementById('fall-standing-still').style.background = 'white';
       document.getElementById('fall-standing-up').style.background = 'white';
       document.getElementById('fall-sitting-down').style.background = 'white';
@@ -1240,7 +1022,6 @@ function fallType(details){
     document.getElementById('fall-location').style.display = 'block';
     document.getElementById('fall-activity').style.display = 'block';
     document.getElementById('fall-cause').style.display = 'block';
-    document.getElementById('fall-walking-aid').style.display = 'none';
     document.getElementById('injured-question').style.display = 'block';
     document.getElementById('no-medical').style.background = 'white';
     document.getElementById('medical').style.background = 'white';
@@ -1252,6 +1033,7 @@ function fallType(details){
       document.getElementById('submit-fall').style.display = 'none';
       document.getElementById('not-injured').style.background = 'white';
       document.getElementById('injured').style.background = '#81b1eb';
+      document.getElementById('fall-walking-aid').style.display = 'none';
       fallInjured = 'injured';
     } else if (details == 'not-injured'){
       document.getElementById('medical-questions').style.display = 'none';
@@ -1259,39 +1041,31 @@ function fallType(details){
       fallMedical = '.';
       document.getElementById('fall-more-details').style.display = 'block';
       document.getElementById('submit-fall').style.display = 'block';
-      document.getElementById('not-injured').style.background = 'rgb(167, 232, 211)';
+      document.getElementById('not-injured').style.background = '#eb5f34';
       document.getElementById('injured').style.background = 'white';
-      if (localStorage.getItem('walkingAid') == ' Yes'){
       document.getElementById('fall-walking-aid').style.display = 'block';
       document.getElementById('submit-fall').style.display = 'none';
-    } else {document.getElementById('submit-fall').style.display = 'block';}
     }
   } else if (details == 'medical' || details == 'no-medical'){
     document.getElementById('fall-time').style.display = 'block';
     document.getElementById('fall-location').style.display = 'block';
     document.getElementById('fall-activity').style.display = 'block';
     document.getElementById('fall-cause').style.display = 'block';
-    document.getElementById('fall-walking-aid').style.display = 'none';
     document.getElementById('injured-question').style.display = 'block';
     document.getElementById('medical-questions').style.display = 'block';
     document.getElementById('fall-more-details').style.display = 'block';
     document.getElementById('no-walking-aid').style.background = 'white';
     document.getElementById('yes-walking-aid').style.background = 'white';
-    if (localStorage.getItem('walkingAid') == ' Yes'){
-      document.getElementById('fall-walking-aid').style.display = 'block';
-      document.getElementById('submit-fall').style.display = 'none';
-    } else {
-      document.getElementById('submit-fall').style.display = 'block';
-      fallWalkingAid = ' ';
-      }
+    document.getElementById('fall-walking-aid').style.display = 'block';
+    document.getElementById('submit-fall').style.display = 'none';
     if (details == 'medical'){
       fallMedical = ' and got medical help.';
-      document.getElementById('medical').style.background = 'rgb(167, 232, 211)';
+      document.getElementById('medical').style.background = '#eb5f34';
       document.getElementById('no-medical').style.background = 'white';
     } else if (details == 'no-medical'){
       fallMedical = ' and did not get medical help.';
       document.getElementById('medical').style.background = 'white';
-      document.getElementById('no-medical').style.background = 'rgb(167, 232, 211)';
+      document.getElementById('no-medical').style.background = '#eb5f34';
     }
   } else if (details == 'yes-walking-aid' || details == 'no-walking-aid'){
     document.getElementById('submit-fall').style.display = 'block';
@@ -1299,143 +1073,13 @@ function fallType(details){
     if (details == 'yes-walking-aid'){
       document.getElementById('yes-walking-aid').style.background = 'rgb(167, 232, 211)';
       document.getElementById('no-walking-aid').style.background = 'white';
-      fallWalkingAid = 'You indicated that you were using your walking aid. ';
+      fallWalkingAid = '<br>You were using a walking aid. ';
     } else {
       document.getElementById('yes-walking-aid').style.background = 'white';
       document.getElementById('no-walking-aid').style.background = 'rgb(167, 232, 211)';
-      fallWalkingAid = 'You indicated that you were not using your walking aid. ';
+      fallWalkingAid = '<br>You were not using a walking aid. ';
     }
   } 
-}
-
-function fallTypeOLD(num) {
-  var n = num;
-  
-  if (n == 3) {
-    document.getElementById('submit-fall').style.display = 'block';
-    document.getElementById('fall-more').style.display = 'none';
-    document.getElementById('other-fall').style.display = 'none';
-    document.getElementById('fall-more2').style.display = 'none';
-    document.getElementById('almostfall-more').style.display = 'none';
-    document.getElementById('not-injured').style.background = 'white';
-    document.getElementById('injured').style.background = 'white';
-    document.getElementById('no-medical').style.background = 'white';
-    document.getElementById('medical').style.background = 'white';
-    document.getElementById('lost-balance').style.background = 'white';
-    document.getElementById('dizzy').style.background = 'white';
-    document.getElementById('tripped-object').style.background = 'white';
-    document.getElementById('tripped-stairs').style.background = 'white';
-    document.getElementById('other').style.background = 'white';
-    document.getElementById('nofall-image').src = 'images/nofall_words_blue.ico';
-    document.getElementById('fall-image').src = 'images/fall_words.ico';
-    document.getElementById('almostfall-image').src = 'images/almostfall_words.ico';
-    fallMessage = 'You indicated that you did not fall today.<br>';
-  } else if (n == 2) {
-    document.getElementById('almostfall-more').style.display = 'block';
-    document.getElementById('submit-fall').style.display = 'none';
-    document.getElementById('fall-more').style.display = 'none';
-    document.getElementById('other-fall').style.display = 'none';
-    document.getElementById('fall-more2').style.display = 'none';
-    document.getElementById('not-injured').style.background = 'white';
-    document.getElementById('injured').style.background = 'white';
-    document.getElementById('no-medical').style.background = 'white';
-    document.getElementById('medical').style.background = 'white';
-    document.getElementById('lost-balance').style.background = 'white';
-    document.getElementById('dizzy').style.background = 'white';
-    document.getElementById('tripped-object').style.background = 'white';
-    document.getElementById('tripped-stairs').style.background = 'white';
-    document.getElementById('other').style.background = 'white';
-    document.getElementById('nofall-image').src = 'images/nofall_words.ico';
-    document.getElementById('fall-image').src = 'images/fall_words.ico';
-    document.getElementById('almostfall-image').src = 'images/almostfall_words_blue.ico';
-  } else if (n == 1) {
-    document.getElementById('submit-fall').style.display = 'none';
-    document.getElementById('fall-more').style.display = 'block';
-    document.getElementById('fall-more2').style.display = 'none';
-    document.getElementById('other-fall').style.display = 'none';
-    document.getElementById('almostfall-more').style.display = 'none';
-    document.getElementById('not-injured').style.background = 'white';
-    document.getElementById('injured').style.background = 'white';
-    document.getElementById('no-medical').style.background = 'white';
-    document.getElementById('medical').style.background = 'white';
-    document.getElementById('lost-balance').style.background = 'white';
-    document.getElementById('dizzy').style.background = 'white';
-    document.getElementById('tripped-object').style.background = 'white';
-    document.getElementById('tripped-stairs').style.background = 'white';
-    document.getElementById('other').style.background = 'white';
-    document.getElementById('nofall-image').src = 'images/nofall_words.ico';
-    document.getElementById('fall-image').src = 'images/fall_words_blue.ico';
-    document.getElementById('almostfall-image').src = 'images/almostfall_words.ico';
-  } else if (n == 11) {
-    document.getElementById('submit-fall').style.display = 'block';
-    document.getElementById('fall-more2').style.display = 'none';
-    document.getElementById('other-fall').style.display = 'none';
-    document.getElementById('not-injured').style.background = 'rgb(245, 191, 76)';
-    document.getElementById('injured').style.background = 'white';
-    fallMessage = 'You indicated that you fell today and did not get injured.<br>';
-  }
-    else if (n == "12A" || n == "12B" || n == 22 || n == 23 || n == 24 || n == 25) {
-    document.getElementById('submit-fall').style.display = 'block';
-    document.getElementById('other-fall').style.display = 'none';
-    if (n == "12A"){
-      document.getElementById('no-medical').style.background = 'rgb(245, 140, 34)';
-      document.getElementById('medical').style.background = 'white';
-      fallMessage = 'You indicated that you fell today, got injured, and did not get medical help.<br>';
-    } else if (n == '12B'){
-      document.getElementById('medical').style.background = 'rgb(245, 140, 34)';
-      document.getElementById('no-medical').style.background = 'white';
-      fallMessage = 'You indicated that you fell today, got injured, and did get medical help (e.g. Doctor, Hospital).<br>';
-     
-    } else if (n == 22){
-      document.getElementById('lost-balance').style.background = 'rgb(245, 191, 76)';
-      document.getElementById('dizzy').style.background = 'white';
-      document.getElementById('tripped-object').style.background = 'white';
-      document.getElementById('tripped-stairs').style.background = 'white';
-      document.getElementById('other').style.background = 'white';
-      fallMessage = 'You indicated that you almost fell today because you lost your balance.<br>';
-     
-    } else if (n == 23){
-      document.getElementById('lost-balance').style.background = 'white';
-      document.getElementById('dizzy').style.background = 'rgb(245, 191, 76)';
-      document.getElementById('tripped-object').style.background = 'white';
-      document.getElementById('tripped-stairs').style.background = 'white';
-      document.getElementById('other').style.background = 'white';
-      fallMessage = 'You indicated that you almost fell today because you were dizzy.<br>';
-      
-    } else if (n == 24){
-      document.getElementById('lost-balance').style.background = 'white';
-      document.getElementById('dizzy').style.background = 'white';
-      document.getElementById('tripped-object').style.background = 'rgb(245, 191, 76)';
-      document.getElementById('tripped-stairs').style.background = 'white';
-      document.getElementById('other').style.background = 'white';
-      fallMessage = 'You indicated that you almost fell today because you tripped on an object.<br>';
-      
-    } else if (n == 25){
-      document.getElementById('lost-balance').style.background = 'white';
-      document.getElementById('dizzy').style.background = 'white';
-      document.getElementById('tripped-object').style.background = 'white';
-      document.getElementById('tripped-stairs').style.background = 'rgb(245, 191, 76)';
-      document.getElementById('other').style.background = 'white';
-      fallMessage = 'You indicated that you almost fell today because you tripped on the stairs.<br>';
-    }
-  } else if (n == 12) {
-    document.getElementById('fall-more2').style.display = 'block';
-    document.getElementById('submit-fall').style.display = 'none';
-    document.getElementById('other-fall').style.display = 'none';
-    document.getElementById('injured').style.background = 'rgb(245, 191, 76)';
-    document.getElementById('not-injured').style.background = 'white';
-  } else if (n == 21) {
-    document.getElementById('other-fall').style.display = 'block';
-    document.getElementById('submit-fall').style.display = 'block';
-    document.getElementById('lost-balance').style.background = 'white';
-    document.getElementById('dizzy').style.background = 'white';
-    document.getElementById('tripped-object').style.background = 'white';
-    document.getElementById('tripped-stairs').style.background = 'white';
-    document.getElementById('other').style.background = 'rgb(245, 191, 76)';
-    var other = document.getElementById('other-fall-input').value;
-    fallMessage = 'You indicated that you almost fell because of a different reason: ' + other + '.<br>';
-     
-  }
 }
 
 function checkFallEntries(){
@@ -1447,13 +1091,6 @@ function checkFallEntries(){
   } else {
     document.getElementById('fall-statement').style.display = 'none';
   }
-
-  if (!localStorage.getItem('walkingAid')){
-    document.getElementById('bring-to-preferences').style.display = 'inline';
-  } else {
-    document.getElementById('bring-to-preferences').style.display = 'none';
-  }
-
 }
 
 // - - - -
@@ -1529,7 +1166,7 @@ function submitMoodAndLikert(){
       let divid = 'mood-' + array[i];
       let mood = array[i];
       
-      p.innerHTML = array[i+1] + ' ' + array[i]; // e,g, always afraid
+      p.innerHTML = capitalize(array[i]) + ': ' +  array[i+1]; // e.g Afraid: Always
       p.id = "p-" + array[i]; // e.g. p-afraid
       button.id = 'button-' + array[i]; // e.g. button-afraid
       button.innerHTML = 'X';
@@ -1553,6 +1190,7 @@ function submitMoodAndLikert(){
           };
         }
       if (!document.getElementById(p.id)){
+        element.appendChild(document.createElement("br"))
         element.appendChild(p);
       };
       if (!document.getElementById(button.id)){
@@ -1567,12 +1205,12 @@ function submitMoodAndLikert(){
 // - - - - - - 
 // PREFERENCES
 // - - - - - - 
-function OutdoorActivitySelect(id, activity){
+function DailyActivitySelect(id, activity){
   var activity = ' ' + activity;
   var btn = document.getElementById(id);
-  var count = localStorage.getItem('OutdoorSelectedCount');
-  if (localStorage.getItem('OutdoorSelectedArray') == null){newArrayLocalStorage('OutdoorSelectedArray');};
-  var retrievedData = localStorage.getItem('OutdoorSelectedArray');
+  var count = localStorage.getItem('DailySelectedCount');
+  if (localStorage.getItem('DailySelectedArray') == null){newArrayLocalStorage('DailySelectedArray');};
+  var retrievedData = localStorage.getItem('DailySelectedArray');
   var array = JSON.parse(retrievedData);
   if (count == null){
     count = 0;
@@ -1581,14 +1219,10 @@ function OutdoorActivitySelect(id, activity){
   };
 
   if (btn.className == 'btn'){
-    if (count == 6){
-      alert('You can only select 6 options')
-    } else {
-      btn.className += " active";
-      btn.style.background = 'dodgerblue';
-      count += 1; 
-      array.push(activity)
-    }
+    btn.className += " active";
+    btn.style.background = 'dodgerblue';
+    count += 1; 
+    array.push(activity)
   } else {
     btn.className = 'btn';
     btn.style.background = 'white';
@@ -1596,19 +1230,46 @@ function OutdoorActivitySelect(id, activity){
     var index = array.indexOf(activity);
     array.splice(index, 1);
   }
-  localStorage.setItem('OutdoorSelectedCount', count);
-  // document.getElementById('outdoor-selected-count').innerHTML = localStorage.getItem('OutdoorSelectedCount');
-  localStorage.setItem('OutdoorSelectedArray', JSON.stringify(array));
-  // document.getElementById('outdoor-selected-list').innerHTML = JSON.parse(localStorage.getItem('OutdoorSelectedArray'));
+  localStorage.setItem('DailySelectedCount', count);
+  localStorage.setItem('DailySelectedArray', JSON.stringify(array));
 }
 
-function makeOutdoorButtons(){
-  var buttonNames = JSON.parse(localStorage.getItem('OutdoorSelectedArray'));
+function makeDailyButtons(){
+  var buttonNames = JSON.parse(localStorage.getItem('DailySelectedArray'));
   for (var i = 0; i < buttonNames.length; i++){
-    var id = 'outdoor-selected-' + i;
+    var id = 'daily-selected-' + i;
     var button = document.getElementById(id);
     button.style.display = 'inline-block';
     button.innerHTML = buttonNames[i];
+    document.getElementById(id).style.display = 'inline';
+  }
+  if (buttonNames.length > 0){
+    document.getElementById('preferences-daily-activities').style.display = 'none';
+    document.getElementById('daily-preferences-submit').style.display = 'none';
+    document.getElementById('change-daily-activities').style.display = 'block';
+  } else {
+    document.getElementById('preferences-daily-activities').style.display = 'inline';
+    document.getElementById('daily-preferences-submit').style.display = 'block';
+    document.getElementById('change-daily-activities').style.display = 'none';    
+  }
+  document.getElementById('daily-selected-buttons').style.display = 'inline';
+}
+
+function changeDailyActivities(){
+  resetCount('DailySelectedCount');
+  newArrayLocalStorage('DailySelectedArray');
+  document.getElementById('preferences-daily-activities').style.display = 'inline';
+  document.getElementById('daily-preferences-submit').style.display = 'block';
+  document.getElementById('daily-selected-buttons').style.display = 'none';
+  document.getElementById('change-daily-activities').style.display = 'none';    
+
+  var parent = document.getElementById('preferences-daily-activities');
+  var children = [].slice.call(parent.getElementsByTagName('button'), 0);
+  for (var i = 0; i < children.length; i++){
+    let id = children[i].getAttribute('id');
+    document.getElementById(id).style.background = 'white';
+    document.getElementById(id).style.color = 'black';
+    document.getElementById(id).className = 'btn';
   }
 }
 
@@ -1671,18 +1332,14 @@ function selectActivity(activityID){
   if (localStorage.getItem('activitySelections') == null){newArrayLocalStorage('activitySelections')};
   var retrievedData = localStorage.getItem('activitySelections');
   var array = JSON.parse(retrievedData);
-  if (array.length == 6){
-    alert('You have already selected 6 activities. Click the X beside the activity to remove it and then you may select a new activity.');
+  if (!array.includes(activityText)){  
+    array.push(activityText);  
   } else {
-    if (!array.includes(activityText)){  
-      array.push(activityText);  
-    } else {
-      alert('This activity is already in the list.')
-    }
-    // update local storage
-    localStorage.setItem('activitySelections', JSON.stringify(array));
-    createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list');
+    alert('This activity is already in the list.')
   }
+  // update local storage
+  localStorage.setItem('activitySelections', JSON.stringify(array));
+  createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list');
 }
 
 var coll = document.getElementsByClassName("collapsible");
@@ -1786,6 +1443,7 @@ function createPAndXButtonFromArray(arrayName, countName, divID){
       let newarr = removeItemOnce(JSON.parse(localStorage.getItem(arrayName)), p.innerHTML);
       localStorage.setItem(arrayName, JSON.stringify(newarr));
       decreaseCountStorage(countName);
+      if (newarr.length == 0){document.getElementById('fall-statement').style.display = 'block'}
       createPAndXButtonFromArray();
     }
     if (!document.getElementById(p.id)){element.appendChild(p);};
@@ -1853,4 +1511,9 @@ window.onclick = function(event) {
       }
     }
   }
+}
+
+const capitalize = (s) => {
+  if (typeof s !== 'string') return ''
+  return s.charAt(0).toUpperCase() + s.slice(1)
 }

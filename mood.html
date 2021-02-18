@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ONDRI@Home Hub</title>
+    <title>The Hub</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name='author' content='Hannah'>
-    <meta name='description' content="This is a Hub created by ONDRI@Home to be used to complement data collected from wearable sensors.">
+    <meta name='description' content="This is a Hub created by NiMBaL to be used to complement data collected from wearable sensors.">
     <link href="styles/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -15,8 +15,8 @@
 
   <!-- Header -->
   <div class="header">
-    <img src="images/ONDRI.ico" alt='Ontatio Neurodegenerative Disease Research Initiative Logo' width="200" height="80"> 
-    <h1>Welcome to the ONDRI@Home Hub!</h1>
+    <img src="images/nimbal_logo_nobg.ico" alt='Neuroscience Mobility and Balance Lab Logo' width="250" height="80"> 
+    <h1>Welcome to the Hub!</h1>
   </div>
 
   <!-- Navigation Bar -->
@@ -44,6 +44,7 @@
   </div>
   <div class="main">
     <h2>Daily Log: Mood</h2>
+    <p>Answer all of the mood questions below and then click submit to save your answers. Click the "X" to change an answer.</p>
 
     <div>
       <h3>Throughout your day, how often did you experience each of the following moods?</h3>
@@ -52,67 +53,67 @@
       </div>
       <div id='mood-afraid' style='background-color: rgb(197, 223, 226); padding: 7px'>
         <p style='display: inline-block; font-size: 24px'>Afraid:</p>
-        <button class='btn' style='display: inline-block' id='never-afraid' onclick="changeLikertMood('mood-afraid', 'never-afraid', 'never', 'afraid')">Never</button>
-        <button class='btn' style='display: inline-block' id='rarely-afraid' onclick="changeLikertMood('mood-afraid', 'rarely-afraid', 'rarely', 'afraid')">Rarely</button>
-        <button class='btn' style='display: inline-block' id='sometimes-afraid' onclick="changeLikertMood('mood-afraid', 'sometimes-afraid', 'sometimes', 'afraid')">Sometimes</button>
-        <button class='btn' style='display: inline-block' id='often-afraid' onclick="changeLikertMood('mood-afraid', 'often-afraid', 'often', 'afraid')">Often</button>
-        <button class='btn' style='display: inline-block' id='very-often-afraid' onclick="changeLikertMood('mood-afraid', 'very-often-afraid', 'very often', 'afraid')">Very Often</button>
+        <button class='btn' style='display: inline-block' id='never-afraid' onclick="changeLikertMood('mood-afraid', 'never-afraid', 'Never', 'afraid')">Never</button>
+        <button class='btn' style='display: inline-block' id='rarely-afraid' onclick="changeLikertMood('mood-afraid', 'rarely-afraid', 'Rarely', 'afraid')">Rarely</button>
+        <button class='btn' style='display: inline-block' id='sometimes-afraid' onclick="changeLikertMood('mood-afraid', 'sometimes-afraid', 'Sometimes', 'afraid')">Sometimes</button>
+        <button class='btn' style='display: inline-block' id='often-afraid' onclick="changeLikertMood('mood-afraid', 'often-afraid', 'Often', 'afraid')">Often</button>
+        <button class='btn' style='display: inline-block' id='very-often-afraid' onclick="changeLikertMood('mood-afraid', 'very-often-afraid', 'Very Often', 'afraid')">Very Often</button>
       </div>
       <div id='mood-confused' style='background-color: rgb(120, 214, 132); padding: 7px'>
         <p style='display: inline-block; font-size: 24px'>Confused:</p>
-        <button class='btn' style='display: inline-block' id='never-confused'onclick="changeLikertMood('mood-confused', 'never-confused', 'never', 'confused')">Never</button>
-        <button class='btn' style='display: inline-block' id='rarely-confused'onclick="changeLikertMood('mood-confused', 'rarely-confused', 'rarely', 'confused')">Rarely</button>
-        <button class='btn' style='display: inline-block' id='sometimes-confused'onclick="changeLikertMood('mood-confused', 'sometimes-confused', 'sometimes', 'confused')">Sometimes</button>
-        <button class='btn' style='display: inline-block' id='often-confused'onclick="changeLikertMood('mood-confused', 'often-confused', 'often', 'confused')">Often</button>
-        <button class='btn' style='display: inline-block' id='very-often-confused'onclick="changeLikertMood('mood-confused', 'very-often-confused', 'very often', 'confused')">Very Often</button>
+        <button class='btn' style='display: inline-block' id='never-confused'onclick="changeLikertMood('mood-confused', 'never-confused', 'Never', 'confused')">Never</button>
+        <button class='btn' style='display: inline-block' id='rarely-confused'onclick="changeLikertMood('mood-confused', 'rarely-confused', 'Rarely', 'confused')">Rarely</button>
+        <button class='btn' style='display: inline-block' id='sometimes-confused'onclick="changeLikertMood('mood-confused', 'sometimes-confused', 'Sometimes', 'confused')">Sometimes</button>
+        <button class='btn' style='display: inline-block' id='often-confused'onclick="changeLikertMood('mood-confused', 'often-confused', 'Often', 'confused')">Often</button>
+        <button class='btn' style='display: inline-block' id='very-often-confused'onclick="changeLikertMood('mood-confused', 'very-often-confused', 'Very Often', 'confused')">Very Often</button>
       </div>
       <div id='mood-sad' style='background-color:rgb(255, 244, 125); padding: 7px'>
         <p style='display: inline-block; font-size: 24px'>Sad:</p>
-        <button class='btn' style='display: inline-block' id='never-sad'onclick="changeLikertMood('mood-sad', 'never-sad', 'never', 'sad')">Never</button>
-        <button class='btn' style='display: inline-block' id='rarely-sad'onclick="changeLikertMood('mood-sad', 'rarely-sad', 'rarely', 'sad')">Rarely</button>
-        <button class='btn' style='display: inline-block' id='sometimes-sad'onclick="changeLikertMood('mood-sad', 'sometimes-sad', 'sometimes', 'sad')">Sometimes</button>
-        <button class='btn' style='display: inline-block' id='often-sad'onclick="changeLikertMood('mood-sad', 'often-sad', 'often', 'sad')">Often</button>
-        <button class='btn' style='display: inline-block' id='very-often-sad'onclick="changeLikertMood('mood-sad', 'very-often-sad', 'very often', 'sad')">Very Often</button>
+        <button class='btn' style='display: inline-block' id='never-sad'onclick="changeLikertMood('mood-sad', 'never-sad', 'Never', 'sad')">Never</button>
+        <button class='btn' style='display: inline-block' id='rarely-sad'onclick="changeLikertMood('mood-sad', 'rarely-sad', 'Rarely', 'sad')">Rarely</button>
+        <button class='btn' style='display: inline-block' id='sometimes-sad'onclick="changeLikertMood('mood-sad', 'sometimes-sad', 'Sometimes', 'sad')">Sometimes</button>
+        <button class='btn' style='display: inline-block' id='often-sad'onclick="changeLikertMood('mood-sad', 'often-sad', 'Often', 'sad')">Often</button>
+        <button class='btn' style='display: inline-block' id='very-often-sad'onclick="changeLikertMood('mood-sad', 'very-often-sad', 'Very Often', 'sad')">Very Often</button>
       </div>
       <div id='mood-angry' style='background-color: rgb(167, 142, 207); padding: 7px'>
         <p style='display: inline-block; font-size: 24px'>Angry:</p>
-        <button class='btn' style='display: inline-block' id='never-angry'onclick="changeLikertMood('mood-angry', 'never-angry', 'never', 'angry')">Never</button>
-        <button class='btn' style='display: inline-block' id='rarely-angry'onclick="changeLikertMood('mood-angry', 'rarely-angry', 'rarely', 'angry')">Rarely</button>
-        <button class='btn' style='display: inline-block' id='sometimes-angry'onclick="changeLikertMood('mood-angry', 'sometimes-angry', 'sometimes', 'angry')">Sometimes</button>
-        <button class='btn' style='display: inline-block' id='often-angry'onclick="changeLikertMood('mood-angry', 'often-angry', 'often', 'angry')">Often</button>
-        <button class='btn' style='display: inline-block' id='very-often-angry'onclick="changeLikertMood('mood-angry', 'very-often-angry', 'very often', 'angry')">Very Often</button>
+        <button class='btn' style='display: inline-block' id='never-angry'onclick="changeLikertMood('mood-angry', 'never-angry', 'Never', 'angry')">Never</button>
+        <button class='btn' style='display: inline-block' id='rarely-angry'onclick="changeLikertMood('mood-angry', 'rarely-angry', 'Rarely', 'angry')">Rarely</button>
+        <button class='btn' style='display: inline-block' id='sometimes-angry'onclick="changeLikertMood('mood-angry', 'sometimes-angry', 'Sometimes', 'angry')">Sometimes</button>
+        <button class='btn' style='display: inline-block' id='often-angry'onclick="changeLikertMood('mood-angry', 'often-angry', 'Often', 'angry')">Often</button>
+        <button class='btn' style='display: inline-block' id='very-often-angry'onclick="changeLikertMood('mood-angry', 'very-often-angry', 'Very Often', 'angry')">Very Often</button>
       </div>
       <div id='mood-energetic' style='background-color: rgb(167, 232, 211); padding: 7px'>
         <p style='display: inline-block; font-size: 24px'>Energetic:</p>
-        <button class='btn' style='display: inline-block' id='never-energetic'onclick="changeLikertMood('mood-energetic', 'never-energetic', 'never', 'energetic')">Never</button>
-        <button class='btn' style='display: inline-block' id='rarely-energetic'onclick="changeLikertMood('mood-energetic', 'rarely-energetic', 'rarely', 'energetic')">Rarely</button>
-        <button class='btn' style='display: inline-block' id='sometimes-energetic'onclick="changeLikertMood('mood-energetic', 'sometimes-energetic', 'sometimes', 'energetic')">Sometimes</button>
-        <button class='btn' style='display: inline-block' id='often-energetic'onclick="changeLikertMood('mood-energetic', 'often-energetic', 'often', 'energetic')">Often</button>
-        <button class='btn' style='display: inline-block' id='very-often-energetic'onclick="changeLikertMood('mood-energetic', 'very-often-energetic', 'very often', 'energetic')">Very Often</button>
+        <button class='btn' style='display: inline-block' id='never-energetic'onclick="changeLikertMood('mood-energetic', 'never-energetic', 'Never', 'energetic')">Never</button>
+        <button class='btn' style='display: inline-block' id='rarely-energetic'onclick="changeLikertMood('mood-energetic', 'rarely-energetic', 'Rarely', 'energetic')">Rarely</button>
+        <button class='btn' style='display: inline-block' id='sometimes-energetic'onclick="changeLikertMood('mood-energetic', 'sometimes-energetic', 'Sometimes', 'energetic')">Sometimes</button>
+        <button class='btn' style='display: inline-block' id='often-energetic'onclick="changeLikertMood('mood-energetic', 'often-energetic', 'Often', 'energetic')">Often</button>
+        <button class='btn' style='display: inline-block' id='very-often-energetic'onclick="changeLikertMood('mood-energetic', 'very-often-energetic', 'Very Often', 'energetic')">Very Often</button>
       </div>
       <div id='mood-tired' style='background-color: #f5bf4c; padding: 7px'>
         <p style='display: inline-block; font-size: 24px'>Tired:</p>
-        <button class='btn' style='display: inline-block' id='never-tired'onclick="changeLikertMood('mood-tired', 'never-tired', 'never', 'tired')">Never</button>
-        <button class='btn' style='display: inline-block' id='rarely-tired'onclick="changeLikertMood('mood-tired', 'rarely-tired', 'rarely', 'tired')">Rarely</button>
-        <button class='btn' style='display: inline-block' id='sometimes-tired'onclick="changeLikertMood('mood-tired', 'sometimes-tired', 'sometimes', 'tired')">Sometimes</button>
-        <button class='btn' style='display: inline-block' id='often-tired'onclick="changeLikertMood('mood-tired', 'often-tired', 'often', 'tired')">Often</button>
-        <button class='btn' style='display: inline-block' id='very-often-tired'onclick="changeLikertMood('mood-tired', 'very-often-tired', 'very often', 'tired')">Very Often</button>
+        <button class='btn' style='display: inline-block' id='never-tired'onclick="changeLikertMood('mood-tired', 'never-tired', 'Never', 'tired')">Never</button>
+        <button class='btn' style='display: inline-block' id='rarely-tired'onclick="changeLikertMood('mood-tired', 'rarely-tired', 'Rarely', 'tired')">Rarely</button>
+        <button class='btn' style='display: inline-block' id='sometimes-tired'onclick="changeLikertMood('mood-tired', 'sometimes-tired', 'Sometimes', 'tired')">Sometimes</button>
+        <button class='btn' style='display: inline-block' id='often-tired'onclick="changeLikertMood('mood-tired', 'often-tired', 'Often', 'tired')">Often</button>
+        <button class='btn' style='display: inline-block' id='very-often-tired'onclick="changeLikertMood('mood-tired', 'very-often-tired', 'Very Often', 'tired')">Very Often</button>
       </div>
       <div id='mood-happy' style='background-color: #81b1eb; padding: 7px'>
         <p style='display: inline-block; font-size: 24px'>Happy:</p>
-        <button class='btn' style='display: inline-block' id='never-happy'onclick="changeLikertMood('mood-happy', 'never-happy', 'never', 'happy')">Never</button>
-        <button class='btn' style='display: inline-block' id='rarely-happy'onclick="changeLikertMood('mood-happy', 'rarely-happy', 'rarely', 'happy')">Rarely</button>
-        <button class='btn' style='display: inline-block' id='sometimes-happy'onclick="changeLikertMood('mood-happy', 'sometimes-happy', 'sometimes', 'happy')">Sometimes</button>
-        <button class='btn' style='display: inline-block' id='often-happy'onclick="changeLikertMood('mood-happy', 'often-happy', 'often', 'happy')">Often</button>
-        <button class='btn' style='display: inline-block' id='very-often-happy'onclick="changeLikertMood('mood-happy', 'very-often-happy', 'very often', 'happy')">Very Often</button>
+        <button class='btn' style='display: inline-block' id='never-happy'onclick="changeLikertMood('mood-happy', 'never-happy', 'Never', 'happy')">Never</button>
+        <button class='btn' style='display: inline-block' id='rarely-happy'onclick="changeLikertMood('mood-happy', 'rarely-happy', 'Rarely', 'happy')">Rarely</button>
+        <button class='btn' style='display: inline-block' id='sometimes-happy'onclick="changeLikertMood('mood-happy', 'sometimes-happy', 'Sometimes', 'happy')">Sometimes</button>
+        <button class='btn' style='display: inline-block' id='often-happy'onclick="changeLikertMood('mood-happy', 'often-happy', 'Often', 'happy')">Often</button>
+        <button class='btn' style='display: inline-block' id='very-often-happy'onclick="changeLikertMood('mood-happy', 'very-often-happy', 'Very Often', 'happy')">Very Often</button>
       </div>
       <div id='mood-tense' style='background-color: rgb(181, 235, 188); padding: 7px'>
         <p style='display: inline-block; font-size: 24px'>Tense:</p>
-        <button class='btn' style='display: inline-block' id='never-tense'onclick="changeLikertMood('mood-tense', 'never-tense', 'never', 'tense')">Never</button>
-        <button class='btn' style='display: inline-block' id='rarely-tense'onclick="changeLikertMood('mood-tense', 'rarely-tense', 'rarely', 'tense')">Rarely</button>
-        <button class='btn' style='display: inline-block' id='sometimes-tense'onclick="changeLikertMood('mood-tense', 'sometimes-tense', 'sometimes', 'tense')">Sometimes</button>
-        <button class='btn' style='display: inline-block' id='often-tense'onclick="changeLikertMood('mood-tense', 'often-tense', 'often', 'tense')">Often</button>
-        <button class='btn' style='display: inline-block' id='very-often-tense'onclick="changeLikertMood('mood-tense', 'very-often-tense', 'very often', 'tense')">Very Often</button>
+        <button class='btn' style='display: inline-block' id='never-tense'onclick="changeLikertMood('mood-tense', 'never-tense', 'Never', 'tense')">Never</button>
+        <button class='btn' style='display: inline-block' id='rarely-tense'onclick="changeLikertMood('mood-tense', 'rarely-tense', 'Rarely', 'tense')">Rarely</button>
+        <button class='btn' style='display: inline-block' id='sometimes-tense'onclick="changeLikertMood('mood-tense', 'sometimes-tense', 'Sometimes', 'tense')">Sometimes</button>
+        <button class='btn' style='display: inline-block' id='often-tense'onclick="changeLikertMood('mood-tense', 'often-tense', 'Often', 'tense')">Often</button>
+        <button class='btn' style='display: inline-block' id='very-often-tense'onclick="changeLikertMood('mood-tense', 'very-often-tense', 'Very Often', 'tense')">Very Often</button>
       </div>
       <button id="submit-mood" class="btn" style="display: none" onclick="submitMoodAndLikert()">Submit</button>
     </div>

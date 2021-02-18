@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ONDRI@Home Hub</title>
+    <title>The Hub</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name='author' content='Hannah'>
-        <meta name='description' content="This is a Hub created by ONDRI@Home to be used to complement data collected from wearable sensors.">
+        <meta name='description' content="This is a Hub created by NiMBaL to be used to complement data collected from wearable sensors.">
         <link href="styles/style.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="activityButtonsFromPreferences(); loadActivity()">
+<body onload="activityButtonsFromPreferences(); dailyActivitiesFromPreferences(); loadActivity()">
 
     <!-- Header -->
     <div class="header">
-      <img src="images/ONDRI.ico" alt='Ontatio Neurodegenerative Disease Research Initiative Logo' width="200" height="80"> 
-      <h1>Welcome to the ONDRI@Home Hub!</h1>
+      <img src="images/nimbal_logo_nobg.ico" alt='Neuroscience Mobility and Balance Lab Logo' width="250" height="80"> 
+      <h1>Welcome to the Hub!</h1>
   </div>
 
   <!-- Navigation Bar -->
@@ -43,130 +43,14 @@
           <p id="current-time"></p>
       </div>
       <div class="main">
-        <h2>Daily Log: Activity</h2>
+        <h2>Daily Log: Activity</h2>        
 
-        <!-- Activity Log - Button version -->
-        <button class="collapsible" id='collapsible-walking-aid' style="background-color: rgb(167, 142, 207); font-size: large; font-weight: 600;">Activity Log - Original version</button>
+        <!-- Activity Log: from Buttons -->
+        <button class="collapsible" id='collapsible-daily-activities' style="background-color: #91e691; font-size: large; font-weight: 600;">Activities Log: Work, Daily</button>
         <div class="content" style="background-color: #eee;">
-          <p id="logged-activities-original"></p>
-
-          <div id="activity-options">
-            <button class="btn-activity" onclick="showPhysicalActivity()" id="physical-activity">Physical Activity</button>
-            <button class="btn-activity" onclick="showSocialActivity()" id="social-activity">Social Activity</button>
-          </div>
-        
-
-          <div id="physical-activity-options">
-            <button class="btn-activity" onclick="showOutdoorActivities()" id="outdoors">Outdoors</button>
-            <button class="btn-activity" onclick="showIndoorActivities()" id="indoors">Indoors</button>
-            <button class="btn-activity" onclick="showOccupationalActivities()" id="occupational">Occupational</button>
-            <button class="btn-activity" onclick="showSportActivities()" id="sports">Sports</button>
-          </div>
-
-          <div id="outdoor-activities">
-            <button class="btn-activity" id="walking" onclick="recordActivity('Walking')">Walking</button>
-            <button class="btn-activity" id="jogging" onclick="recordActivity('Jogging')">Jogging</button>
-            <button class="btn-activity" id="cycling" onclick="recordActivity('Cycling')">Cycling</button>
-            <button class="btn-activity" id="yardwork-gardening" onclick="recordActivity('Yardwork/Gardening')">Yardwork/Gardening</button>
-            <button class="btn-activity" id="water-activities" onclick="recordActivity('Winter activities')">Winter activities</button>
-            <button class="btn-activity" id="canoeing-paddling" onclick="recordActivity('Canoeing/Paddling')">Canoeing/Paddling</button>
-          </div>
-
-          <div id="indoor-activities">
-            <button class="btn-activity" id="swimming" onclick="recordActivity('Swimming')">Swimming</button>
-            <button class="btn-activity" id="dancing" onclick="recordActivity('Dancing')">Dancing</button>
-            <button class="btn-activity" id="yoga-pilates" onclick="recordActivity('Yoga/Pilates')">Yoga/Pilates</button>
-            <button class="btn-activity" id="treadmill" onclick="recordActivity('Treadmill/Elliptical/Cycling')">Treadmill/Elliptical/Cycling</button>
-            <button class="btn-activity" id="strength" onclick="recordActivity('Strength Training')">Strength Training</button>
-            <button class="btn-activity" id="housework" onclick="recordActivity('Housework')">Housework</button>
-          </div>
-
-          <div id="sport-activities">
-            <button class="btn-activity" id="racket" onclick="recordActivity('Racket Sports')">Racket Sports</button>
-            <button class="btn-activity" id="golf" onclick="recordActivity('Golf')">Golf</button>
-            <button class="btn-activity" id="curling" onclick="recordActivity('Curling')">Curling</button>
-            <button class="btn-activity" id="lawn-bowling" onclick="recordActivity('Lawn bowling')">Lawn bowling</button>
-            <button class="btn-activity" id="team-sports" onclick="recordActivity('Team sports')">Team sports</button>
-          </div>
-
-          <div id="occupational-activities">
-            <button class="btn-activity" id="carpentry" onclick="recordActivity('Carpentry')">Carpentry</button>
-            <button class="btn-activity" id="manual-labor" onclick="recordActivity('Manual labor')">Manual labor</button>
-          </div>
-
-          <p id="selected-activity">Selected Activity</p>
-
-          <div id="physical-activity-questions">
-            <p>When approximately did you start this activity?</p>
-            <div class="dropdown">
-              <button class="dropbtn-new" id="dropdown-hour" onclick="dropdown('activity-dropdown-hour')">Hour
-                <i class="fa fa-caret-down"></i>
-              </button>
-              <div class="dropdown-content-new" id="activity-dropdown-hour">
-                <a onclick="changeHour(1, 'dropdown-hour')">1</a>
-                <a onclick="changeHour(2, 'dropdown-hour')">2</a>
-                <a onclick="changeHour(3, 'dropdown-hour')">3</a>
-                <a onclick="changeHour(4, 'dropdown-hour')">4</a>
-                <a onclick="changeHour(5, 'dropdown-hour')">5</a>
-                <a onclick="changeHour(6, 'dropdown-hour')">6</a>
-                <a onclick="changeHour(7, 'dropdown-hour')">7</a>
-                <a onclick="changeHour(8, 'dropdown-hour')">8</a>
-                <a onclick="changeHour(9, 'dropdown-hour')">9</a>
-                <a onclick="changeHour(10, 'dropdown-hour')">10</a>
-                <a onclick="changeHour(11, 'dropdown-hour')">11</a>
-                <a onclick="changeHour(12, 'dropdown-hour')">12</a>
-              </div>
-            </div>
-            <div class="dropdown">
-              <button class="dropbtn-new" id="dropdown-minutes" onclick="dropdown('activity-dropdown-minutes')">Minutes
-                <i class="fa fa-caret-down"></i>
-              </button>
-              <div class="dropdown-content-new" id="activity-dropdown-minutes">
-                <a onclick="changeMin('00', 'dropdown-minutes')">00</a>
-                <a onclick="changeMin('10', 'dropdown-minutes')">10</a>
-                <a onclick="changeMin('20', 'dropdown-minutes')">20</a>
-                <a onclick="changeMin('30', 'dropdown-minutes')">30</a>
-                <a onclick="changeMin('40', 'dropdown-minutes')">40</a>
-                <a onclick="changeMin('50', 'dropdown-minutes')">50</a>
-              </div>
-            </div>
-          
-            <div class="dropdown">
-              <button class="dropbtn-new" id="dropdown-ampm" onclick="dropdown('activity-dropdown-ampm')">AM/PM
-                <i class="fa fa-caret-down"></i>
-              </button>
-              <div class="dropdown-content-new" id="activity-dropdown-ampm">
-                <a onclick="changeAMPM('AM', 'dropdown-ampm')">AM</a>
-                <a onclick="changeAMPM('PM', 'dropdown-ampm')">PM</a>
-              </div>
-            </div>
-            <br><br>
-            <p>For approximately how long did you do this activity?</p>
-            <div class="dropdown">
-              <button class="dropbtn-new" id="activity-dur" onclick="dropdown('activity-dropdown-dur')">Duration
-                <i class="fa fa-caret-down"></i>
-              </button>
-              <div class="dropdown-content-new" id="activity-dropdown-dur">
-                <a onclick="changeDuration('10 minutes', 'activity-dur')">10 min</a>
-                <a onclick="changeDuration('20 minutes', 'activity-dur')">20 min</a>
-                <a onclick="changeDuration('30 minutes', 'activity-dur')">30 min</a>
-                <a onclick="changeDuration('40 minutes', 'activity-dur')">40 min</a>
-                <a onclick="changeDuration('50 minutes', 'activity-dur')">50 min</a>
-                <a onclick="changeDuration('1 hour', 'activity-dur')">1 hour</a>
-                <a onclick="changeDuration('1 hour 10 minutes', 'activity-dur')">1 hour 10 min</a>
-                <a onclick="changeDuration('1 hour 20 minutes', 'activity-dur')">1 hour 20 min</a>
-                <a onclick="changeDuration('1 hour 30 minutes', 'activity-dur')">1 hour 30 min</a>
-                <a onclick="changeDuration('1 hour 40 minutes', 'activity-dur')">1 hour 40 min</a>
-                <a onclick="changeDuration('1 hour 50 minutes', 'activity-dur')">1 hour 50 min</a>
-                <a onclick="changeDuration('2 hours', 'activity-dur')">2 hours</a>
-                <a onclick="changeDuration('2 hours 10 minutes', 'activity-dur')">2 hours 10 min</a>
-                <a onclick="changeDuration('2 hours 20 minutes', 'activity-dur')">2 hours 20 min</a>
-                <a onclick="changeDuration('2 hours 30 minutes', 'activity-dur')">2 hours 30 min</a>
-              </div>
-            </div>
-            <br><br>
-            <button class="btn" onclick="submitActivity()" id='activity-submit-button'>Submit</button>
-          </div>
+          <h3 style="font-weight: 500;">Log an activity:</h3>
+          <p>Select the activity you did, then enter the time of day that you started and the approximate duration.</p>
+          <diV id="daily-activities"></diV>
         </div>
 
         <!-- Activity Log - Filtered Selection Version -->
@@ -176,7 +60,7 @@
           <h3 style="font-weight: 500;">Log an activity:</h3>
           <div id='link-to-preferences'><a href="info.html"><button class="btn">Select Activities</button></a></div>
           <div id="activity-filter-version">
-            <p>Select the activity you did, the time you started and the duration.</p>
+            <p>Select the activity you did, then enter the time you started and the duration.</p>
             <div id="activities-from-preferences"></div>
           </div>
           <div id="start-and-duration">
@@ -254,7 +138,7 @@
         </div>
         
         
-        <a href="info.html"><button class="btn">Change activity options</button></a>
+        <a onclick="if (confirm('Are you sure you want to leave this page?')){href='info.html'}"><button class="btn">Change activity options</button></a>
       </div>
     </div>
 

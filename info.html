@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ONDRI@Home Hub</title>
+    <title>The Hub</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name='author' content='Hannah'>
-        <meta name='description' content="This is a Hub created by ONDRI@Home to be used to complement data collected from wearable sensors.">
+        <meta name='description' content="This is a Hub created by NiMBaL to be used to complement data collected from wearable sensors.">
         <link href="styles/style.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="resetCount('OutdoorSelectedCount'); newArrayLocalStorage('OutdoorSelectedArray');checkWalkingAid();createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list');">
+<body onload="makeDailyButtons();checkWalkingAid();createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list');">
 
     <!-- Header -->
     <div class="header">
-      <img src="images/ONDRI.ico" alt='Ontatio Neurodegenerative Disease Research Initiative Logo' width="200" height="80"> 
-      <h1>Welcome to the ONDRI@Home Hub!</h1>
+      <img src="images/nimbal_logo_nobg.ico" alt='Neuroscience Mobility and Balance Lab Logo' width="250" height="80"> 
+      <h1>Welcome to Hub!</h1>
   </div>
 
   <!-- Navigation Bar -->
@@ -44,8 +44,9 @@
       </div>
       <div class="main">
         <h1>Preferences</h1>
+        <p>Click each section to expand the questions.</p>
 
-        <button class="collapsible" id='collapsible-walking-aid' style="background-color: rgb(167, 142, 207); font-size: large; font-weight: 600;">Open Walking Aid Question</button>
+        <button class="collapsible" id='collapsible-walking-aid' style="background-color: rgb(167, 142, 207); font-size: large; font-weight: 600;">Walking Aid Question</button>
         <div class="content" style="background-color: rgb(202, 180, 237);">
           <h2>Walking Aid</h2>
           <div id='walking-aid-question'>
@@ -58,53 +59,47 @@
           </div>
         </div>
 
-        <button class="collapsible" id='collapsible-activity-buttons' style="background-color: #91e691; font-size: large; font-weight: 600;">Open Activity Selection - Button version</button>
+        <button class="collapsible" id='collapsible-activity-buttons' style="background-color: #91e691; font-size: large; font-weight: 600;">Activities: Work, Daily</button>
         <div class="content" style="background-color: #bee8be;">
-          <p>For each physical activity category, you may select up to 6 activities which you do most commonly. These can be changed at any time.</p>
-          <div id='preferences-outdoor-activities'>
-              <h3>Outdoor Activities - All options</h3>
-              <button class="btn" id='outdoor-preferences-1' onclick="OutdoorActivitySelect('outdoor-preferences-1', 'Option 1')">Option 1</button>
-              <button class="btn" id='outdoor-preferences-2' onclick="OutdoorActivitySelect('outdoor-preferences-2', 'Option 2')">Option 2</button>
-              <button class="btn" id='outdoor-preferences-3' onclick="OutdoorActivitySelect('outdoor-preferences-3', 'Option 3')">Option 3</button>
-              <button class="btn" id='outdoor-preferences-4' onclick="OutdoorActivitySelect('outdoor-preferences-4', 'Option 4')">Option 4</button>
-              <button class="btn" id='outdoor-preferences-5' onclick="OutdoorActivitySelect('outdoor-preferences-5', 'Option 5')">Option 5</button>
-              <button class="btn" id='outdoor-preferences-6' onclick="OutdoorActivitySelect('outdoor-preferences-6', 'Option 6')">Option 6</button>
-              <button class="btn" id='outdoor-preferences-7' onclick="OutdoorActivitySelect('outdoor-preferences-7', 'Option 7')">Option 7</button>
-              <button class="btn" id='outdoor-preferences-8' onclick="OutdoorActivitySelect('outdoor-preferences-8', 'Option 8')">Option 8</button>
-              <button class="btn" id='outdoor-preferences-9' onclick="OutdoorActivitySelect('outdoor-preferences-9', 'Option 9')">Option 9</button>
-              <button class="btn" id='outdoor-preferences-10' onclick="OutdoorActivitySelect('outdoor-preferences-10', 'Option 10')">Option 10</button>
-              <button class="btn" id='outdoor-preferences-11' onclick="OutdoorActivitySelect('outdoor-preferences-11', 'Option 11')">Option 11</button>
-              <button class="btn" id='outdoor-preferences-12' onclick="OutdoorActivitySelect('outdoor-preferences-12', 'Option 12')">Option 12</button>
+          <p>Select the activities that you are most likely to do on a weekly basis. These can be changed at any time. Select as many activities as you would like and then click submit.</p>
+          <div id='preferences-daily-activities'>
+              <button class="btn" id='daily-preferences-1' onclick="DailyActivitySelect('daily-preferences-1', 'Housework')">Housework</button>
+              <button class="btn" id='daily-preferences-2' onclick="DailyActivitySelect('daily-preferences-2', 'Carpentry')">Carpentry</button>
+              <button class="btn" id='daily-preferences-3' onclick="DailyActivitySelect('daily-preferences-3', 'Manual Labour')">Manual Labour</button>
+              <button class="btn" id='daily-preferences-4' onclick="DailyActivitySelect('daily-preferences-4', 'Gardening')">Gardening</button>
+              <button class="btn" id='daily-preferences-5' onclick="DailyActivitySelect('daily-preferences-5', 'Yardwork')">Yardwork</button>
+              <button class="btn" id='daily-preferences-6' onclick="DailyActivitySelect('daily-preferences-6', 'Crafting')">Crafting</button>
+              <button class="btn" id='daily-preferences-7' onclick="DailyActivitySelect('daily-preferences-7', 'Shoveling Snow')">Shoveling Snow</button>
+              <button class="btn" id='daily-preferences-8' onclick="DailyActivitySelect('daily-preferences-8', 'Playing a musical instrument')">Playing a musical instrument</button>
           </div>
-          <button class="btn" id='outdoor-preferences-submit' onclick='makeOutdoorButtons()'>Submit</button>
-          <div id='selected-outdoor-activities'>
-            <h3>Outdoor Activities - Selected options</h3>
-            <p id='outdoor-selected-count'></p>
-            <p id='outdoor-selected-list'></p>
-            <div id='outdoor-selected-buttons'>
-              <button class="btn" id='outdoor-selected-0'></button>
-              <button class="btn" id='outdoor-selected-1'></button>
-              <button class="btn" id='outdoor-selected-2'></button>
-              <button class="btn" id='outdoor-selected-3'></button>
-              <button class="btn" id='outdoor-selected-4'></button>
-              <button class="btn" id='outdoor-selected-5'></button>
+          <button class="btn" id='daily-preferences-submit' onclick='makeDailyButtons()' style="background: rgb(245, 245, 154);">Submit</button>
+          <div id='selected-daily-activities'>
+            <h3>Activities Selected:</h3>
+            <p id='daily-selected-count'></p>
+            <p id='daily-selected-list'></p>
+            <div id='daily-selected-buttons' style="display: inline;">
+              <button class="btn" id='daily-selected-0' style="display: none;"></button>
+              <button class="btn" id='daily-selected-1' style="display: none;"></button>
+              <button class="btn" id='daily-selected-2' style="display: none;"></button>
+              <button class="btn" id='daily-selected-3' style="display: none;"></button>
+              <button class="btn" id='daily-selected-4' style="display: none;"></button>
+              <button class="btn" id='daily-selected-5' style="display: none;"></button>
             </div>  
           </div>
+          <button onclick="changeDailyActivities()" class="btn" style="background: rgb(245, 245, 154);" id="change-daily-activities">Change Activities</button>
         </div>
         
-        <button class="collapsible" id='collapsible-activity-filter' style="background-color: #81b1eb; font-size: large; font-weight: 600;">Open Activity Selection - Filter version</button>
+        <button class="collapsible" id='collapsible-activity-filter' style="background-color: #81b1eb; font-size: large; font-weight: 600;">Activities: Exercise, Hobbies, Sports</button>
         <div class="content" style="background-color: #c4daf5;">
-          <h2>Activities</h2>
           <div id='selected-activities'>
-            <p>For each physical activity category, you may select up to 6 activities which you do most commonly. These can be changed at any time.</p>
-            <h3>Activities - Selected options</h3>
+            <p>Select the activities that you are most likely to do on a weekly basis. These can be changed at any time. You can type in the search bar to find an activity or scroll through the list and then click on an activity to add it to your list of selected activities. Click the "X" to remove an activity.</p>
+            <h3>Activities Selected:</h3>
             <p id='activity-selected-list'></p>   
           </div>
           <div id='activity-filter'>
             <h3>Filter Activities</h3>
             <input type="text" id='activity-input' onkeyup="filterActivities()" placeholder="Search for activities...">
             <ul id='activity-list'>
-              <li><a href="#selected-activitiesselected-activities" id="Aerobics" onclick="selectActivity(this.id)">Aerobics</a></li>    
               <li><a href="#selected-activities" id="Archery" onclick="selectActivity(this.id)">Archery</a></li> 
               <li><a href="#selected-activities" id="Badminton" onclick="selectActivity(this.id)">Badminton</a></li> 
               <li><a href="#selected-activities" id="Basketball" onclick="selectActivity(this.id)">Basketball</a></li> 
@@ -119,16 +114,13 @@
               <li><a href="#selected-activities" id="Downhill" onclick="selectActivity(this.id)">Downhill skiing</a></li> 
               <li><a href="#selected-activities" id="Elliptical" onclick="selectActivity(this.id)">Elliptical machine</a></li> 
               <li><a href="#selected-activities" id="Fishing" onclick="selectActivity(this.id)">Fishing</a></li> 
-              <li><a href="#selected-activities" id="Gardening" onclick="selectActivity(this.id)">Gardening</a></li>
               <li><a href="#selected-activities" id="Golfing" onclick="selectActivity(this.id)">Golfing</a></li>
               <li><a href="#selected-activities" id="Hiking" onclick="selectActivity(this.id)">Hiking</a></li>
               <li><a href="#selected-activities" id="Hockey" onclick="selectActivity(this.id)">Hockey</a></li>
-              <li><a href="#selected-activities" id="Housework" onclick="selectActivity(this.id)">Housework</a></li>
               <li><a href="#selected-activities" id="Hunting" onclick="selectActivity(this.id)">Hunting</a></li>
               <li><a href="#selected-activities" id="Jogging" onclick="selectActivity(this.id)">Jogging</a></li>
               <li><a href="#selected-activities" id="Kayaking" onclick="selectActivity(this.id)">Kayaking</a></li>
               <li><a href="#selected-activities" id="Lawn" onclick="selectActivity(this.id)">Lawn bowling</a></li>
-              <li><a href="#selected-activities" id="Manual" onclick="selectActivity(this.id)">Manual labour</a></li>
               <li><a href="#selected-activities" id="Pickleball" onclick="selectActivity(this.id)">Pickleball</a></li>
               <li><a href="#selected-activities" id="Pilates" onclick="selectActivity(this.id)">Pilates</a></li>
               <li><a href="#selected-activities" id="Reformer" onclick="selectActivity(this.id)">Reformer</a></li>
@@ -145,7 +137,6 @@
               <li><a href="#selected-activities" id="Walking" onclick="selectActivity(this.id)">Walking</a></li>
               <li><a href="#selected-activities" id="Water" onclick="selectActivity(this.id)">Water aerobics</a></li>
               <li><a href="#selected-activities" id="Weightlifting" onclick="selectActivity(this.id)">Weightlifting</a></li>
-              <li><a href="#selected-activities" id="Yardwork" onclick="selectActivity(this.id)">Yardwork</a></li>
               <li><a href="#selected-activities" id="Yoga" onclick="selectActivity(this.id)">Yoga</a></li>
               <li><a href="#selected-activities" id="Zumba" onclick="selectActivity(this.id)">Zumba</a></li>
             </ul>

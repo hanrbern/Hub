@@ -1197,7 +1197,7 @@ function checkFallEntries(){
   if (array.length == 0){
     document.getElementById('fall-statement').style.display = 'block';
   } else {
-    document.getElementById('fall-statement').style.display = 'none';
+    document.getElementById('fall-statement').style.display = 'block';
   }
 }
 

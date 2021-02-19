@@ -181,11 +181,18 @@ function resetCount(name){
 function getStorage(name, id){
   var name = name;
   var id = id;
-  str_count = localStorage.getItem(name);
-  if (str_count == null || str_count == "null"){
-    document.getElementById(id).innerHTML = 0;
+  if (name == 'activityCountPreferences'){
+    str_count = parseInt(localStorage.getItem(name));
+    str_count2 = parseInt(localStorage.getItem('activityCountDaily'));
+    new_count = str_count + str_count2;
+    document.getElementById(id).innerHTML = new_count;
   } else {
-    document.getElementById(id).innerHTML = localStorage.getItem(name);
+    str_count = localStorage.getItem(name);
+    if (str_count == null || str_count == "null"){
+      document.getElementById(id).innerHTML = 0;
+    } else {
+      document.getElementById(id).innerHTML = localStorage.getItem(name);
+    }
   }
 }
 
@@ -292,20 +299,17 @@ function showSubmit(){
     ){document.getElementById('log-nap').style.display = 'inline'};
   };
    // if on the activity page:
-  if (document.getElementById('dropdown-hour') !== null){
-    // if dropdown-hour, dropdown-minutes, dropdown-ampm, and activity-dur have been filled out: show activity-submit-button
-    if (document.getElementById('dropdown-hour').innerText !== 'Hour ' 
-    && document.getElementById('dropdown-minutes').innerText !== 'Minutes '
-    && document.getElementById('dropdown-ampm').innerText !== 'AM/PM '
-    && document.getElementById('activity-dur').innerText !== 'Duration '
-    ){document.getElementById('activity-submit-button').style.display = 'inline'};
+  if (document.getElementById('dropdown-dur-daily') !== null){
+    if (document.getElementById('dropdown-dur-daily').innerText !== 'Duration '){
+      document.getElementById('daily-submit').style.display = 'block';
+    }
     // if dropdown-hour-preferences, dropdown-minutes-preferences, dropdown-ampm-preferences, and activity-dur-preferences have been filled out: show activity-submit-preferences
     if (document.getElementById('dropdown-hour-preferences').innerText !== 'Hour ' 
     && document.getElementById('dropdown-minutes-preferences').innerText !== 'Minutes '
     && document.getElementById('dropdown-ampm-preferences').innerText !== 'AM/PM '
     && document.getElementById('activity-dur-preferences').innerText !== 'Duration '
     ){document.getElementById('activity-submit-preferences').style.display = 'inline'};
-  }  
+  };    
 }
 
 function submitActivity(){
@@ -385,7 +389,7 @@ function activityButtonsFromPreferences(){
       element.appendChild(button);
       button.onclick = function(){
         // change button colour
-        buttonsInDiv(button.id, 'activities-from-preferences');
+        buttonsInDiv(button.id, 'activities-from-preferences', '#0335fc', 'white');
         // update activity in localStorage
         localStorage.setItem('activitySelectedFromPreferences', button.innerHTML);
         // show time and duration sections
@@ -405,35 +409,46 @@ function dailyActivitiesFromPreferences(){
   if (localStorage.getItem('DailySelectedArray') == null){newArrayLocalStorage('DailySelectedArray')};
   var array = JSON.parse(localStorage.getItem('DailySelectedArray'));
   if (array.length == 0){
-    // button to link to preferences dispaly = 'block'
+    document.getElementById('link-to-preferences-from-daily').style.display = 'block';
     document.getElementById('daily-activities').style.display = 'none';
   } else {
     // button to link to preferences display = 'none'
     document.getElementById('daily-activities').style.display = 'block';
+    document.getElementById('link-to-preferences-from-daily').style.display = 'none';
   };
   var element = document.getElementById('daily-activities');
   for (var i = 0; i < array.length; i++){
     let button = document.createElement("button");
-    button.id = 'button-' + i;
+    button.id = 'btn-' + i;
     button.innerHTML = array[i];
     button.className = "btn";
     element.appendChild(button);
     button.onclick = function(){
       // change button colour
-      buttonsInDiv(button.id, 'daily-activities');
-      // update activity in localStorage
-      // show time and duration sections
-      // reset start and durations
-      // hide submit button
-      document.getElementById('').innerHTML = 'Duration <i class="fa fa-caret-down"></i>';
-      document.getElementById('').style.display = 'none';
+      buttonsInDiv(button.id, 'daily-activities', 'rgb(248, 248, 147)', 'black');
+      // show next question with all buttons white
+      document.getElementById('daily-activity-time').style.display = 'block';
+      buttonsInDiv('All', 'daily-activity-time', undefined, undefined);
+      localStorage.setItem('dailyActivity', document.getElementById(button.id).innerText);
+      // hide submit button and duration buttons
+      document.getElementById('daily-activities-duration').style.display = 'none';
+      document.getElementById('daily-submit').style.display = 'none';
     }
   }
 }
 
+function dailyActivityTime(buttonID){
+  var buttonID = buttonID;
+  buttonsInDiv(buttonID, 'daily-activity-time', 'rgb(131, 229, 236)', 'black');
+  localStorage.setItem('dailyActivityTime', document.getElementById(buttonID).innerText);
+  // reset and show duration buttons
+  document.getElementById('daily-activities-duration').style.display = 'block';
+  document.getElementById('dropdown-dur-daily').innerHTML = 'Duration <i class="fa fa-caret-down"></i>';
+  // hide submit button
+  document.getElementById('daily-submit').style.display = 'none';
+}
+
 function loadActivity(){
-  // document.getElementById('selected-activity').innerHTML = '';
-  // document.getElementById('selected-activity').style.display = 'none';
   document.getElementById('start-and-duration').style.display = 'none';
   if (localStorage.getItem('ActivityStatementArray') !== null){
     var arrayName = 'ActivityStatementArray';
@@ -466,6 +481,41 @@ function loadActivity(){
     document.getElementById('logged-activities-preferences').display = 'block';
     localStorage.setItem(countName, array.length);
   };
+  loadActivityPart2();
+}
+
+function loadActivityPart2(){
+  if (localStorage.getItem('DailyActivityStatementArray') !== null){
+    var arrayName = 'DailyActivityStatementArray';
+    var divID = 'logged-daily-activities';
+    var countName = 'activityCountDaily';
+    if (localStorage.getItem(arrayName) == null){newArrayLocalStorage(arrayName)};
+    var retrievedData = localStorage.getItem(arrayName);
+    var array = JSON.parse(retrievedData);
+    var element = document.getElementById(divID);
+    for (var i = 0; i < array.length; i++){
+      let p = document.createElement('p');
+      p.innerHTML = array[i];
+      p.id = 'p-' + (i + 20);
+      p.style.display = 'inline';
+      let button = document.createElement('button');
+      button.id = 'btn-' + (i + 20);
+      button.style.display = 'inline';
+      button.innerHTML = 'X';
+      button.className = 'btnx';
+      button.onclick = function(){
+        element.removeChild(p);
+        element.removeChild(button);
+        let newarr = removeItemOnce(JSON.parse(localStorage.getItem(arrayName)), p.innerHTML);
+        localStorage.setItem(arrayName, JSON.stringify(newarr));
+        decreaseCountStorage(countName);
+      };
+      element.appendChild(p);
+      element.appendChild(button);
+    }
+    document.getElementById('logged-daily-activities').display = 'block';
+    localStorage.setItem(countName, array.length);
+  }
 }
 
 function submitActivityFromPreferences(){
@@ -512,7 +562,7 @@ function submitActivityFromPreferences(){
     localStorage.setItem(countName, array.length);
   };
   // reset acivity buttons
-  buttonsInDiv('All', 'activities-from-preferences');
+  buttonsInDiv('All', 'activities-from-preferences', undefined, undefined);
   // rest question buttons
   document.getElementById('dropdown-hour-preferences').innerHTML = 'Hour <i class="fa fa-caret-down"></i>';
   document.getElementById('dropdown-minutes-preferences').innerHTML = 'Minutes <i class="fa fa-caret-down"></i>';
@@ -520,6 +570,64 @@ function submitActivityFromPreferences(){
   document.getElementById('activity-dur-preferences').innerHTML = 'Duration <i class="fa fa-caret-down"></i>';
   // hide questions
   document.getElementById('start-and-duration').style.display = 'none';
+}
+
+function submitDailyActivity(){
+  var activity = localStorage.getItem('dailyActivity');
+  var activityStatement;
+  if (activity == 'Housework' || activity == 'Carpentry' || activity == 'Manual Labour' || activity == 'Yardwork'){
+    activityStatement = 'doing ' + activity;
+  } else {
+    activityStatement = activity;
+  };
+  var time = localStorage.getItem('dailyActivityTime');
+  var duration = document.getElementById('dropdown-dur-daily').innerHTML;
+  if (localStorage.getItem('DailyActivityStatementArray') == null){newArrayLocalStorage('DailyActivityStatementArray')};
+  var retrievedData = localStorage.getItem('DailyActivityStatementArray');
+  var array = JSON.parse(retrievedData);
+  var message = '<br> You indicated that you were ' + activityStatement + ' for ' + duration + ' in the ' + time + '.'; 
+  array.push(message);
+  localStorage.setItem('DailyActivityStatementArray', JSON.stringify(array));
+  if (localStorage.getItem('DailyActivityStatementArray') !== null){
+    var arrayName = 'DailyActivityStatementArray';
+    var divID = 'logged-daily-activities';
+    var countName = 'activityCountDaily';
+    if (localStorage.getItem(arrayName) == null){newArrayLocalStorage(arrayName)};
+    var retrievedData = localStorage.getItem(arrayName);
+    var array = JSON.parse(retrievedData);
+    var element = document.getElementById(divID);
+    for (var i = 0; i < array.length; i++){
+      let p = document.createElement('p');
+      p.innerHTML = array[i];
+      p.id = 'p-' + (i + 20);
+      p.style.display = 'inline';
+      let button = document.createElement('button');
+      button.id = 'btn-' + (i + 20);
+      button.style.display = 'inline';
+      button.innerHTML = 'X';
+      button.className = 'btnx';
+      button.onclick = function(){
+        element.removeChild(p);
+        element.removeChild(button);
+        let newarr = removeItemOnce(JSON.parse(localStorage.getItem(arrayName)), p.innerHTML);
+        localStorage.setItem(arrayName, JSON.stringify(newarr));
+        decreaseCountStorage(countName);
+      };
+      if (!document.getElementById(p.id)){element.appendChild(p);};
+      if (!document.getElementById(button.id)){element.appendChild(button);};
+    }
+    document.getElementById('logged-daily-activities').display = 'block';
+    localStorage.setItem(countName, array.length);
+  };
+  // reset acivity buttons
+  buttonsInDiv('All', 'daily-activities', undefined, undefined);
+  // reset question buttons
+  buttonsInDiv('All', 'daily-activity-time', undefined, undefined)
+  document.getElementById('dropdown-dur-daily').innerHTML = 'Duration <i class="fa fa-caret-down"></i>';
+  // hide questions and submit button
+  document.getElementById('daily-activity-time').style.display = 'none';
+  document.getElementById('daily-submit').style.display = 'none';
+  document.getElementById('daily-activities-duration').style.display = 'none';
 }
 
 // - - - - -
@@ -1454,9 +1562,13 @@ function createPAndXButtonFromArray(arrayName, countName, divID){
 // - - - - -
 // BUTTONS
 // - - - - -
-function buttonsInDiv(buttonID, divID){
+function buttonsInDiv(buttonID, divID, background, colour){
   var buttonID = buttonID;
   var divID = divID;
+  var background = background;
+  var colour = colour;
+  if (background == undefined){background = '#0335fc'};
+  if (colour == undefined){colour = 'white'};
   var parent = document.getElementById(divID);
   var children = [].slice.call(parent.getElementsByTagName('button'), 0);
   for (var i = 0; i < children.length; i++){
@@ -1465,8 +1577,8 @@ function buttonsInDiv(buttonID, divID){
       document.getElementById(id).style.background = 'white';
       document.getElementById(id).style.color = 'black';
     } else {
-      document.getElementById(buttonID).style.background = '#0335fc';
-      document.getElementById(buttonID).style.color = 'white';
+      document.getElementById(buttonID).style.background = background;
+      document.getElementById(buttonID).style.color = colour;
     }
   }
 }

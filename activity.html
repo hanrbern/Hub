@@ -48,13 +48,44 @@
         <!-- Activity Log: from Buttons -->
         <button class="collapsible" id='collapsible-daily-activities' style="background-color: #91e691; font-size: large; font-weight: 600;">Activities Log: Work, Daily</button>
         <div class="content" style="background-color: #eee;">
+          <div id="logged-daily-activities" style="display: block;"></div>
           <h3 style="font-weight: 500;">Log an activity:</h3>
           <p>Select the activity you did, then enter the time of day that you started and the approximate duration.</p>
-          <diV id="daily-activities"></diV>
+          <div id='link-to-preferences-from-daily'><a href="info.html"><button class="btn">Select Activities</button></a></div>
+          <div id="daily-activities" style="background: rgb(252, 196, 93);"></diV>
+          <div id='daily-activity-time' style="background: rgb(248, 248, 147); display: none;">
+            <button class="btn" style="display: inline;" onclick="dailyActivityTime(this.id)" id="Morning">Morning</button>
+            <button class="btn" style="display: inline;" onclick="dailyActivityTime(this.id)" id="Daytime">Daytime</button>
+            <button class="btn" style="display: inline;" onclick="dailyActivityTime(this.id)" id="Evening">Evening</button>
+            <button class="btn" style="display: inline;" onclick="dailyActivityTime(this.id)" id="Nighttime">Nighttime</button>
+          </div>
+          <div id="daily-activities-duration" class="dropdown" style="display: none; background: rgb(131, 229, 236);">
+            <button class="dropbtn-new" id="dropdown-dur-daily" onclick="dropdown('activity-dropdown-dur-daily')">Duration <i class="fa fa-caret-down"></i></button>
+            <div class="dropdown-content-new" id="activity-dropdown-dur-daily">
+              <a onclick="changeDuration('10 minutes', 'dropdown-dur-daily')">10 min</a>
+              <a onclick="changeDuration('20 minutes', 'dropdown-dur-daily')">20 min</a>
+              <a onclick="changeDuration('30 minutes', 'dropdown-dur-daily')">30 min</a>
+              <a onclick="changeDuration('40 minutes', 'dropdown-dur-daily')">40 min</a>
+              <a onclick="changeDuration('50 minutes', 'dropdown-dur-daily')">50 min</a>
+              <a onclick="changeDuration('1 hour', 'dropdown-dur-daily')">1 hour</a>
+              <a onclick="changeDuration('1 hour 10 minutes', 'dropdown-dur-daily')">1 hour 10 min</a>
+              <a onclick="changeDuration('1 hour 20 minutes', 'dropdown-dur-daily')">1 hour 20 min</a>
+              <a onclick="changeDuration('1 hour 30 minutes', 'dropdown-dur-daily')">1 hour 30 min</a>
+              <a onclick="changeDuration('1 hour 40 minutes', 'dropdown-dur-daily')">1 hour 40 min</a>
+              <a onclick="changeDuration('1 hour 50 minutes', 'dropdown-dur-daily')">1 hour 50 min</a>
+              <a onclick="changeDuration('2 hours', 'dropdown-dur-daily')">2 hours</a>
+              <a onclick="changeDuration('2 hours 10 minutes', 'dropdown-dur-daily')">2 hours 10 min</a>
+              <a onclick="changeDuration('2 hours 20 minutes', 'dropdown-dur-daily')">2 hours 20 min</a>
+              <a onclick="changeDuration('2 hours 30 minutes', 'dropdown-dur-daily')">2 hours 30 min</a>
+            </div>
+          </div>
+          <br><br>
+          <button class="btn" style="background: rgb(255, 255, 255); display: none;" id="daily-submit" onclick="submitDailyActivity()">Submit</button>
+          
         </div>
 
         <!-- Activity Log - Filtered Selection Version -->
-        <button class="collapsible" id='collapsible-walking-aid' style="background-color: #81b1eb; font-size: large; font-weight: 600;">Activity Log - Filtered selection version</button>
+        <button class="collapsible" id='collapsible-walking-aid' style="background-color: #81b1eb; font-size: large; font-weight: 600;">Activity Log: Exercise, Hobbies, Sports</button>
         <div class="content" style="background-color: #eee;">
           <div id='logged-activities-preferences'></div>
           <h3 style="font-weight: 500;">Log an activity:</h3>

@@ -44,11 +44,11 @@
       </div>
       <div class="main">
         <h1>Preferences</h1>
-        <p>Click each section to expand the questions.</p>
+        <p>Click each section to expand or collapse the questions.</p>
 
-        <button class="collapsible" id='collapsible-walking-aid' style="background-color: rgb(167, 142, 207); font-size: large; font-weight: 600;">Walking Aid Question</button>
+        <button class="collapsible" id='collapsible-walking-aid' style="background-color: rgb(167, 142, 207); font-size: large; font-weight: 600;">Walking Aid</button>
         <div class="content" style="background-color: rgb(202, 180, 237);">
-          <h2>Walking Aid</h2>
+          <p>This section may include more questions about the type of walking aid and typical situations when it is used (e.g. at home, outside, at night).</p>
           <div id='walking-aid-question'>
             <p>Do you use a walking aid?</p>
             <p id='walking-aid-answer'>Answer</p>      
@@ -61,7 +61,7 @@
 
         <button class="collapsible" id='collapsible-activity-buttons' style="background-color: #91e691; font-size: large; font-weight: 600;">Activities: Work, Daily</button>
         <div class="content" style="background-color: #bee8be;">
-          <p>Select the activities that you are most likely to do on a weekly basis. These can be changed at any time. Select as many activities as you would like and then click submit.</p>
+          <p>Select the activities that you are most likely to do on a weekly basis. Select as many activities as you would like and then click submit. These can be changed at any time. These activities will appear on the Activity page in the "Activities Log: Work, Daily" section.</p>
           <div id='preferences-daily-activities'>
               <button class="btn" id='daily-preferences-1' onclick="DailyActivitySelect('daily-preferences-1', 'Housework')">Housework</button>
               <button class="btn" id='daily-preferences-2' onclick="DailyActivitySelect('daily-preferences-2', 'Carpentry')">Carpentry</button>
@@ -92,7 +92,7 @@
         <button class="collapsible" id='collapsible-activity-filter' style="background-color: #81b1eb; font-size: large; font-weight: 600;">Activities: Exercise, Hobbies, Sports</button>
         <div class="content" style="background-color: #c4daf5;">
           <div id='selected-activities'>
-            <p>Select the activities that you are most likely to do on a weekly basis. These can be changed at any time. You can type in the search bar to find an activity or scroll through the list and then click on an activity to add it to your list of selected activities. Click the "X" to remove an activity.</p>
+            <p>Select the activities that you are most likely to do on a weekly basis. You can type in the search bar to find an activity or scroll through the list and then click on an activity to add it to your list of activities selected. These can be changed at any time. Click the "X" to remove an activity. These activities will appear on the Activity page in the "Activity Log: Exercise, Hobbies, Sports" section.</p>
             <h3>Activities Selected:</h3>
             <p id='activity-selected-list'></p>   
           </div>
@@ -106,7 +106,6 @@
               <li><a href="#selected-activities" id="Cycling" onclick="selectActivity(this.id)">Cycling</a></li>
               <li><a href="#selected-activities" id="Bowling" onclick="selectActivity(this.id)">Bowling</a></li> 
               <li><a href="#selected-activities" id="Canoeing" onclick="selectActivity(this.id)">Canoeing</a></li> 
-              <li><a href="#selected-activities" id="Carpentry" onclick="selectActivity(this.id)">Carpentry</a></li>
               <li><a href="#selected-activities" id="Croquet" onclick="selectActivity(this.id)">Croquet</a></li> 
               <li><a href="#selected-activities" id="Cross" onclick="selectActivity(this.id)">Cross-country skiing</a></li> 
               <li><a href="#selected-activities" id="Curling" onclick="selectActivity(this.id)">Curling</a></li> 
@@ -140,6 +139,36 @@
               <li><a href="#selected-activities" id="Yoga" onclick="selectActivity(this.id)">Yoga</a></li>
               <li><a href="#selected-activities" id="Zumba" onclick="selectActivity(this.id)">Zumba</a></li>
             </ul>
+          </div>
+        </div>
+        
+        <button class="collapsible" id='collapsible-profile' style="background-color: rgb(245, 191, 76); font-size: large; font-weight: 600;">Profile</button>
+        <div class="content" style="background-color: rgb(250, 225, 173);">
+          <p>This section would include more questions about you and would only be present for your first visit to the Hub.</p>
+          <div style="display: block;">
+            <p>Select your age range:</p>
+            <div class="dropdown">
+              <button class="dropbtn-new" id="dropdown-agerange" onclick="dropdown('dropdown-agerange-options')">Age range 
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-content-new" id="dropdown-agerange-options">
+                <a onclick="changeHour('Under 18 years old', 'dropdown-agerange')">Under 18 years old</a>
+                <a onclick="changeHour('18-24 years old', 'dropdown-agerange')">18-24 years old</a>
+                <a onclick="changeHour('25-34 years old', 'dropdown-agerange')">25-34 years old</a>
+                <a onclick="changeHour('35-44 years old', 'dropdown-agerange')">35-44 years old</a>
+                <a onclick="changeHour('45-54 years old', 'dropdown-agerange')">45-54 years old</a>
+                <a onclick="changeHour('55-64 years old', 'dropdown-agerange')">55-64 years old</a>
+                <a onclick="changeHour('65-74 years old', 'dropdown-agerange')">65-74 years old</a>
+                <a onclick="changeHour('75 years or older', 'dropdown-agerange')">75 years or older</a>
+              </div>
+            </div>
+          </div>
+          <br><br>
+          <div style="display: block;" id="live-alone-questions">
+            <p>Do you live alone?</p>
+            <button class="btn" id="No-live-alone" onclick="buttonsInDiv(this.id, 'live-alone-questions', undefined, undefined)">No</button>
+            <button class="btn" id="Sometimes-live-alone" onclick="buttonsInDiv(this.id, 'live-alone-questions', undefined, undefined)">Sometimes</button>
+            <button class="btn" id="Yes-live-alone" onclick="buttonsInDiv(this.id, 'live-alone-questions', undefined, undefined)">Yes</button>
           </div>
         </div>
       </div>     

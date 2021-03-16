@@ -185,6 +185,7 @@ function getStorage(name, id){
     str_count = parseInt(localStorage.getItem(name));
     str_count2 = parseInt(localStorage.getItem('activityCountDaily'));
     new_count = str_count + str_count2;
+    if (isNaN(new_count)){new_count = 0};
     document.getElementById(id).innerHTML = new_count;
   } else {
     str_count = localStorage.getItem(name);

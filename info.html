@@ -35,8 +35,8 @@
     <!-- Content -->
     <div class="row">
       <div class="side">
-          <p id="p-username">Welcome! Please log in</p>
-          <button onclick='setUsername()' style='display: block' class="btn" id="btn-username">Change Username</button>
+        <p id="p-username" style="display: inline">Welcome! Please log in</p>
+        <button onclick='setUsername()' style='display: inline' class="btn" id="btn-username">Change ID</button>
           <p>Today's Date:</p>
           <p id="current-date"></p>
           <p>Current Time:</p>
@@ -63,14 +63,12 @@
         <div class="content" style="background-color: #bee8be;">
           <p>Select the activities that you are most likely to do on a weekly basis. Select as many activities as you would like and then click submit. These can be changed at any time. These activities will appear on the Activity page in the "Activities Log: Work, Daily" section.</p>
           <div id='preferences-daily-activities'>
-              <button class="btn" id='daily-preferences-1' onclick="DailyActivitySelect('daily-preferences-1', 'Housework')">Housework</button>
-              <button class="btn" id='daily-preferences-2' onclick="DailyActivitySelect('daily-preferences-2', 'Carpentry')">Carpentry</button>
-              <button class="btn" id='daily-preferences-3' onclick="DailyActivitySelect('daily-preferences-3', 'Manual Labour')">Manual Labour</button>
-              <button class="btn" id='daily-preferences-4' onclick="DailyActivitySelect('daily-preferences-4', 'Gardening')">Gardening</button>
-              <button class="btn" id='daily-preferences-5' onclick="DailyActivitySelect('daily-preferences-5', 'Yardwork')">Yardwork</button>
-              <button class="btn" id='daily-preferences-6' onclick="DailyActivitySelect('daily-preferences-6', 'Crafting')">Crafting</button>
-              <button class="btn" id='daily-preferences-7' onclick="DailyActivitySelect('daily-preferences-7', 'Shoveling Snow')">Shoveling Snow</button>
-              <button class="btn" id='daily-preferences-8' onclick="DailyActivitySelect('daily-preferences-8', 'Playing a musical instrument')">Playing a musical instrument</button>
+              <button class="btn" id='daily-preferences-1' onclick="DailyActivitySelect('daily-preferences-1', 'Indoor Household Activities')">Indoor Household Activities (e.g., cooking, laundry, vacuuming)</button>
+              <button class="btn" id='daily-preferences-2' onclick="DailyActivitySelect('daily-preferences-2', 'Outdoor Household Activities')">Outdoor Household Activities (e.g., yardwork, gardening, shoveling) </button>
+              <button class="btn" id='daily-preferences-3' onclick="DailyActivitySelect('daily-preferences-3', 'Occupational - Standing')">Occupational - Standing</button>
+              <button class="btn" id='daily-preferences-4' onclick="DailyActivitySelect('daily-preferences-4', 'Occupational - Sitting')">Occupational - Sitting</button>
+              <button class="btn" id='daily-preferences-5' onclick="DailyActivitySelect('daily-preferences-5', 'Occupational - Walking')">Occupational - Walking</button>
+              <button class="btn" id='daily-preferences-6' onclick="DailyActivitySelect('daily-preferences-6', 'Occupational - Manual Labour')">Occupational - Manual Labour</button>
           </div>
           <button class="btn" id='daily-preferences-submit' onclick='makeDailyButtons()' style="background: rgb(245, 245, 154);">Submit</button>
           <div id='selected-daily-activities'>
@@ -103,6 +101,8 @@
               <li><a href="#selected-activities" id="Archery" onclick="selectActivity(this.id)">Archery</a></li> 
               <li><a href="#selected-activities" id="Badminton" onclick="selectActivity(this.id)">Badminton</a></li> 
               <li><a href="#selected-activities" id="Basketball" onclick="selectActivity(this.id)">Basketball</a></li> 
+              <li><a href="#selected-activities" id="Bodyweight" onclick="selectActivity(this.id)">Bodyweight Exercise</a></li> 
+              <li><a href="#selected-activities" id="Chair" onclick="selectActivity(this.id)">Chair Dancing</a></li> 
               <li><a href="#selected-activities" id="Cycling" onclick="selectActivity(this.id)">Cycling</a></li>
               <li><a href="#selected-activities" id="Bowling" onclick="selectActivity(this.id)">Bowling</a></li> 
               <li><a href="#selected-activities" id="Canoeing" onclick="selectActivity(this.id)">Canoeing</a></li> 
@@ -128,10 +128,12 @@
               <li><a href="#selected-activities" id="Snowshoeing" onclick="selectActivity(this.id)">Snowshoeing</a></li>
               <li><a href="#selected-activities" id="Snowboarding" onclick="selectActivity(this.id)">Snowboarding</a></li>
               <li><a href="#selected-activities" id="Soccer" onclick="selectActivity(this.id)">Soccer</a></li>
+              <li><a href="#selected-activities" id="Stretching" onclick="selectActivity(this.id)">Stretching</a></li> 
               <li><a href="#selected-activities" id="Squash" onclick="selectActivity(this.id)">Squash</a></li>
               <li><a href="#selected-activities" id="Swimming" onclick="selectActivity(this.id)">Swimming</a></li>
               <li><a href="#selected-activities" id="Table" onclick="selectActivity(this.id)">Table tennis</a></li>
               <li><a href="#selected-activities" id="Tennis" onclick="selectActivity(this.id)">Tennis</a></li>
+              <li><a href="#selected-activities" id="Tobogganing" onclick="selectActivity(this.id)">Tobogganing</a></li> 
               <li><a href="#selected-activities" id="Treadmill" onclick="selectActivity(this.id)">Treadmill</a></li>
               <li><a href="#selected-activities" id="Walking" onclick="selectActivity(this.id)">Walking</a></li>
               <li><a href="#selected-activities" id="Water" onclick="selectActivity(this.id)">Water aerobics</a></li>

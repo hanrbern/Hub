@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="checkFallEntries();createPAndXButtonFromArray('FallEntryArray', 'fallCount', 'fall-entries');">
+<body onload="checkFallEntries();checkNoMoreFalls();createPAndXButtonFromArray('FallEntryArray', 'fallCount', 'fall-entries');getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');">
 
   <!-- Header -->
   <div class="header">
@@ -36,23 +36,67 @@
   <!-- Content -->
   <div class="row">
     <div class="side">
-        <p id="p-username">Welcome! Please log in</p>
-        <button onclick='setUsername()' style='display: block' class="btn" id="btn-username">Change Username</button>
-        <p>Today's Date:</p>
-        <p id="current-date"></p>
-        <p>Current Time:</p>
-        <p id="current-time"></p>
+      <p id="p-username" style="display: inline">Welcome! Please log in</p>
+      <button onclick='setUsername()' style='display: inline' class="btn" id="btn-username">Change ID</button>
+      <br><p style="display: inline;">Today's Date:</p>
+      <p style="display: inline;" id="current-date"></p>
+      <br><p style="display: inline;">Current Time:</p>
+      <p style="display: inline;" id="current-time"></p>
+
+      <h3>Entries made today:</h3>
+      <div class="dailylog">
+          <p id="num-sleep" class="metric">0</p>
+          <p id='sleep-check' class="metric">&#10003</p>
+          <p id='sleep-flag' class="metric">&#128681</p>
+          <p class="metric">Sleep</p>
+          <!-- <a href="sleep.html"><button class="btn">View</button></a> -->
+          
+      </div>
+      <div class="dailylog">
+          <p id="num-activity" class="metric" style="background-color: rgb(167, 142, 207);">0</p>
+          <p id='activity-check' class="metric" style="background-color: rgb(167, 142, 207);">&#10003</p>
+          <p id='activity-flag' class="metric" style="background-color: rgb(167, 142, 207);">&#128681</p>
+          <p class="metric" style="background-color: rgb(167, 142, 207);">Activity</p>
+          <!-- <a href="activity.html"><button class="btn">View</button></a> -->
+          
+      </div>
+      <div class="dailylog">
+          <p id="num-mood" class="metric" style="background-color: rgb(224, 135, 52);">0</p>
+          <p id='mood-check' class="metric" style="background-color: rgb(224, 135, 52);">&#10003</p>
+          <p id='mood-flag' class="metric" style="background-color: rgb(224, 135, 52);">&#128681</p>
+          <p class="metric" style="background-color: rgb(224, 135, 52);">Mood</p>
+          <!-- <a href="mood.html"><button class="btn">View</button></a> -->
+          
+      </div>
+      <!-- checkmark: &#10003, x-mark: &#10007 -->
+      <div class="dailylog">
+          <p id="num-falls" class="metric" style="background-color: rgb(120, 214, 132);">0</p>
+          <p id='falls-check' class="metric" style="background-color: rgb(120, 214, 132);">&#10003</p>
+          <p id='falls-flag' class="metric" style="background-color: rgb(120, 214, 132);">&#128681</p>  
+          <p class="metric" style="background-color: rgb(120, 214, 132);">Falls</p>
+          <!-- <a href="falls.html"><button class="btn">View</button></a> -->
+          
+      </div>
     </div>
     <div class="main">
       <h2>Daily Log: Falls</h2>
-      <p id='fall-statement'>Click "I fell today" or "I almost fell today but I caught myself" to reveal more questions. After answering all of the questions, click "Submit" to save your answers. You can click the "X" button to remove a reponse. You may need to scroll further down the page to see the next question.</p>
-      <p id='fall-entries'></p>
-      <button class="btn" id='falls-clear-button' style="display: none" onclick="clearStorage('FallEntryArray'); resetCount('fallCount')">Clear Falls</button>
+      <p id='fall-statement'>Click “I fell today” or “I almost fell today but I caught myself” to reveal more questions. Click “Submit” to save your answer. After an answer has been submitted, you will see your responses at the top of the page. You can click the “X” button to remove a response. There is no limit to the number of responses that you can enter. Once you have entered all of your falls for the day, you have the option to click “Nothing else to log”. If you did not experience any falls, you can click “I did not fall today” and then click “Submit”.</p>
+      <div style="background: rgb(160, 224, 168); padding: 3%;">
+        <p>Your logged entries:</p>
+        <p id='fall-entries'></p>
+        <p style="display: none;" id="nomore-msg">Nothing else to log.</p>
+        <button id="nomore-btnx" style="display: none;" class="btnx" onclick="nomoreFalls('3')">X</button>
+        <button class="btn" id='falls-clear-button' style="display: none" onclick="clearStorage('FallEntryArray'); resetCount('fallCount')">Clear Falls</button>
+      </div>
       
       <div id='fall-or-near-fall'>
         <h3>Did you experience any falls or near falls today?</h3>
+        <p id='msg-nofall' style="display: inline;">You indicated that you did not fall today.</p>
+        <button class="btnx" id='btn-nofall' onclick="removeNoFall()" style="display: inline;">X</button>
+        <br>
         <input onclick="fallType('fall');" type="image" src="images/fall_words.ico" width="190" height="210" id='fall-image'>
         <input onclick="fallType('near-fall');" type="image" src="images/almostfall_words.ico" width="200" height="210" id='almostfall-image'>
+        <input onclick="fallType('no-fall');" type="image" src="images/nofall_words.ico" width="200" height="210" id="nofall-image">
       </div>
       <div id = 'fall-time'>
         <p> When was it?</p>
@@ -108,6 +152,10 @@
         <textarea rows='6' cols='50' style='resize: none; font-size: 18px' id='fall-textarea'></textarea>
       </div>
       <button id='submit-fall' onclick="submitFall()" class="btn" style="background-color: rgb(167, 232, 211);">Submit</button>
+      <button id='submit-nofall' onclick="submitNoFall()" class="btn" style="background-color: rgb(167, 232, 211); display: none;">Submit</button>
+      <br><br>
+      <button class="btn" id="falls-nomore" onclick="nomoreFalls('1')" style="display: none;">Nothing else to log</button>
+      <button class='btn' id="falls-nomore-submit" onclick="nomoreFalls('2')" style="display: none;">Submit</button>
     </div>
     </div>
      <!-- Footer -->

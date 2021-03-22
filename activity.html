@@ -11,7 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="activityButtonsFromPreferences(); dailyActivitiesFromPreferences(); loadActivity()">
+<body onload="activityButtonsFromPreferences();FlagCountCheck();dailyActivitiesFromPreferences(); loadActivity();getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood'); checkNoMoreActivity();">
 
     <!-- Header -->
     <div class="header">
@@ -35,31 +35,76 @@
     <!-- Content -->
     <div class="row">
       <div class="side">
-          <p id="p-username">Welcome! Please log in</p>
-          <button onclick='setUsername()' style='display: block' class="btn" id="btn-username">Change Username</button>
-          <p>Today's Date:</p>
-          <p id="current-date"></p>
-          <p>Current Time:</p>
-          <p id="current-time"></p>
+        <p id="p-username" style="display: inline">Welcome! Please log in</p>
+        <button onclick='setUsername()' style='display: inline' class="btn" id="btn-username">Change ID</button>
+        <br><p style="display: inline;">Today's Date:</p>
+        <p style="display: inline;" id="current-date"></p>
+        <br><p style="display: inline;">Current Time:</p>
+        <p style="display: inline;" id="current-time"></p>
+
+        <h3>Entries made today:</h3>
+        <div class="dailylog">
+            <p id="num-sleep" class="metric">0</p>
+            <p id='sleep-check' class="metric">&#10003</p>
+            <p id='sleep-flag' class="metric" >&#128681</p>
+            <p class="metric">Sleep</p>
+            <!-- <a href="sleep.html"><button class="btn">View</button></a> -->
+            
+        </div>
+        <div class="dailylog">
+            <p id="num-activity" class="metric" style="background-color: rgb(167, 142, 207);">0</p>
+            <p id='activity-check' class="metric" style="background-color: rgb(167, 142, 207);">&#10003</p>
+            <p id='activity-flag' class="metric" style="background-color: rgb(167, 142, 207);">&#128681</p>
+            <p class="metric" style="background-color: rgb(167, 142, 207);">Activity</p>
+            <!-- <a href="activity.html"><button class="btn">View</button></a> -->
+            
+        </div>
+        <div class="dailylog">
+            <p id="num-mood" class="metric" style="background-color: rgb(224, 135, 52);">0</p>
+            <p id='mood-check' class="metric" style="background-color: rgb(224, 135, 52);">&#10003</p>
+            <p id='mood-flag' class="metric" style="background-color: rgb(224, 135, 52);">&#128681</p>
+            <p class="metric" style="background-color: rgb(224, 135, 52);">Mood</p>
+            <!-- <a href="mood.html"><button class="btn">View</button></a> -->
+            
+        </div>
+        <!-- checkmark: &#10003, x-mark: &#10007 -->
+        <div class="dailylog">
+            <p id="num-falls" class="metric" style="background-color: rgb(120, 214, 132);">0</p>
+            <p id='falls-check' class="metric" style="background-color: rgb(120, 214, 132);">&#10003</p>
+            <p id='falls-flag' class="metric" style="background-color: rgb(120, 214, 132);">&#128681</p>  
+            <p class="metric" style="background-color: rgb(120, 214, 132);">Falls</p>
+            <!-- <a href="falls.html"><button class="btn">View</button></a> -->
+            
+        </div>
       </div>
       <div class="main">
-        <h2>Daily Log: Activity</h2>        
-
+        <h2>Daily Log: Activity</h2>  
+        <p>Click “Activities Log: Work, Daily” or “Activity Log: Exercise, Hobbies, Sports” to reveal questions about the activity you did, the time of day and the duration.</p> 
+        <div style="background: rgb(195, 174, 230); padding: 3%;">
+          <p>You indicated that you did:</p>
+          <div id="logged-daily-activities" style="display: block;"></div> 
+          <div id='logged-activities-preferences'></div>   
+          <p style="display: none;" id="nomore-msg">Nothing else to log.</p>
+          <button id="nomore-btnx" style="display: none;" class="btnx" onclick="nomoreActivity('3')">X</button>
+        </div>
+        <br>
+          
         <!-- Activity Log: from Buttons -->
         <button class="collapsible" id='collapsible-daily-activities' style="background-color: #91e691; font-size: large; font-weight: 600;">Activities Log: Work, Daily</button>
         <div class="content" style="background-color: #eee;">
-          <div id="logged-daily-activities" style="display: block;"></div>
           <h3 style="font-weight: 500;">Log an activity:</h3>
-          <p>Select the activity you did, then enter the time of day that you started and the approximate duration.</p>
+          <p>Select an activity below to reveal additional questions and then the “Submit” button. Click “Submit” to save your answer. After an answer has been submitted, you will see your responses at the top of the page. You can click the “X” button to remove a response. There is no limit to the number of responses that you can enter. Once you have entered all of your activities for the day, you have the option to click “Nothing else to log” and then “Submit” at the bottom of the page. If you did not do any physical activities, you can click “I did not do physical activities today” and then click “Submit”.</p>
           <div id='link-to-preferences-from-daily'><a href="info.html"><button class="btn">Select Activities</button></a></div>
           <div id="daily-activities" style="background: rgb(252, 196, 93);"></diV>
           <div id='daily-activity-time' style="background: rgb(248, 248, 147); display: none;">
+            <p style="display: block;">Approximate start time:</p>
             <button class="btn" style="display: inline;" onclick="dailyActivityTime(this.id)" id="Morning">Morning</button>
             <button class="btn" style="display: inline;" onclick="dailyActivityTime(this.id)" id="Daytime">Daytime</button>
             <button class="btn" style="display: inline;" onclick="dailyActivityTime(this.id)" id="Evening">Evening</button>
             <button class="btn" style="display: inline;" onclick="dailyActivityTime(this.id)" id="Nighttime">Nighttime</button>
           </div>
-          <div id="daily-activities-duration" class="dropdown" style="display: none; background: rgb(131, 229, 236);">
+          <div id="daily-activities-duration" class="dropdown" style="display: none;">
+            <p style="display: block;">Approximate duration:</p>
             <button class="dropbtn-new" id="dropdown-dur-daily" onclick="dropdown('activity-dropdown-dur-daily')">Duration <i class="fa fa-caret-down"></i></button>
             <div class="dropdown-content-new" id="activity-dropdown-dur-daily">
               <a onclick="changeDuration('10 minutes', 'dropdown-dur-daily')">10 min</a>
@@ -79,7 +124,7 @@
               <a onclick="changeDuration('2 hours 30 minutes', 'dropdown-dur-daily')">2 hours 30 min</a>
             </div>
           </div>
-          <br><br>
+          <br><br><br><br><br>
           <button class="btn" style="background: rgb(255, 255, 255); display: none;" id="daily-submit" onclick="submitDailyActivity()">Submit</button>
           
         </div>
@@ -87,11 +132,10 @@
         <!-- Activity Log - Filtered Selection Version -->
         <button class="collapsible" id='collapsible-walking-aid' style="background-color: #81b1eb; font-size: large; font-weight: 600;">Activity Log: Exercise, Hobbies, Sports</button>
         <div class="content" style="background-color: #eee;">
-          <div id='logged-activities-preferences'></div>
           <h3 style="font-weight: 500;">Log an activity:</h3>
           <div id='link-to-preferences'><a href="info.html"><button class="btn">Select Activities</button></a></div>
           <div id="activity-filter-version">
-            <p>Select the activity you did, then enter the time you started and the duration.</p>
+            <p>Select an activity below to reveal additional questions and then the “Submit” button. Click “Submit” to save your answer. After an answer has been submitted, you will see your responses at the top of the page. You can click the “X” button to remove a response. There is no limit to the number of responses that you can enter. Once you have entered all of your activities for the day, you have the option to click “Nothing else to log” and then “Submit” at the bottom of the page. If you did not do any physical activities, you can click “I did not do physical activities today” and then click “Submit”.</p>
             <div id="activities-from-preferences"></div>
           </div>
           <div id="start-and-duration">
@@ -167,9 +211,10 @@
           </div>
           <div id='test-activity-preferences-selected'></div>
         </div>
-        
-        
-        <a onclick="if (confirm('Are you sure you want to leave this page?')){href='info.html'}"><button class="btn">Change activity options</button></a>
+        <button class="btn" id="activity-nomore" onclick="nomoreActivity('1')" style="display: none;">Nothing else to log</button>
+        <button class='btn' id="activity-nomore-submit" onclick="nomoreActivity('2')" style="display: none;">Submit</button>
+      
+        <!-- <a onclick="if (confirm('Are you sure you want to leave this page?')){href='info.html'}"><button class="btn">Change activity options</button></a> -->
       </div>
     </div>
 

@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="submitMoodAndLikert();">
+<body onload="submitMoodAndLikert();getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');">
 
   <!-- Header -->
   <div class="header">
@@ -35,20 +35,55 @@
 <!-- Content -->
 <div class="row">
   <div class="side">
-      <p id="p-username">Welcome! Please log in</p>
-      <button onclick='setUsername()' style='display: block' class="btn" id="btn-username">Change Username</button>
-      <p>Today's Date:</p>
-      <p id="current-date"></p>
-      <p>Current Time:</p>
-      <p id="current-time"></p>
+    <p id="p-username" style="display: inline">Welcome! Please log in</p>
+    <button onclick='setUsername()' style='display: inline' class="btn" id="btn-username">Change ID</button>
+    <br><p style="display: inline;">Today's Date:</p>
+    <p style="display: inline;" id="current-date"></p>
+    <br><p style="display: inline;">Current Time:</p>
+    <p style="display: inline;" id="current-time"></p>
+
+    <h3>Entries made today:</h3>
+    <div class="dailylog">
+        <p id="num-sleep" class="metric">0</p>
+        <p id='sleep-check' class="metric">&#10003</p>
+        <p id='sleep-flag' class="metric">&#128681</p>
+        <p class="metric">Sleep</p>
+        <!-- <a href="sleep.html"><button class="btn">View</button></a> -->
+        
+    </div>
+    <div class="dailylog">
+        <p id="num-activity" class="metric" style="background-color: rgb(167, 142, 207);">0</p>
+        <p id='activity-check' class="metric" style="background-color: rgb(167, 142, 207);">&#10003</p>
+        <p id='activity-flag' class="metric" style="background-color: rgb(167, 142, 207);">&#128681</p>
+        <p class="metric" style="background-color: rgb(167, 142, 207);">Activity</p>
+        <!-- <a href="activity.html"><button class="btn">View</button></a> -->
+        
+    </div>
+    <div class="dailylog">
+        <p id="num-mood" class="metric" style="background-color: rgb(224, 135, 52);">0</p>
+        <p id='mood-check' class="metric" style="background-color: rgb(224, 135, 52);">&#10003</p>
+        <p id='mood-flag' class="metric" style="background-color: rgb(224, 135, 52);">&#128681</p>
+        <p class="metric" style="background-color: rgb(224, 135, 52);">Mood</p>
+        <!-- <a href="mood.html"><button class="btn">View</button></a> -->
+        
+    </div>
+    <!-- checkmark: &#10003, x-mark: &#10007 -->
+    <div class="dailylog">
+        <p id="num-falls" class="metric" style="background-color: rgb(120, 214, 132);">0</p>
+        <p id='falls-check' class="metric" style="background-color: rgb(120, 214, 132);">&#10003</p>
+        <p id='falls-flag' class="metric" style="background-color: rgb(120, 214, 132);">&#128681</p>  
+        <p class="metric" style="background-color: rgb(120, 214, 132);">Falls</p>
+        <!-- <a href="falls.html"><button class="btn">View</button></a> -->
+        
+    </div>
   </div>
   <div class="main">
     <h2>Daily Log: Mood</h2>
-    <p>Answer all of the mood questions below and then click submit to save your answers. Click the "X" to change an answer.</p>
+    <p>Answer each of the questions below to reveal the “Submit” button. Click “Submit” to save your answer. After an answer has been submitted, you will see your responses at the top of the page. You can click the “X” button to remove a response and the question will reappear.</p>
 
     <div>
       <h3>Throughout your day, how often did you experience each of the following moods?</h3>
-      <div id='mood-entries'>
+      <div id='mood-entries' style="background: rgb(255, 186, 122); padding: 3%;">
         <p id='mood-statement' style="display: none;">You indicated that you were: </p>
       </div>
       <div id='mood-afraid' style='background-color: rgb(197, 223, 226); padding: 7px'>

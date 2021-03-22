@@ -19,7 +19,7 @@ let btnUsername = document.getElementById('btn-username');
 let pUsername = document.getElementById('p-username');
 
 function setUsername() {
-    let myName = prompt('Please enter your name.'); // prompt displays a dialogue box, similar to alert()
+    let myName = prompt('Please enter your ID.'); // prompt displays a dialogue box, similar to alert()
     localStorage.setItem('name', myName); // calls on an API localStorage
     pUsername.textContent = 'Welcome ' + myName + '!';
   }
@@ -28,7 +28,7 @@ function setUsername() {
     setUsername();
   } else {
     let storedName = localStorage.getItem('name');
-    pUsername.textContent = 'Welcome ' + storedName + '!';
+    pUsername.textContent = 'ID: ' + storedName;
   }
 
   btnUsername.onclick = function() {
@@ -218,7 +218,6 @@ function resetCheckX(name){
 // ACTIVITY
 // - - - - -
 
-
 function showOutdoorActivities() {
   document.getElementById("outdoors").style.background = '#f5bf4c';
   document.getElementById("indoors").style.background = 'white';
@@ -370,6 +369,8 @@ function submitActivity(){
   appendToStorage("loggedActivities", message);
   // Add to dashboard counter
   countStorage("activityCount");
+
+
 }
 
 function activityButtonsFromPreferences(){
@@ -401,6 +402,12 @@ function activityButtonsFromPreferences(){
         document.getElementById('dropdown-ampm-preferences').innerHTML = 'AM/PM <i class="fa fa-caret-down"></i>';
         document.getElementById('activity-dur-preferences').innerHTML = 'Duration <i class="fa fa-caret-down"></i>';
         document.getElementById('activity-submit-preferences').style.display = 'none';
+        
+        var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
+        document.getElementById('num-activity').innerHTML = countTot;
+        localStorage.setItem('activityComplete', 'False')
+        checkNoMoreActivity();
+        FlagCountCheck();
       }
     }
   }
@@ -434,6 +441,12 @@ function dailyActivitiesFromPreferences(){
       // hide submit button and duration buttons
       document.getElementById('daily-activities-duration').style.display = 'none';
       document.getElementById('daily-submit').style.display = 'none';
+      
+      var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
+      document.getElementById('num-activity').innerHTML = countTot;
+      localStorage.setItem('activityComplete', 'False')
+      checkNoMoreActivity();
+      FlagCountCheck();
     }
   }
 }
@@ -475,6 +488,12 @@ function loadActivity(){
         let newarr = removeItemOnce(JSON.parse(localStorage.getItem(arrayName)), p.innerHTML);
         localStorage.setItem(arrayName, JSON.stringify(newarr));
         decreaseCountStorage(countName);
+
+        var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
+        document.getElementById('num-activity').innerHTML = countTot;
+        localStorage.setItem('activityComplete', 'False')
+        checkNoMoreActivity();
+        FlagCountCheck();
       };
       element.appendChild(p);
       element.appendChild(button);
@@ -510,6 +529,11 @@ function loadActivityPart2(){
         let newarr = removeItemOnce(JSON.parse(localStorage.getItem(arrayName)), p.innerHTML);
         localStorage.setItem(arrayName, JSON.stringify(newarr));
         decreaseCountStorage(countName);
+        var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
+        document.getElementById('num-activity').innerHTML = countTot;
+        localStorage.setItem('activityComplete', 'False')
+        checkNoMoreActivity();
+        FlagCountCheck();
       };
       element.appendChild(p);
       element.appendChild(button);
@@ -528,7 +552,7 @@ function submitActivityFromPreferences(){
   if (localStorage.getItem('ActivityStatementArray') == null){newArrayLocalStorage('ActivityStatementArray')};
   var retrievedData = localStorage.getItem('ActivityStatementArray');
   var array = JSON.parse(retrievedData);
-  var message = '<br> You indicated that you did ' + activity + ' for ' + duration + ', starting at ' + hour + ':' + min + ampm + '.'; 
+  var message = '<br>' + activity + ' for ' + duration + ', starting at ' + hour + ':' + min + ' ' + ampm + '.'; 
   array.push(message);
   localStorage.setItem('ActivityStatementArray', JSON.stringify(array));
   if (localStorage.getItem('ActivityStatementArray') !== null){
@@ -555,12 +579,22 @@ function submitActivityFromPreferences(){
         let newarr = removeItemOnce(JSON.parse(localStorage.getItem(arrayName)), p.innerHTML);
         localStorage.setItem(arrayName, JSON.stringify(newarr));
         decreaseCountStorage(countName);
+        var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
+        document.getElementById('num-activity').innerHTML = countTot;
+        localStorage.setItem('activityComplete', 'False')
+        checkNoMoreActivity();
+        FlagCountCheck();
       };
       if (!document.getElementById(p.id)){element.appendChild(p);};
       if (!document.getElementById(button.id)){element.appendChild(button);};
     }
     document.getElementById('logged-activities-preferences').display = 'block';
     localStorage.setItem(countName, array.length);
+    var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
+    document.getElementById('num-activity').innerHTML = countTot;
+    localStorage.setItem('activityComplete', 'False')
+    checkNoMoreActivity();
+    FlagCountCheck();
   };
   // reset acivity buttons
   buttonsInDiv('All', 'activities-from-preferences', undefined, undefined);
@@ -586,7 +620,7 @@ function submitDailyActivity(){
   if (localStorage.getItem('DailyActivityStatementArray') == null){newArrayLocalStorage('DailyActivityStatementArray')};
   var retrievedData = localStorage.getItem('DailyActivityStatementArray');
   var array = JSON.parse(retrievedData);
-  var message = '<br> You indicated that you were ' + activityStatement + ' for ' + duration + ' in the ' + time + '.'; 
+  var message = '<br>' + activityStatement + ' for ' + duration + ' in the ' + time + '.'; 
   array.push(message);
   localStorage.setItem('DailyActivityStatementArray', JSON.stringify(array));
   if (localStorage.getItem('DailyActivityStatementArray') !== null){
@@ -613,12 +647,22 @@ function submitDailyActivity(){
         let newarr = removeItemOnce(JSON.parse(localStorage.getItem(arrayName)), p.innerHTML);
         localStorage.setItem(arrayName, JSON.stringify(newarr));
         decreaseCountStorage(countName);
+        var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
+        document.getElementById('num-activity').innerHTML = countTot;  
+        localStorage.setItem('activityComplete', 'False')
+        checkNoMoreActivity();
+        FlagCountCheck();   
       };
       if (!document.getElementById(p.id)){element.appendChild(p);};
       if (!document.getElementById(button.id)){element.appendChild(button);};
     }
     document.getElementById('logged-daily-activities').display = 'block';
     localStorage.setItem(countName, array.length);
+    var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
+    document.getElementById('num-activity').innerHTML = countTot;
+    localStorage.setItem('activityComplete', 'False')
+    checkNoMoreActivity();
+    FlagCountCheck();
   };
   // reset acivity buttons
   buttonsInDiv('All', 'daily-activities', undefined, undefined);
@@ -629,6 +673,76 @@ function submitDailyActivity(){
   document.getElementById('daily-activity-time').style.display = 'none';
   document.getElementById('daily-submit').style.display = 'none';
   document.getElementById('daily-activities-duration').style.display = 'none';
+
+}
+
+function nomoreActivity(value){
+  var value = value;
+  if (value == '1'){
+    // button turns orange
+    document.getElementById('activity-nomore').style.background = 'rgb(245, 191, 76)';
+    // submit button appears
+    document.getElementById('activity-nomore-submit').style.display = 'inline';
+  } else if (value == '2'){
+    // both buttons disappear
+    document.getElementById('activity-nomore').style.display = 'none';
+    document.getElementById('activity-nomore-submit').style.display = 'none';
+    // statement appears
+    document.getElementById('nomore-msg').style.display = 'inline';
+    document.getElementById('nomore-btnx').style.display = 'inline';
+    // storage updated --> show checkmark now instead of count
+    localStorage.setItem('activityComplete', 'True');
+    FlagCountCheck();
+  } else if (value == '3'){
+    localStorage.setItem('activityComplete', 'False')
+    FlagCountCheck();
+    document.getElementById('nomore-msg').style.display = 'none';
+    document.getElementById('nomore-btnx').style.display = 'none';
+    if (parseInt(localStorage.getItem('activityCount')) != 0){
+      document.getElementById('activity-nomore').style.display = 'inline';
+      document.getElementById('activity-nomore').style.background = 'white';
+      document.getElementById('activity-nomore-submit').style.display = 'none';
+    }
+    FlagCountCheck();
+  }
+  FlagCountCheck();
+}
+
+function checkNoMoreActivity(){
+  var activityCount = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
+  var activityComplete = localStorage.getItem('activityComplete');
+  if (activityCount == 0 && activityComplete == 'False'){
+    document.getElementById('activity-nomore').style.display = 'none';
+    document.getElementById('activity-nomore').style.background = 'white';
+    document.getElementById('activity-nomore-submit').style.display = 'none';
+    document.getElementById('nomore-msg').style.display = 'none';
+    document.getElementById('nomore-btnx').style.display = 'none';
+
+  } else if (activityCount == 0 && activityComplete == 'True'){
+
+    document.getElementById('activity-nomore').style.display = 'none';
+    document.getElementById('activity-nomore').style.background = 'white';
+    document.getElementById('activity-nomore-submit').style.display = 'none';
+    document.getElementById('nomore-msg').style.display = 'none';
+    document.getElementById('nomore-btnx').style.display = 'none';
+  
+  } else if (activityCount != 0 && activityComplete == 'False'){
+
+    document.getElementById('activity-nomore').style.display = 'inline';
+    document.getElementById('activity-nomore').style.background = 'white';
+    document.getElementById('activity-nomore-submit').style.display = 'none';
+    document.getElementById('nomore-msg').style.display = 'none';
+    document.getElementById('nomore-btnx').style.display = 'none';
+  
+  } else if (activityCount != 0 && activityComplete == 'True'){
+   
+    document.getElementById('activity-nomore').style.display = 'none';
+    document.getElementById('activity-nomore').style.background = 'white';
+    document.getElementById('activity-nomore-submit').style.display = 'none';
+    document.getElementById('nomore-msg').style.display = 'inline';
+    document.getElementById('nomore-btnx').style.display = 'inline';
+  }
+  FlagCountCheck();
 }
 
 // - - - - -
@@ -705,6 +819,82 @@ function checkSleepEntries(){
       element.appendChild(button);
       }
     }
+  checkNomoreSleep();
+}
+
+function checkNomoreSleep(){
+  var sleepqual = localStorage.getItem('logmessage1');
+  var BedTime = localStorage.getItem('logmessage2');
+  var WakeTime = localStorage.getItem('logmessage3');
+  if (localStorage.getItem('sleepComplete') == 'True'){
+    document.getElementById('nomore-msg').style.display = 'inline';
+    document.getElementById('nomore-btnx').style.display = 'inline';
+    document.getElementById('sleep-nomore').style.display = 'none';
+    document.getElementById('sleep-nomore').style.background = 'white';
+    document.getElementById('sleep-nomore-submit').style.display = 'none';
+  } else if (localStorage.getItem('sleepComplete') == 'False'){
+    document.getElementById('nomore-msg').style.display = 'none';
+    document.getElementById('nomore-btnx').style.display = 'none';
+    if (sleepqual != null && BedTime != null && WakeTime != null){
+      document.getElementById('sleep-nomore').style.display = 'inline';
+      document.getElementById('sleep-nomore').style.background = 'white';
+      document.getElementById('sleep-nomore-submit').style.display = 'none';
+    } else {
+      document.getElementById('sleep-nomore').style.display = 'none';
+      document.getElementById('sleep-nomore-submit').style.display = 'none';
+    }
+  }
+  document.getElementById('bedtime-hour').innerHTML = 'Hour <i class="fa fa-caret-down"></i>';
+  document.getElementById('bedtime-minutes').innerHTML = 'Minutes <i class="fa fa-caret-down"></i>';
+  document.getElementById('bedtime-ampm').innerHTML = 'AM/PM <i class="fa fa-caret-down"></i>';
+  document.getElementById('log-bed-time').style.display = 'none';
+  document.getElementById('waketime-hour').innerHTML = 'Hour <i class="fa fa-caret-down"></i>';
+  document.getElementById('waketime-minutes').innerHTML = 'Minutes <i class="fa fa-caret-down"></i>';
+  document.getElementById('waketime-ampm').innerHTML = 'AM/PM <i class="fa fa-caret-down"></i>';
+  document.getElementById('log-wake-time').style.display = 'none';
+  document.getElementById('sleepqual1').style.background = '#04c3db';
+  document.getElementById('sleepqual2').style.background = '#4ecdde';
+  document.getElementById('sleepqual3').style.background = '#81d3de';
+  document.getElementById('sleepqual4').style.background = '#a9d8de';
+  document.getElementById('log-sleep-quality').style.display = 'none';
+
+  var countTot = parseInt(localStorage.getItem('sleepCount'));
+  document.getElementById('num-sleep').innerHTML = countTot;
+  FlagCountCheck();
+}
+
+
+function nomoreSleep(value) {
+  var value = value;
+  var sleepqual = localStorage.getItem('logmessage1');
+  var BedTime = localStorage.getItem('logmessage2');
+  var WakeTime = localStorage.getItem('logmessage3');
+  if (value == '1'){
+    // button turns orange
+    document.getElementById('sleep-nomore').style.background = 'rgb(245, 191, 76)';
+    // submit button appears
+    document.getElementById('sleep-nomore-submit').style.display = 'inline';
+  } else if (value == '2'){
+    // both buttons disappear
+    document.getElementById('sleep-nomore').style.display = 'none';
+    document.getElementById('sleep-nomore-submit').style.display = 'none';
+    // statement appears
+    document.getElementById('nomore-msg').style.display = 'inline';
+    document.getElementById('nomore-btnx').style.display = 'inline';
+    // storage updated --> show checkmark now instead of count
+    localStorage.setItem('sleepComplete', 'True');
+    FlagCountCheck();
+  } else if (value == '3'){
+    localStorage.setItem('sleepComplete', 'False')
+    document.getElementById('nomore-msg').style.display = 'none';
+    document.getElementById('nomore-btnx').style.display = 'none';
+    if (sleepqual != null && BedTime != null && WakeTime != null){
+      document.getElementById('sleep-nomore').style.display = 'inline';
+      document.getElementById('sleep-nomore').style.background = 'white';
+      document.getElementById('sleep-nomore-submit').style.display = 'none';
+    }
+    FlagCountCheck();
+  };
 }
 
 // global variables
@@ -749,6 +939,7 @@ function logSleepQuality(){
     // Create button to remove the sleepquality entry
     createClearButton('logmsg1', 'logmessage1', 'clearlogmsg1', 'sleep-quality', 'sleepCount');
   }
+  checkNomoreSleep();
 }
 
 function logBedTime(){
@@ -762,7 +953,7 @@ function logBedTime(){
   document.getElementById('bedtime').style.display = 'none';
   countStorage('sleepCount');
   createClearButton('logmsg2', 'logmessage2', 'clearlogmsg2', 'bedtime', 'sleepCount');
-
+  checkNomoreSleep();
 }
 
 function logWakeTime(){
@@ -776,7 +967,7 @@ function logWakeTime(){
   document.getElementById('waketime').style.display = 'none';
   countStorage('sleepCount');
   createClearButton('logmsg3', 'logmessage3', 'clearlogmsg3', 'waketime', 'sleepCount');
-
+  checkNomoreSleep();
 }
 
 function logNap(){
@@ -812,6 +1003,10 @@ function logNap(){
     localStorage.setItem('NapEntryArray', JSON.stringify(newarr));
     // decrease count by 1
     decreaseCountStorage('sleepCount')
+    var countTot = parseInt(localStorage.getItem('sleepCount'));
+    document.getElementById('num-sleep').innerHTML = countTot;
+    localStorage.setItem('sleepComplete', 'False');
+    checkNomoreSleep();
   }
   element.appendChild(newP);
   element.appendChild(newButton);
@@ -823,6 +1018,10 @@ function logNap(){
   document.getElementById('nap-ampm').innerHTML = 'AM/PM <i class="fa fa-caret-down"></i>';
   document.getElementById('nap-dur').innerHTML = 'Duration <i class="fa fa-caret-down"></i>';
   document.getElementById('log-nap').style.display = 'none';
+  var countTot = parseInt(localStorage.getItem('sleepCount'));
+  document.getElementById('num-sleep').innerHTML = countTot;
+  localStorage.setItem('sleepComplete', 'False');
+  checkNomoreSleep();
 }
 
 // - - - - - 
@@ -842,12 +1041,14 @@ function submitFall(){
     fallMoreDetails = '<br>You provided additional information: ' + textarea;
   }
   fallMessage = '<br> You indicated: <br> You ' + fallOrNearFall + ' in the ' + fallTime + ' while you were ' + fallLocation + fallLocationInside + '. <br> You were ' + fallActivity + ' before you ' + fallOrNearFall + ' and that ' + fallCause + '. ' + fallWalkingAid + '<br>You were ' + fallInjured + fallMedical + fallMoreDetails;
+  if (fallOrNearFall == undefined || fallOrNearFall == 'undefined'){
+    fallMessage = '<br> You indicated: You did not fall today.';
+  }
   if (localStorage.getItem('FallEntryArray') == null){newArrayLocalStorage('FallEntryArray')};
   var retrievedData = localStorage.getItem('FallEntryArray');
   var array = JSON.parse(retrievedData);
   array.push(fallMessage);
   localStorage.setItem('FallEntryArray', JSON.stringify(array));
-  checkFallEntries();
   document.getElementById('fall-time').style.display = 'none';
   document.getElementById('fall-location').style.display = 'none';
   document.getElementById('fall-location-inside').style.display = 'none';
@@ -860,8 +1061,17 @@ function submitFall(){
   document.getElementById('submit-fall').style.display = 'none';
   document.getElementById('fall-image').src = 'images/fall_words.ico';
   document.getElementById('almostfall-image').src = 'images/almostfall_words.ico';
-  createPAndXButtonFromArray('FallEntryArray', 'fallCount', 'fall-entries')
+  createPAndXButtonFromArray('FallEntryArray', 'fallCount', 'fall-entries');
+  
   document.getElementById('fall-textarea').value = '';
+  var countTot = parseInt(localStorage.getItem('fallCount'));
+  document.getElementById('num-falls').innerHTML = countTot;
+  localStorage.setItem('fallsComplete', 'False');
+  var countTot = parseInt(localStorage.getItem('fallCount'));
+  document.getElementById('num-falls').innerHTML = countTot;
+  checkFallEntries();
+  checkNoMoreFalls();
+  FlagCountCheck();
 }
 
 var fallMessage;
@@ -878,7 +1088,36 @@ var fallWalkingAid; // ' '/You were not using your walking aid./You were using y
 
 function fallType(details){
   var details = details;
+  if (details == 'no-fall'){
+    document.getElementById('nofall-image').src = 'images/nofall_words_purple.ico';
+    document.getElementById('fall-image').src = 'images/fall_words.ico';
+    document.getElementById('almostfall-image').src = 'images/almostfall_words.ico';
+    document.getElementById('fall-time').style.display = 'none';
+    document.getElementById('fall-location').style.display = 'none';
+    document.getElementById('fall-location-inside').style.display = 'none';
+    document.getElementById('fall-activity').style.display = 'none';
+    document.getElementById('fall-cause').style.display = 'none';
+    document.getElementById('fall-walking-aid').style.display = 'none';
+    document.getElementById('injured-question').style.display = 'none';
+    document.getElementById('medical-questions').style.display = 'none';
+    document.getElementById('fall-more-details').style.display = 'none';
+    document.getElementById('submit-fall').style.display = 'none';
+    document.getElementById('submit-nofall').style.display = 'inline';
+    fallMessage = 'undefined';
+    fallOrNearFall = 'undefined'; // fell/almost fell
+    fallTime = 'undefined'; // morning/daytime/evening/nighttime
+    fallLocation = 'undefined'; // inside/outside
+    fallLocationInside = 'undefined'; // home/not at home
+    fallActivity = 'undefined'; // standing/walking/in the bathroom/on the stairs
+    fallCause = 'undefined'; // slipped/dizzy/lost your balance/tripped over an object/tripped on the stairs/other reason
+    fallInjured = 'undefined'; // not injured/injured
+    fallMedical = 'undefined'; // '.'/ and got medical help./ and did not get medical help.
+    fallMoreDetails = 'undefined'; // ' '/You provided additional information: + textinput + .
+    fallWalkingAid = 'undefined';
+  };
   if (details == 'fall' || details == 'near-fall'){
+    document.getElementById('submit-nofall').style.display = 'none';
+    document.getElementById('nofall-image').src = 'images/nofall_words.ico';
     document.getElementById('fall-time').style.display = 'block';
     document.getElementById('fall-location').style.display = 'none';
     document.getElementById('fall-location-inside').style.display = 'none';
@@ -1191,15 +1430,152 @@ function fallType(details){
   } 
 }
 
+function submitNoFall(){
+  localStorage.setItem('noFallsToday', 'True');
+  localStorage.setItem('fallsComplete', 'True');
+  document.getElementById('msg-nofall').style.display = 'inline';
+  document.getElementById('btn-nofall').style.display = 'inline';
+  document.getElementById('fall-image').style.display = 'none';
+  document.getElementById('almostfall-image').style.display = 'none';
+  document.getElementById('nofall-image').style.display = 'none';
+  document.getElementById('submit-nofall').style.display = 'none';
+  FlagCountCheck();
+}
+
+function removeNoFall(){
+  localStorage.setItem('noFallsToday', 'False');
+  localStorage.setItem('fallsComplete', 'False');
+  document.getElementById('msg-nofall').style.display = 'none';
+  document.getElementById('btn-nofall').style.display = 'none';
+  document.getElementById('fall-image').style.display = 'inline';
+  document.getElementById('almostfall-image').style.display = 'inline';
+  if (parseInt(localStorage.getItem('fallCount')) == 0){
+    document.getElementById('nofall-image').style.display = 'inline';
+    document.getElementById('nofall-image').src = 'images/nofall_words.ico';
+  } else {
+    document.getElementById('nofall-image').style.display = 'none';
+  }
+  FlagCountCheck();
+}
+
 function checkFallEntries(){
   if (localStorage.getItem('FallEntryArray') == null){newArrayLocalStorage('FallEntryArray');};
   var retrievedData = localStorage.getItem('FallEntryArray');
   var array = JSON.parse(retrievedData);
   if (array.length == 0){
     document.getElementById('fall-statement').style.display = 'block';
+    document.getElementById('nofall-image').style.display = 'inline';
   } else {
     document.getElementById('fall-statement').style.display = 'block';
+    document.getElementById('nofall-image').style.display = 'none';
   }
+  if (localStorage.getItem('noFallsToday') == 'True'){
+    submitNoFall();
+  } else if (localStorage.getItem('noFallsToday') == 'False'){
+    FlagCountCheck();
+    document.getElementById('msg-nofall').style.display = 'none';
+    document.getElementById('btn-nofall').style.display = 'none';
+    document.getElementById('fall-image').style.display = 'inline';
+    document.getElementById('almostfall-image').style.display = 'inline';
+    if (parseInt(localStorage.getItem('fallCount')) == 0){
+      document.getElementById('nofall-image').style.display = 'inline';
+      document.getElementById('nofall-image').src = 'images/nofall_words.ico';
+    } else {
+      document.getElementById('nofall-image').style.display = 'none';
+    }
+  };
+  FlagCountCheck();
+}
+
+function nomoreFalls(value) {
+  var value = value;
+  if (value == '1'){
+    // button turns orange
+    document.getElementById('falls-nomore').style.background = 'rgb(245, 191, 76)';
+    // submit button appears
+    document.getElementById('falls-nomore-submit').style.display = 'inline';
+  } else if (value == '2'){
+    // both buttons disappear
+    document.getElementById('falls-nomore').style.display = 'none';
+    document.getElementById('falls-nomore-submit').style.display = 'none';
+    // statement appears
+    document.getElementById('nomore-msg').style.display = 'inline';
+    document.getElementById('nomore-btnx').style.display = 'inline';
+    // storage updated --> show checkmark now instead of count
+    localStorage.setItem('fallsComplete', 'True');
+    FlagCountCheck();
+  } else if (value == '3'){
+    localStorage.setItem('fallsComplete', 'False')
+    document.getElementById('nomore-msg').style.display = 'none';
+    document.getElementById('nomore-btnx').style.display = 'none';
+    document.getElementById('falls-nomore').style.display = 'inline';
+    document.getElementById('falls-nomore').style.background = 'white';
+    document.getElementById('falls-nomore-submit').style.display = 'none';
+    FlagCountCheck();
+  };
+}
+
+function checkNoMoreFalls(){
+  var fallsCount = parseInt(localStorage.getItem('fallCount'));
+  var fallsComplete = localStorage.getItem('fallsComplete');
+
+  if (fallsCount == 0 && fallsComplete == 'False'){
+    document.getElementById('fall-image').style.display = 'inline';
+    document.getElementById('almostfall-image').style.display = 'inline';
+    document.getElementById('nofall-image').style.display = 'inline';
+
+    document.getElementById('msg-nofall').style.display = 'none';
+    document.getElementById('btn-nofall').style.display = 'none';
+
+    document.getElementById('falls-nomore').style.display = 'none';
+    document.getElementById('falls-nomore').style.background = 'white';
+    document.getElementById('falls-nomore-submit').style.display = 'none';
+    document.getElementById('nomore-msg').style.display = 'none';
+    document.getElementById('nomore-btnx').style.display = 'none';
+
+  } else if (fallsCount == 0 && fallsComplete == 'True'){
+    document.getElementById('fall-image').style.display = 'none';
+    document.getElementById('almostfall-image').style.display = 'none';
+    document.getElementById('nofall-image').style.display = 'none';
+
+    document.getElementById('msg-nofall').style.display = 'inline';
+    document.getElementById('btn-nofall').style.display = 'inline';
+
+    document.getElementById('falls-nomore').style.display = 'none';
+    document.getElementById('falls-nomore').style.background = 'white';
+    document.getElementById('falls-nomore-submit').style.display = 'none';
+    document.getElementById('nomore-msg').style.display = 'none';
+    document.getElementById('nomore-btnx').style.display = 'none';
+  
+  } else if (fallsCount != 0 && fallsComplete == 'False'){
+    document.getElementById('fall-image').style.display = 'inline';
+    document.getElementById('almostfall-image').style.display = 'inline';
+    document.getElementById('nofall-image').style.display = 'none';
+
+    document.getElementById('msg-nofall').style.display = 'none';
+    document.getElementById('btn-nofall').style.display = 'none';
+
+    document.getElementById('falls-nomore').style.display = 'inline';
+    document.getElementById('falls-nomore').style.background = 'white';
+    document.getElementById('falls-nomore-submit').style.display = 'none';
+    document.getElementById('nomore-msg').style.display = 'none';
+    document.getElementById('nomore-btnx').style.display = 'none';
+  
+  } else if (fallsCount != 0 && fallsComplete == 'True'){
+    document.getElementById('fall-image').style.display = 'inline';
+    document.getElementById('almostfall-image').style.display = 'inline';
+    document.getElementById('nofall-image').style.display = 'none';
+
+    document.getElementById('msg-nofall').style.display = 'none';
+    document.getElementById('btn-nofall').style.display = 'none';
+
+    document.getElementById('falls-nomore').style.display = 'none';
+    document.getElementById('falls-nomore').style.background = 'white';
+    document.getElementById('falls-nomore-submit').style.display = 'none';
+    document.getElementById('nomore-msg').style.display = 'inline';
+    document.getElementById('nomore-btnx').style.display = 'inline';
+  }
+  FlagCountCheck();
 }
 
 // - - - -
@@ -1297,6 +1673,9 @@ function submitMoodAndLikert(){
             document.getElementById(id).style.background = 'white';
             document.getElementById(id).style.color = 'black';
           };
+          var countTot = parseInt(localStorage.getItem('moodCount'));
+          document.getElementById('num-mood').innerHTML = countTot;
+          FlagCountCheck();
         }
       if (!document.getElementById(p.id)){
         element.appendChild(document.createElement("br"))
@@ -1309,6 +1688,9 @@ function submitMoodAndLikert(){
     }
   }  
   document.getElementById('submit-mood').style.display = 'none';
+  var countTot = parseInt(localStorage.getItem('moodCount'));
+  document.getElementById('num-mood').innerHTML = countTot;
+  FlagCountCheck();
 }
 
 // - - - - - - 
@@ -1449,6 +1831,9 @@ function selectActivity(activityID){
   // update local storage
   localStorage.setItem('activitySelections', JSON.stringify(array));
   createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list');
+  var countTot = parseInt(localStorage.getItem('fallCount'));
+  document.getElementById('num-falls').innerHTML = countTot;
+  FlagCountCheck();
 }
 
 var coll = document.getElementsByClassName("collapsible");
@@ -1520,6 +1905,8 @@ function createClearButton(elementID, storageID, buttonID, questionContainer, na
     document.getElementById(questionContainer).style.display = 'block';
     decreaseCountStorage(nameCount);
     localStorage.removeItem(storageID);
+    localStorage.setItem('sleepComplete', 'False');
+    checkNomoreSleep();
   };
   element.appendChild(newButton);
 }
@@ -1552,8 +1939,16 @@ function createPAndXButtonFromArray(arrayName, countName, divID){
       let newarr = removeItemOnce(JSON.parse(localStorage.getItem(arrayName)), p.innerHTML);
       localStorage.setItem(arrayName, JSON.stringify(newarr));
       decreaseCountStorage(countName);
-      if (newarr.length == 0){document.getElementById('fall-statement').style.display = 'block'}
-      createPAndXButtonFromArray();
+      var countTot = parseInt(localStorage.getItem('fallCount'));
+      document.getElementById('num-falls').innerHTML = countTot;
+      localStorage.setItem('fallsComplete', 'False');
+      checkNoMoreFalls();
+      FlagCountCheck();
+      if (newarr.length == 0){
+        document.getElementById('fall-statement').style.display = 'block';
+        document.getElementById('nofall-image').style.display = 'inline';
+      }
+      createPAndXButtonFromArray('FallEntryArray', 'fallCount', 'fall-entries');
     }
     if (!document.getElementById(p.id)){element.appendChild(p);};
     if (!document.getElementById(button.id)){element.appendChild(button);};
@@ -1629,4 +2024,71 @@ window.onclick = function(event) {
 const capitalize = (s) => {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+// - - - - - 
+// DASHBOARD
+// - - - - -
+function FlagCountCheck(){
+  var sleepCount = parseInt(localStorage.getItem('sleepCount'));
+  var sleepComplete = localStorage.getItem('sleepComplete');
+  var activityCount = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
+  var activityComplete = localStorage.getItem('activityComplete');
+  var moodCount = parseInt(localStorage.getItem('moodCount'));
+  var fallCount = parseInt(localStorage.getItem('fallCount'));
+  var fallsComplete = localStorage.getItem('fallsComplete');
+  if (sleepCount == 0){
+    document.getElementById('num-sleep').style.display = 'none';
+    document.getElementById('sleep-check').style.display = 'none';
+    document.getElementById('sleep-flag').style.display = 'inline';
+  } else if (sleepComplete == 'False'){
+    document.getElementById('num-sleep').style.display = 'inline';
+    document.getElementById('sleep-check').style.display = 'none';
+    document.getElementById('sleep-flag').style.display = 'none';
+  } else if (sleepComplete == 'True'){
+    document.getElementById('num-sleep').style.display = 'none';
+    document.getElementById('sleep-check').style.display = 'inline';
+    document.getElementById('sleep-flag').style.display = 'none';
+  };
+  if (moodCount == 0){
+    document.getElementById('num-mood').style.display = 'none';
+    document.getElementById('mood-check').style.display = 'none';
+    document.getElementById('mood-flag').style.display = 'inline';
+  } else if (moodCount == 8){
+    document.getElementById('num-mood').style.display = 'none';
+    document.getElementById('mood-check').style.display = 'inline';
+    document.getElementById('mood-flag').style.display = 'none';
+  } else {
+    document.getElementById('num-mood').style.display = 'inline';
+    document.getElementById('mood-check').style.display = 'none';
+    document.getElementById('mood-flag').style.display = 'none';
+  };
+  // if complete: show the checkmark
+  if (fallsComplete == 'True'){
+    document.getElementById('num-falls').style.display = 'none';
+    document.getElementById('falls-check').style.display = 'inline';
+    document.getElementById('falls-flag').style.display = 'none';
+  } else if (fallsComplete == 'False'){
+    if (fallCount == 0){
+      document.getElementById('num-falls').style.display = 'none';
+      document.getElementById('falls-check').style.display = 'none';
+      document.getElementById('falls-flag').style.display = 'inline';
+    } else {
+      document.getElementById('num-falls').style.display = 'inline';
+      document.getElementById('falls-check').style.display = 'none';
+      document.getElementById('falls-flag').style.display = 'none';
+    }
+  };
+  if (activityCount == 0){
+    document.getElementById('num-activity').style.display = 'none';
+    document.getElementById('activity-check').style.display = 'none';
+    document.getElementById('activity-flag').style.display = 'inline';
+  } else if (activityComplete == 'False'){
+    document.getElementById('num-activity').style.display = 'inline';
+    document.getElementById('activity-check').style.display = 'none';
+    document.getElementById('activity-flag').style.display = 'none';
+  } else if (activityComplete == 'True'){
+    document.getElementById('num-activity').style.display = 'none';
+    document.getElementById('activity-check').style.display = 'inline';
+    document.getElementById('activity-flag').style.display = 'none';}
 }

@@ -11,7 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="makeDailyButtons();checkWalkingAid();createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list');">
+<body onload="makeDailyButtons();createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list'); submitMoodAndLikertforPreferences(); checkProfSubmitted();checkWalkingAidAnswers();">
 
     <!-- Header -->
     <div class="header">
@@ -48,15 +48,122 @@
 
         <button class="collapsible" id='collapsible-walking-aid' style="background-color: rgb(167, 142, 207); font-size: large; font-weight: 600;">Walking Aid</button>
         <div class="content" style="background-color: rgb(202, 180, 237);">
-          <p>This section may include more questions about the type of walking aid and typical situations when it is used (e.g. at home, outside, at night).</p>
-          <div id='walking-aid-question'>
-            <p>Do you use a walking aid?</p>
-            <p id='walking-aid-answer'>Answer</p>      
-            <button class="btnx" id='walking-aid-x' onclick="walkingAidNotSubmitted()">X</button>
-            <button onclick="buttonsInDiv('aid-yes', 'walking-aid-question');walkingAid('Yes');" class='btn' id='aid-yes'>Yes</button>
-            <button onclick="buttonsInDiv('aid-no', 'walking-aid-question');walkingAid('No');" class='btn' id='aid-no'>No</button>
-            <button class="btn" id='walking-aid-submit' onclick='walkingAidSubmitted()'>Submit</button>
+          
+          <div id='walking-aid-answer' style="display: none; background-color: rgb(177, 253, 241); padding: 3%;">
+            <p>You indicated that you use the following types of assistive devices when you are walking:</p>
+            
+            <div style="display: block;">
+              <p style="display: inline;">(1) In and around your room: </p>
+              <p id="room-answer" style="display: inline;"></p>
+            </div>
+
+            <div style="display: block;">
+              <p style="display: inline;">(2) In short halls: </p>
+              <p id="short-answer" style="display: inline;"></p>
+            </div>
+              
+            <div style="display: block;">
+              <p style="display: inline;">(3) In long halls:</p>
+              <p id="long-answer" style="display: inline;"></p>
+            </div>
+            
+            <div style="display: block;">
+              <p style="display: inline;">(4) Outside:</p>
+              <p id="outside-answer" style="display: inline;"></p>
+            </div>
+            
+            <button class="btnx" onclick="resetWalkingAid()">Reset Entries</button>
           </div>
+
+          <div id='walking-aid-question'>
+          <p>The following questions will ask you about the type of assistive devices that you use in various situations. Please select any and all that apply.</p>
+          <p style="font-weight: 800;">When you are walking:</p>
+          <div id='aid-in-room'>
+            <p>(1) In and around your room:</p>
+            <label class='walking-aid-container'>No assistive device
+              <input type='checkbox' id='room-none' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <label class='walking-aid-container'>Cane
+              <input type='checkbox' id='room-cane' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <label class='walking-aid-container'>Walker
+              <input type='checkbox' id='room-walker' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <label class='walking-aid-container' style="display: inline;">Other:
+              <input type='checkbox' id='room-other' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <input type="text" id="room-other-text" style="display: none; font-size: large;">
+          </div>
+
+          <div id='aid-short-hall'>
+            <p>(2) In short halls. For example, to the washroom or another room in your home:</p>
+            <label class='walking-aid-container'>No assistive device
+              <input type='checkbox' id='short-none' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <label class='walking-aid-container'>Cane
+              <input type='checkbox' id='short-cane' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <label class='walking-aid-container'>Walker
+              <input type='checkbox' id='short-walker' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <label class='walking-aid-container' style="display: inline;">Other:
+              <input type='checkbox' id='short-other' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <input type="text" id="short-other-text" style="display: none; font-size: large;">
+          </div>
+
+          <div id='aid-long-hall'>
+            <p>(3) In long halls. For example, a long corridor in a hospital or school:</p>
+            <label class='walking-aid-container'>No assistive device
+              <input type='checkbox' id='long-none' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <label class='walking-aid-container'>Cane
+              <input type='checkbox' id='long-cane' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <label class='walking-aid-container'>Walker
+              <input type='checkbox' id='long-walker' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <label class='walking-aid-container' style="display: inline;">Other:
+              <input type='checkbox' id='long-other' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <input type="text" id="long-other-text" style="display: none; font-size: large;">
+          </div>
+
+          <div id='aid-outside'>
+            <p>(4) Outside. For example, in a backyard or a park:</p>
+            <label class='walking-aid-container'>No assistive device
+              <input type='checkbox' id='outside-none' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <label class='walking-aid-container'>Cane
+              <input type='checkbox' id='outside-cane' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <label class='walking-aid-container'>Walker
+              <input type='checkbox' id='outside-walker' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <label class='walking-aid-container' style="display: inline;">Other:
+              <input type='checkbox' id='outside-other' onchange="checkChange(this, this.id)">
+              <span class="checkmark"></span>
+            </label>
+            <input type="text" id="outside-other-text" style="display: none; font-size: large;">
+          </div>
+
+          <button class="btn" style="display: none;" id='walking-aid-submit' onclick="submitWalkingAid()">Submit</button>
+        </div>
         </div>
 
         <button class="collapsible" id='collapsible-activity-buttons' style="background-color: #91e691; font-size: large; font-weight: 600;">Activities: Work, Daily</button>
@@ -144,34 +251,111 @@
           </div>
         </div>
         
+        <button class="collapsible" id="collapsible-mood" style="background-color: rgb(120, 248, 227); font-size: large; font-weight: 600;">Mood</button>
+        <div class="content" style="background-color: rgb(177, 253, 241);">
+          <p>In general, how often do you experience each of the following moods on a daily basis?</p>
+          <div id='mood-entries' style="background: rgb(248, 215, 185); padding: 3%;">
+            <p id='mood-statement' style="display: none;">You indicated that you are: </p>
+          </div>
+          <div id='mood-afraid' style='padding: 7px'>
+            <p style='display: inline-block; font-size: 24px'>Afraid:</p>
+            <button class='btn' style='display: inline-block' id='never-afraid' onclick="changeLikertMoodforPreferences('mood-afraid', 'never-afraid', 'Never', 'afraidPref')">Never</button>
+            <button class='btn' style='display: inline-block' id='rarely-afraid' onclick="changeLikertMoodforPreferences('mood-afraid', 'rarely-afraid', 'Rarely', 'afraidPref')">Rarely</button>
+            <button class='btn' style='display: inline-block' id='sometimes-afraid' onclick="changeLikertMoodforPreferences('mood-afraid', 'sometimes-afraid', 'Sometimes', 'afraidPref')">Sometimes</button>
+            <button class='btn' style='display: inline-block' id='often-afraid' onclick="changeLikertMoodforPreferences('mood-afraid', 'often-afraid', 'Often', 'afraidPref')">Often</button>
+            <button class='btn' style='display: inline-block' id='very-often-afraid' onclick="changeLikertMoodforPreferences('mood-afraid', 'very-often-afraid', 'Very Often', 'afraidPref')">Very Often</button>
+          </div>
+          <div id='mood-confused' style='padding: 7px'>
+            <p style='display: inline-block; font-size: 24px'>Confused:</p>
+            <button class='btn' style='display: inline-block' id='never-confused'onclick="changeLikertMoodforPreferences('mood-confused', 'never-confused', 'Never', 'confusedPref')">Never</button>
+            <button class='btn' style='display: inline-block' id='rarely-confused'onclick="changeLikertMoodforPreferences('mood-confused', 'rarely-confused', 'Rarely', 'confusedPref')">Rarely</button>
+            <button class='btn' style='display: inline-block' id='sometimes-confused'onclick="changeLikertMoodforPreferences('mood-confused', 'sometimes-confused', 'Sometimes', 'confusedPref')">Sometimes</button>
+            <button class='btn' style='display: inline-block' id='often-confused'onclick="changeLikertMoodforPreferences('mood-confused', 'often-confused', 'Often', 'confusedPref')">Often</button>
+            <button class='btn' style='display: inline-block' id='very-often-confused'onclick="changeLikertMoodforPreferences('mood-confused', 'very-often-confused', 'Very Often', 'confusedPref')">Very Often</button>
+          </div>
+          <div id='mood-sad' style='padding: 7px'>
+            <p style='display: inline-block; font-size: 24px'>Sad:</p>
+            <button class='btn' style='display: inline-block' id='never-sad'onclick="changeLikertMoodforPreferences('mood-sad', 'never-sad', 'Never', 'sadPref')">Never</button>
+            <button class='btn' style='display: inline-block' id='rarely-sad'onclick="changeLikertMoodforPreferences('mood-sad', 'rarely-sad', 'Rarely', 'sadPref')">Rarely</button>
+            <button class='btn' style='display: inline-block' id='sometimes-sad'onclick="changeLikertMoodforPreferences('mood-sad', 'sometimes-sad', 'Sometimes', 'sadPref')">Sometimes</button>
+            <button class='btn' style='display: inline-block' id='often-sad'onclick="changeLikertMoodforPreferences('mood-sad', 'often-sad', 'Often', 'sadPref')">Often</button>
+            <button class='btn' style='display: inline-block' id='very-often-sad'onclick="changeLikertMoodforPreferences('mood-sad', 'very-often-sad', 'Very Often', 'sadPref')">Very Often</button>
+          </div>
+          <div id='mood-angry' style='padding: 7px'>
+            <p style='display: inline-block; font-size: 24px'>Angry:</p>
+            <button class='btn' style='display: inline-block' id='never-angry'onclick="changeLikertMoodforPreferences('mood-angry', 'never-angry', 'Never', 'angryPref')">Never</button>
+            <button class='btn' style='display: inline-block' id='rarely-angry'onclick="changeLikertMoodforPreferences('mood-angry', 'rarely-angry', 'Rarely', 'angryPref')">Rarely</button>
+            <button class='btn' style='display: inline-block' id='sometimes-angry'onclick="changeLikertMoodforPreferences('mood-angry', 'sometimes-angry', 'Sometimes', 'angryPref')">Sometimes</button>
+            <button class='btn' style='display: inline-block' id='often-angry'onclick="changeLikertMoodforPreferences('mood-angry', 'often-angry', 'Often', 'angryPref')">Often</button>
+            <button class='btn' style='display: inline-block' id='very-often-angry'onclick="changeLikertMoodforPreferences('mood-angry', 'very-often-angry', 'Very Often', 'angryPref')">Very Often</button>
+          </div>
+          <div id='mood-energetic' style='padding: 7px'>
+            <p style='display: inline-block; font-size: 24px'>Energetic:</p>
+            <button class='btn' style='display: inline-block' id='never-energetic'onclick="changeLikertMoodforPreferences('mood-energetic', 'never-energetic', 'Never', 'energeticPref')">Never</button>
+            <button class='btn' style='display: inline-block' id='rarely-energetic'onclick="changeLikertMoodforPreferences('mood-energetic', 'rarely-energetic', 'Rarely', 'energeticPref')">Rarely</button>
+            <button class='btn' style='display: inline-block' id='sometimes-energetic'onclick="changeLikertMoodforPreferences('mood-energetic', 'sometimes-energetic', 'Sometimes', 'energeticPref')">Sometimes</button>
+            <button class='btn' style='display: inline-block' id='often-energetic'onclick="changeLikertMoodforPreferences('mood-energetic', 'often-energetic', 'Often', 'energeticPref')">Often</button>
+            <button class='btn' style='display: inline-block' id='very-often-energetic'onclick="changeLikertMoodforPreferences('mood-energetic', 'very-often-energetic', 'Very Often', 'energeticPref')">Very Often</button>
+          </div>
+          <div id='mood-tired' style='padding: 7px'>
+            <p style='display: inline-block; font-size: 24px'>Tired:</p>
+            <button class='btn' style='display: inline-block' id='never-tired'onclick="changeLikertMoodforPreferences('mood-tired', 'never-tired', 'Never', 'tiredPref')">Never</button>
+            <button class='btn' style='display: inline-block' id='rarely-tired'onclick="changeLikertMoodforPreferences('mood-tired', 'rarely-tired', 'Rarely', 'tiredPref')">Rarely</button>
+            <button class='btn' style='display: inline-block' id='sometimes-tired'onclick="changeLikertMoodforPreferences('mood-tired', 'sometimes-tired', 'Sometimes', 'tiredPref')">Sometimes</button>
+            <button class='btn' style='display: inline-block' id='often-tired'onclick="changeLikertMoodforPreferences('mood-tired', 'often-tired', 'Often', 'tiredPref')">Often</button>
+            <button class='btn' style='display: inline-block' id='very-often-tired'onclick="changeLikertMoodforPreferences('mood-tired', 'very-often-tired', 'Very Often', 'tiredPref')">Very Often</button>
+          </div>
+          <div id='mood-happy' style='padding: 7px'>
+            <p style='display: inline-block; font-size: 24px'>Happy:</p>
+            <button class='btn' style='display: inline-block' id='never-happy'onclick="changeLikertMoodforPreferences('mood-happy', 'never-happy', 'Never', 'happyPref')">Never</button>
+            <button class='btn' style='display: inline-block' id='rarely-happy'onclick="changeLikertMoodforPreferences('mood-happy', 'rarely-happy', 'Rarely', 'happyPref')">Rarely</button>
+            <button class='btn' style='display: inline-block' id='sometimes-happy'onclick="changeLikertMoodforPreferences('mood-happy', 'sometimes-happy', 'Sometimes', 'happyPref')">Sometimes</button>
+            <button class='btn' style='display: inline-block' id='often-happy'onclick="changeLikertMoodforPreferences('mood-happy', 'often-happy', 'Often', 'happyPref')">Often</button>
+            <button class='btn' style='display: inline-block' id='very-often-happy'onclick="changeLikertMoodforPreferences('mood-happy', 'very-often-happy', 'Very Often', 'happyPref')">Very Often</button>
+          </div>
+          <div id='mood-tense' style='padding: 7px'>
+            <p style='display: inline-block; font-size: 24px'>Tense:</p>
+            <button class='btn' style='display: inline-block' id='never-tense'onclick="changeLikertMoodforPreferences('mood-tense', 'never-tense', 'Never', 'tensePref')">Never</button>
+            <button class='btn' style='display: inline-block' id='rarely-tense'onclick="changeLikertMoodforPreferences('mood-tense', 'rarely-tense', 'Rarely', 'tensePref')">Rarely</button>
+            <button class='btn' style='display: inline-block' id='sometimes-tense'onclick="changeLikertMoodforPreferences('mood-tense', 'sometimes-tense', 'Sometimes', 'tensePref')">Sometimes</button>
+            <button class='btn' style='display: inline-block' id='often-tense'onclick="changeLikertMoodforPreferences('mood-tense', 'often-tense', 'Often', 'tensePref')">Often</button>
+            <button class='btn' style='display: inline-block' id='very-often-tense'onclick="changeLikertMoodforPreferences('mood-tense', 'very-often-tense', 'Very Often', 'tensePref')">Very Often</button>
+          </div>
+          <button id="submit-mood" class="btn" style="display: none" onclick="submitMoodAndLikertforPreferences()">Submit</button>
+        </div>
+
         <button class="collapsible" id='collapsible-profile' style="background-color: rgb(245, 191, 76); font-size: large; font-weight: 600;">Profile</button>
         <div class="content" style="background-color: rgb(250, 225, 173);">
-          <p>This section would include more questions about you and would only be present for your first visit to the Hub.</p>
-          <div style="display: block;">
-            <p>Select your age range:</p>
-            <div class="dropdown">
-              <button class="dropbtn-new" id="dropdown-agerange" onclick="dropdown('dropdown-agerange-options')">Age range 
-                <i class="fa fa-caret-down"></i>
-              </button>
-              <div class="dropdown-content-new" id="dropdown-agerange-options">
-                <a onclick="changeHour('Under 18 years old', 'dropdown-agerange')">Under 18 years old</a>
-                <a onclick="changeHour('18-24 years old', 'dropdown-agerange')">18-24 years old</a>
-                <a onclick="changeHour('25-34 years old', 'dropdown-agerange')">25-34 years old</a>
-                <a onclick="changeHour('35-44 years old', 'dropdown-agerange')">35-44 years old</a>
-                <a onclick="changeHour('45-54 years old', 'dropdown-agerange')">45-54 years old</a>
-                <a onclick="changeHour('55-64 years old', 'dropdown-agerange')">55-64 years old</a>
-                <a onclick="changeHour('65-74 years old', 'dropdown-agerange')">65-74 years old</a>
-                <a onclick="changeHour('75 years or older', 'dropdown-agerange')">75 years or older</a>
-              </div>
+          <div id='profile-entries' style="background-color: rgb(202, 180, 237); padding: 3%; display: block;">
+            <p style="display: block; ">You indicated that you are:</p>
+            
+            <div style="display: none;" id='age-answer-div'>
+              <p id='age-answer' style="display: inline;">#</p>
+              <p style="display: inline;"> years old</p>
+              <button class="btnx" onclick="resetAge()">X</button>
             </div>
+            
+            <div style="display: none" id="living-alone-div">
+              <p id='living-alone-statement' style="display: inline;"></p>
+              <button class="btnx" style="display: inline;" onclick="resetLiveAlone()">X</button>
+            </div>
+
           </div>
-          <br><br>
+
+          <div id="age-questions" style="display: block;">
+            <p style="display: inline;">Enter your age:</p>
+            <input type="number" id='profile-age' min="12" max="130" style="font-size: large; display: inline;" oninput="updateAge()">
+          </div>
+            
           <div style="display: block;" id="live-alone-questions">
             <p>Do you live alone?</p>
-            <button class="btn" id="No-live-alone" onclick="buttonsInDiv(this.id, 'live-alone-questions', undefined, undefined)">No</button>
-            <button class="btn" id="Sometimes-live-alone" onclick="buttonsInDiv(this.id, 'live-alone-questions', undefined, undefined)">Sometimes</button>
-            <button class="btn" id="Yes-live-alone" onclick="buttonsInDiv(this.id, 'live-alone-questions', undefined, undefined)">Yes</button>
+            <button class="btn" id="No-live-alone" onclick="buttonsInDiv(this.id, 'live-alone-questions', undefined, undefined); liveAlone('No')">No</button>
+            <button class="btn" id="Sometimes-live-alone" onclick="buttonsInDiv(this.id, 'live-alone-questions', undefined, undefined); liveAlone('Sometimes');">Sometimes</button>
+            <button class="btn" id="Yes-live-alone" onclick="buttonsInDiv(this.id, 'live-alone-questions', undefined, undefined); liveAlone('Yes');">Yes</button>
           </div>
+
+          <button id='profile-submit' class="btn" onclick="ProfSubmit();" style="display: none;">Submit</button>
+
         </div>
       </div>     
     </div>

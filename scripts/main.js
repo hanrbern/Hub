@@ -1619,6 +1619,43 @@ function changeLikertMood(divID, buttonID, likert, mood){
   };
 }
 
+// on click of the button
+function changeLikertMoodforPreferences(divID, buttonID, likert, mood){
+  var buttonID = buttonID;
+  var afraid = localStorage.getItem('afraidPref');
+  var confused = localStorage.getItem('confusedPref');
+  var sad = localStorage.getItem('sadPref');
+  var angry = localStorage.getItem('angryPref');
+  var energetic = localStorage.getItem('energeticPref');
+  var tired = localStorage.getItem('tiredPref');
+  var happy = localStorage.getItem('happyPref');
+  var tense = localStorage.getItem('tensePref');
+  // update the mood to the likert option selected
+  if (mood == 'afraidPref'){localStorage.setItem(mood, likert); afraid = localStorage.getItem(mood);};
+  if (mood == 'confusedPref'){localStorage.setItem(mood, likert); confused = localStorage.getItem(mood);};
+  if (mood == 'sadPref'){localStorage.setItem(mood, likert); sad = localStorage.getItem(mood);};
+  if (mood == 'angryPref'){localStorage.setItem(mood, likert); angry = localStorage.getItem(mood);};
+  if (mood == 'energeticPref'){localStorage.setItem(mood, likert); energetic = localStorage.getItem(mood);};
+  if (mood == 'tiredPref'){localStorage.setItem(mood, likert); tired = localStorage.getItem(mood);};
+  if (mood == 'happyPref'){localStorage.setItem(mood, likert); happy = localStorage.getItem(mood);};
+  if (mood == 'tensePref'){localStorage.setItem(mood, likert); tense = localStorage.getItem(mood);};
+  // change button colours:
+  var children = [].slice.call(document.getElementById(divID).getElementsByTagName('button'), 0);
+  for (var i = 0; i < children.length; i++){
+    let id = children[i].getAttribute('id');
+    if (buttonID !== id){
+      document.getElementById(id).style.background = 'white';
+      document.getElementById(id).style.color = 'black';
+    } else {
+      document.getElementById(buttonID).style.background = '#0335fc';
+      document.getElementById(buttonID).style.color = 'white';
+    }
+  };
+  if (afraid !==  'null' && confused !==  'null' && sad !==  'null' && angry !==  'null' && energetic !== 'null' && tired !== 'null' && happy !== 'null' && tense !== 'null'){
+    document.getElementById('submit-mood').style.display = 'block';
+  };
+}
+
 // onload and onclick of the submit button
 function submitMoodAndLikert(){
   var count = localStorage.getItem('moodCount');
@@ -1691,6 +1728,75 @@ function submitMoodAndLikert(){
   var countTot = parseInt(localStorage.getItem('moodCount'));
   document.getElementById('num-mood').innerHTML = countTot;
   FlagCountCheck();
+}
+
+function submitMoodAndLikertforPreferences(){
+  var count = localStorage.getItem('moodCountPref');
+  count = 0;
+  var afraid = localStorage.getItem('afraidPref');
+  var confused = localStorage.getItem('confusedPref');
+  var sad = localStorage.getItem('sadPref');
+  var angry = localStorage.getItem('angryPref');
+  var energetic = localStorage.getItem('energeticPref');
+  var tired = localStorage.getItem('tiredPref');
+  var happy = localStorage.getItem('happyPref');
+  var tense = localStorage.getItem('tensePref');
+  if (afraid !== 'null' && afraid !== null && afraid !== undefined){count += 1};
+  if (confused !== 'null' && confused !== null && confused !== undefined){count += 1};
+  if (sad !== 'null' && sad !== null && sad !== undefined){count += 1};
+  if (angry !== 'null' && angry !== null && angry !== undefined){count += 1};
+  if (energetic !== 'null' && energetic !== null && energetic !== undefined){count += 1};
+  if (tired !== 'null' && tired !== null && tired !== undefined){count += 1};
+  if (happy !== 'null' && happy !== null && happy !== undefined){count += 1};
+  if (tense !== 'null' && tense !== null && tense !== undefined){count += 1};
+  if (count > 0){document.getElementById('mood-statement').style.display = 'block';};
+  var array = ['afraidPref', afraid, 'confusedPref', confused, 'sadPref', sad, 'angryPref', angry, 'energeticPref', energetic, 'tiredPref', tired, 'happyPref', happy, 'tensePref', tense];
+  localStorage.setItem('moodCountPref', count);
+  var element = document.getElementById('mood-entries');
+  for (var i = 0; i < array.length; i = i + 2){
+    let likert = array[i+1];
+    if (likert !== null && likert !== 'null' && likert !== undefined){
+      let p = document.createElement('p');
+      let button = document.createElement("button");
+      let divid = 'mood-' + array[i].slice(0, -4);
+      let mood = array[i];
+      
+      p.innerHTML = capitalize(array[i].slice(0, -4)) + ': ' +  array[i+1]; // e.g Afraid: Always
+      p.id = "p-" + array[i]; // e.g. p-afraidPref
+      button.id = 'button-' + array[i]; // e.g. button-afraidPref
+      button.innerHTML = 'X';
+      button.className = 'btnx';
+      button.onclick = function(){
+        document.getElementById(divid).style.display = 'block';
+        document.getElementById('submit-mood').style.display = 'none';
+        localStorage.setItem(mood, null);
+        element.removeChild(p);
+        element.removeChild(button);
+        decreaseCountStorage('moodCountPref');
+        if (localStorage.getItem('moodCountPref') == 0 || localStorage.getItem('moodCountPref') == '0'){
+          document.getElementById('mood-statement').style.display = 'none';
+        }
+        // reset all of the buttons to be white with black text
+        var children = [].slice.call(document.getElementById(divid).getElementsByTagName('button'), 0);
+        for (var i = 0; i < children.length; i++){
+          let id = children[i].getAttribute('id');
+            document.getElementById(id).style.background = 'white';
+            document.getElementById(id).style.color = 'black';
+          };
+          var countTot = parseInt(localStorage.getItem('moodCountPref'));
+        }
+      if (!document.getElementById(p.id)){
+        element.appendChild(document.createElement("br"))
+        element.appendChild(p);
+      };
+      if (!document.getElementById(button.id)){
+        element.appendChild(button);
+        document.getElementById('mood-' + mood.slice(0, -4)).style.display = 'none';
+      }
+    }
+  }  
+  document.getElementById('submit-mood').style.display = 'none';
+  var countTot = parseInt(localStorage.getItem('moodCountPref'));
 }
 
 // - - - - - - 
@@ -1797,6 +1903,314 @@ function walkingAidNotSubmitted(){
   localStorage.removeItem('walkingAid');
 }
 
+function checkChange(checkbox, id){
+  var checkbox = checkbox;
+  var id = id;
+  if (id == 'room-none'){
+    document.getElementById('room-cane').checked = false;
+    document.getElementById('room-walker').checked = false;
+    document.getElementById('room-other').checked = false;
+    document.getElementById('room-other-text').value = null;
+    document.getElementById('room-other-text').style.display = 'none';
+  } else if (id == 'room-cane' || id == 'room-walker' || id == 'room-other') {
+    document.getElementById('room-none').checked = false;
+  };
+  if (id == 'room-other'){
+    if (checkbox.checked == true){
+      document.getElementById('room-other-text').style.display = 'inline';
+    } else if (checkbox.checked == false){
+      document.getElementById('room-other-text').value = null;
+      document.getElementById('room-other-text').style.display = 'none';
+    };
+  };
+  if (id == 'short-none'){
+    document.getElementById('short-cane').checked = false;
+    document.getElementById('short-walker').checked = false;
+    document.getElementById('short-other').checked = false;
+    document.getElementById('short-other-text').value = null;
+    document.getElementById('short-other-text').style.display = 'none';
+  } else if (id == 'short-cane' || id == 'short-walker' || id == 'short-other'){
+    document.getElementById('short-none').checked = false;
+  };
+  if (id == 'short-other'){
+    if (checkbox.checked == true){
+      document.getElementById('short-other-text').style.display = 'inline';
+    } else if (checkbox.checked == false){
+      document.getElementById('short-other-text').value = null;
+      document.getElementById('short-other-text').style.display = 'none';
+    };
+  };
+  if (id == 'long-none'){
+    document.getElementById('long-cane').checked = false;
+    document.getElementById('long-walker').checked = false;
+    document.getElementById('long-other').checked = false;
+    document.getElementById('long-other-text').value = null;
+    document.getElementById('long-other-text').style.display = 'none';
+  } else if (id == 'long-cane' || id == 'long-walker' || id == 'long-other'){
+    document.getElementById('long-none').checked = false;
+  };
+  if (id == 'long-other'){
+    if (checkbox.checked == true){
+      document.getElementById('long-other-text').style.display = 'inline';
+    } else if (checkbox.checked == false){
+      document.getElementById('long-other-text').value = null;
+      document.getElementById('long-other-text').style.display = 'none';
+    };
+  };
+  if (id == 'outside-none'){
+    document.getElementById('outside-cane').checked = false;
+    document.getElementById('outside-walker').checked = false;
+    document.getElementById('outside-other').checked = false;
+    document.getElementById('outside-other-text').value = null;
+    document.getElementById('outside-other-text').style.display = 'none';
+  } else if (id == 'outside-cane' || id == 'outside-walker' || id == 'outside-other'){
+    document.getElementById('outside-none').checked = false;
+  };
+  if (id == 'outside-other'){
+    if (checkbox.checked == true){
+      document.getElementById('outside-other-text').style.display = 'inline';
+    } else if (checkbox.checked == false){
+      document.getElementById('outside-other-text').value = null;
+      document.getElementById('outside-other-text').style.display = 'none';
+    };
+  };
+
+  var parentRoom = document.getElementById('aid-in-room');
+  var childrenRoom = [].slice.call(parentRoom.getElementsByTagName('input'), 0);
+  var nRoom = 0
+  for (var i = 0; i < childrenRoom.length; i++){
+    let idRoom = childrenRoom[i].getAttribute('id');
+    let idRoomChecked = '#' + idRoom + ':checked';
+    let n = document.querySelector(idRoomChecked);
+    if (n !== null){
+      nRoom += 1;
+    }
+  }
+
+
+  var parentShort = document.getElementById('aid-short-hall');
+  var childrenShort = [].slice.call(parentShort.getElementsByTagName('input'), 0);
+  var nShort = 0
+  for (var i = 0; i < childrenShort.length; i++){
+    let idShort = childrenShort[i].getAttribute('id');
+    let idShortChecked = '#' + idShort + ':checked';
+    let n = document.querySelector(idShortChecked);
+    if (n !== null){
+      nShort += 1;
+    }
+  }
+
+  var parentLong = document.getElementById('aid-long-hall');
+  var childrenLong = [].slice.call(parentLong.getElementsByTagName('input'), 0);
+  var nLong = 0
+  for (var i = 0; i < childrenLong.length; i++){
+    let idLong = childrenLong[i].getAttribute('id');
+    let idLongChecked = '#' + idLong + ':checked';
+    let n = document.querySelector(idLongChecked);
+    if (n !== null){
+      nLong += 1;
+    }
+  }
+  
+  var parentOutside = document.getElementById('aid-outside');
+  var childrenOutside = [].slice.call(parentOutside.getElementsByTagName('input'), 0);
+  var nOutside = 0
+  for (var i = 0; i < childrenOutside.length; i++){
+    let idOutside = childrenOutside[i].getAttribute('id');
+    let idOutsideChecked = '#' + idOutside + ':checked';
+    let n = document.querySelector(idOutsideChecked);
+    if (n !== null){
+      nOutside += 1;
+    }
+  }
+
+  if (nRoom !== 0 && nShort !== 0 && nLong !== 0 && nOutside !== 0){
+    document.getElementById('walking-aid-submit').style.display = 'block';
+  } else {
+    document.getElementById('walking-aid-submit').style.display = 'none';
+  }
+}
+
+function submitWalkingAid(){
+  newArrayLocalStorage('walkingAidArray');
+  var retrievedData = localStorage.getItem('walkingAidArray');
+  var array = JSON.parse(retrievedData);
+  var otherTextEmpty = false; 
+
+  var parentRoom = document.getElementById('aid-in-room');
+  var childrenRoom = [].slice.call(parentRoom.getElementsByTagName('input'), 0);
+  for (var i = 0; i < childrenRoom.length; i++){
+    let idRoom = childrenRoom[i].getAttribute('id');
+    let idRoomChecked = '#' + idRoom + ':checked';
+    let n = document.querySelector(idRoomChecked);
+    if (n !== null){
+      if (idRoom == 'room-other'){
+        let otherText = document.getElementById('room-other-text').value;
+        if (otherText == ''){
+          otherTextEmpty = true;
+        }
+        array.push('room-other: ' + otherText);
+      } else {
+        array.push(idRoom)
+      }      
+    }
+  }
+
+  var parentShort = document.getElementById('aid-short-hall');
+  var childrenShort = [].slice.call(parentShort.getElementsByTagName('input'), 0);
+  for (var i = 0; i < childrenShort.length; i++){
+    let idShort = childrenShort[i].getAttribute('id');
+    let idShortChecked = '#' + idShort + ':checked';
+    let n = document.querySelector(idShortChecked);
+    if (n !== null){
+      if (idShort == 'short-other'){
+        let otherText = document.getElementById('short-other-text').value;
+        if (otherText == ''){
+          otherTextEmpty = true;
+        }
+        array.push('short-other: ' + otherText);
+      } else {
+        array.push(idShort)
+      }      
+    }
+  }  
+
+  var parentLong = document.getElementById('aid-long-hall');
+  var childrenLong = [].slice.call(parentLong.getElementsByTagName('input'), 0);
+  for (var i = 0; i < childrenLong.length; i++){
+    let idLong = childrenLong[i].getAttribute('id');
+    let idLongChecked = '#' + idLong + ':checked';
+    let n = document.querySelector(idLongChecked);
+    if (n !== null){
+      if (idLong == 'long-other'){
+        let otherText = document.getElementById('long-other-text').value;
+        if (otherText == ''){
+          otherTextEmpty = true;
+        }
+        array.push('long-other: ' + otherText);
+      } else {
+        array.push(idLong)
+      }      
+    }
+  }  
+
+  var parentOutside = document.getElementById('aid-outside');
+  var childrenOutside = [].slice.call(parentOutside.getElementsByTagName('input'), 0);
+  for (var i = 0; i < childrenOutside.length; i++){
+    let idOutside = childrenOutside[i].getAttribute('id');
+    let idOutsideChecked = '#' + idOutside + ':checked';
+    let n = document.querySelector(idOutsideChecked);
+    if (n !== null){
+      if (idOutside == 'outside-other'){
+        let otherText = document.getElementById('outside-other-text').value;
+        if (otherText == ''){
+          otherTextEmpty = true;
+        }
+        array.push('outside-other: ' + otherText);
+      } else {
+        array.push(idOutside)
+      }      
+    }
+  }  
+
+  if (otherTextEmpty == true){
+    alert("Please enter the type of assistive device in the text field next to 'Other'")
+  } else {
+    localStorage.setItem('walkingAidArray', JSON.stringify(array));
+
+    var roomStatement = '';
+    var shortStatement = '';
+    var longStatement = '';
+    var outsideStatement = '';
+
+    for (var i = 0; i < array.length; i++){
+      if (array[i].slice(0, 4) == 'room'){
+        if (array[i].slice(5, 11) == 'other'){
+          roomStatement = roomStatement + ' ' + array[i].slice(12, array[i].length) + ','
+        } else if (array[i].slice(5, 9) == 'none'){
+          roomStatement = roomStatement + ' no assistive device,'
+        } else {
+          roomStatement = roomStatement + ' ' + array[i].slice(5, array[i].length) + ','
+        }      
+      }
+    }
+
+    for (var i = 0; i < array.length; i++){
+      if (array[i].slice(0, 5) == 'short'){
+        if (array[i].slice(6, 12) == 'other'){
+          shortStatement = shortStatement + ' ' + array[i].slice(13, array[i].length) + ','
+        } else if (array[i].slice(6, 10) == 'none'){
+          shortStatement = shortStatement + ' no assistive device,'
+        } else {
+          shortStatement = shortStatement + ' ' + array[i].slice(6, array[i].length) + ','
+        }      
+      }
+    }
+
+    for (var i = 0; i < array.length; i++){
+      if (array[i].slice(0, 4) == 'long'){
+        if (array[i].slice(5, 11) == 'other'){
+          longStatement = longStatement + ' ' + array[i].slice(12, array[i].length) + ','
+        } else if (array[i].slice(5, 9) == 'none'){
+          longStatement = longStatement + ' no assistive device,'
+        } else {
+          longStatement = longStatement + ' ' + array[i].slice(5, array[i].length) + ','
+        }      
+      }
+    }
+
+    for (var i = 0; i < array.length; i++){
+      if (array[i].slice(0, 7) == 'outside'){
+        if (array[i].slice(8, 14) == 'other'){
+          outsideStatement = outsideStatement + ' ' + array[i].slice(15, array[i].length) + ','
+        } else if (array[i].slice(8, 12) == 'none'){
+          outsideStatement = outsideStatement + ' no assistive device,'
+        } else {
+          outsideStatement = outsideStatement + ' ' + array[i].slice(8, array[i].length) + ','
+        }      
+      }
+    }
+
+    document.getElementById('walking-aid-answer').style.display = 'block';
+    document.getElementById('room-answer').innerHTML = roomStatement;
+    document.getElementById('short-answer').innerHTML = shortStatement;
+    document.getElementById('long-answer').innerHTML = longStatement;
+    document.getElementById('outside-answer').innerHTML = outsideStatement;
+    localStorage.setItem('roomStatement', roomStatement);
+    localStorage.setItem('shortStatement', shortStatement);
+    localStorage.setItem('longStatement', longStatement);
+    localStorage.setItem('outsideStatement', outsideStatement);
+
+    document.getElementById('walking-aid-question').style.display = 'none';
+  }
+}
+
+function resetWalkingAid(){
+  localStorage.removeItem('roomStatement');
+  localStorage.removeItem('shortStatement');
+  localStorage.removeItem('longStatement');
+  localStorage.removeItem('outsideStatement');
+
+  document.getElementById('walking-aid-answer').style.display = 'none';
+  document.getElementById('walking-aid-question').style.display = 'block';
+}
+
+// onload
+function checkWalkingAidAnswers(){
+  var roomStatement = localStorage.getItem('roomStatement');
+  if (roomStatement == null || roomStatement == 'null'){
+    document.getElementById('walking-aid-answer').style.display = 'none';
+    document.getElementById('walking-aid-question').style.display = 'block';
+  } else {
+    document.getElementById('walking-aid-answer').style.display = 'block';
+    document.getElementById('walking-aid-question').style.display = 'none';
+    document.getElementById('room-answer').innerHTML = localStorage.getItem('roomStatement');
+    document.getElementById('short-answer').innerHTML = localStorage.getItem('shortStatement');
+    document.getElementById('long-answer').innerHTML = localStorage.getItem('longStatement');
+    document.getElementById('outside-answer').innerHTML = localStorage.getItem('outsideStatement');
+  }
+}
+
 function filterActivities(){
   // declare variables
   var input, filter, ul, li, a, i, txtValue;
@@ -1849,6 +2263,130 @@ for (i = 0; i < coll.length; i++) {
       content.style.display = "block";
     }
   });
+}
+
+
+
+// onload
+function checkProfSubmitted(){
+  var ProfSubmitted = localStorage.getItem('ProfSubmitted');
+  if (ProfSubmitted == 'True'){
+    // show answers for all
+    document.getElementById('age-answer-div').style.display = 'block';
+    document.getElementById('living-alone-div').style.display = 'block';
+    document.getElementById('age-answer').innerHTML = localStorage.getItem('ageProfile');
+    document.getElementById('living-alone-statement').innerHTML = localStorage.getItem('liveAloneStatement');
+
+    // hide questions for all
+    document.getElementById('age-questions').style.display = 'none';
+    document.getElementById('live-alone-questions').style.display = 'none';
+
+    // hide submit button
+    document.getElementById('profile-submit').style.display = 'none';
+  } else {
+    var age = localStorage.getItem('ageProfile');
+    if (age == null || age == 'null' || age == ''){
+      // hide answer
+      document.getElementById('age-answer-div').style.display = 'none';
+
+      // show question
+      document.getElementById('age-questions').style.display = 'block';
+    } else {
+      // show answer
+      document.getElementById('age-answer-div').style.display = 'block';
+      document.getElementById('age-answer').innerHTML = age;
+
+      // hide question
+      document.getElementById('age-questions').style.display = 'none';
+    };
+    var liveAloneStatement = localStorage.getItem('liveAloneStatement');
+    if (liveAloneStatement == null || liveAloneStatement == 'null'){
+      // hide answer
+      document.getElementById('living-alone-div').style.display = 'none';
+
+      // show question
+      document.getElementById('live-alone-questions').style.display = 'block';
+
+    } else {
+      // show answer
+      document.getElementById('living-alone-div').style.display = 'block';
+      document.getElementById('living-alone-statement').innerHTML = liveAloneStatement;
+
+      // hide question 
+      document.getElementById('live-alone-questions').style.display = 'none';   
+    }
+  };
+  document.getElementById('profile-submit').style.display = 'none';
+}
+
+function ProfSubmit(){
+  localStorage.setItem('ProfSubmitted', 'True');
+
+  if (localStorage.getItem('ageProfile') !== '' && localStorage.getItem('ageProfile') !== null && localStorage.getItem('ageProfile') !== 'null'){
+    var age = localStorage.getItem('ageProfile');
+  } else {
+    var age = document.getElementById('profile-age').value;
+    localStorage.setItem('ageProfile', age);
+    document.getElementById('age-answer').innerHTML = localStorage.getItem('ageProfile');
+  };
+
+  var liveAlone = localStorage.getItem('liveAlone');
+  if (liveAlone == 'Yes'){
+    localStorage.setItem('liveAloneStatement', 'Living alone');
+  } else if (liveAlone == 'Sometimes'){
+    localStorage.setItem('liveAloneStatement', 'Sometimes living alone');
+  } else if (liveAlone == 'No'){
+    localStorage.setItem('liveAloneStatement', 'Not living alone');
+  };
+  document.getElementById('living-alone-statement').innerHTML = localStorage.getItem('liveAloneStatement');
+
+  // show all answers
+  document.getElementById('age-answer-div').style.display = 'block';
+  document.getElementById('living-alone-div').style.display = 'block';
+
+  // hide all questions
+  document.getElementById('age-questions').style.display = 'none';
+  document.getElementById('live-alone-questions').style.display = 'none';
+
+  // hide submit button
+  document.getElementById('profile-submit').style.display = 'none';
+}
+
+function updateAge(){
+  localStorage.setItem('ProfSubmitted', 'False');
+  var age = document.getElementById('profile-age').value;
+  var liveAloneStatement = localStorage.getItem('liveAloneStatement');
+
+  if (age !== null && age !== 'null' && liveAloneStatement !== null && liveAloneStatement !== 'null'){
+    document.getElementById('profile-submit').style.display = 'block';
+  };
+}
+
+function liveAlone(value){
+  var value = value;
+  var age = document.getElementById('profile-age').value;
+  localStorage.setItem('liveAlone', value);
+  var liveAlone = localStorage.getItem('liveAlone');
+  if (age !== null && age !== 'null' && liveAlone !== null && liveAlone !== 'null'){
+    document.getElementById('profile-submit').style.display = 'block';
+  };
+}
+
+function resetAge(){
+  localStorage.setItem('ProfSubmitted', 'False');
+  document.getElementById('profile-age').value = null;
+  localStorage.setItem('ageProfile', null);
+  document.getElementById('age-questions').style.display = 'block';
+  document.getElementById('age-answer-div').style.display = 'none';
+}
+
+function resetLiveAlone(){
+  localStorage.setItem('ProfSubmitted', 'False');
+  localStorage.setItem('liveAlone', null);
+  localStorage.setItem('liveAloneStatement', null);
+  buttonsInDiv(undefined, 'live-alone-questions', undefined, undefined);
+  document.getElementById('living-alone-div').style.display = 'none';
+  document.getElementById('live-alone-questions').style.display = 'block';
 }
 
 // - - - - - 

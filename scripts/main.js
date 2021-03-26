@@ -2211,6 +2211,14 @@ function checkWalkingAidAnswers(){
   }
 }
 
+function changeSelection(selection, id){
+  var selection = selection;
+  var id = id;
+  document.getElementById(id).innerHTML = selection;
+  showSubmit();
+  ontouchend = "touchEndFunction(id)";
+}
+
 function filterActivities(){
   // declare variables
   var input, filter, ul, li, a, i, txtValue;
@@ -2387,6 +2395,202 @@ function resetLiveAlone(){
   buttonsInDiv(undefined, 'live-alone-questions', undefined, undefined);
   document.getElementById('living-alone-div').style.display = 'none';
   document.getElementById('live-alone-questions').style.display = 'block';
+}
+
+// global variables
+var sleepqualitypref = null;
+
+function sleepQualityPref(x) {
+  var n = x;
+  sleepqualitypref = n; // changes the global variable of sleep quality based on the most recently clicked sleep quality button
+  if (n == 'Very Good'){
+    document.getElementById('sleepqual1').style.background = 'rgb(245, 191, 76)';
+    document.getElementById('sleepqual2').style.background = '#4ecdde';
+    document.getElementById('sleepqual3').style.background = '#81d3de';
+    document.getElementById('sleepqual4').style.background = '#a9d8de';
+  } else if (n == 'Fairly Good'){
+    document.getElementById('sleepqual1').style.background = '#04c3db';
+    document.getElementById('sleepqual2').style.background = 'rgb(245, 191, 76)';
+    document.getElementById('sleepqual3').style.background = '#81d3de';
+    document.getElementById('sleepqual4').style.background = '#a9d8de';
+  } else if (n == 'Fairly Bad'){
+    document.getElementById('sleepqual1').style.background = '#04c3db';
+    document.getElementById('sleepqual2').style.background = '#4ecdde';
+    document.getElementById('sleepqual3').style.background = 'rgb(245, 191, 76)';
+    document.getElementById('sleepqual4').style.background = '#a9d8de';
+  } else if (n == 'Very Bad'){
+    document.getElementById('sleepqual1').style.background = '#04c3db';
+    document.getElementById('sleepqual2').style.background = '#4ecdde';
+    document.getElementById('sleepqual3').style.background = '#81d3de';
+    document.getElementById('sleepqual4').style.background = 'rgb(245, 191, 76)';
+  }
+}
+
+// onload
+// check storage
+// if empty: show questions, hide answers, hide submit
+// if full: hide questions, show answers, fill answers, hide submit
+function sleepPrefStorage(){
+  var sleepQualityPref = localStorage.getItem('sleepqualitypref');
+  var weeknightHour = localStorage.getItem('weeknightHour');
+  var weeknightMin = localStorage.getItem('weeknightMin');
+  var weeknightAMPM = localStorage.getItem('weeknightAMPM');
+  var weekendnightHour = localStorage.getItem('weekendnightHour');
+  var weekendnightMin = localStorage.getItem('weekendnightMin');
+  var weekendnightAMPM = localStorage.getItem('weekendnightAMPM');
+  var weekdayHour = localStorage.getItem('weekdayHour');
+  var weekdayMin = localStorage.getItem('weekdayMin');
+  var weekdayAMPM = localStorage.getItem('weekdayAMPM');
+  var weekenddayHour = localStorage.getItem('weekenddayHour');
+  var weekenddayMin = localStorage.getItem('weekenddayMin');
+  var weekenddayAMPM = localStorage.getItem('weekenddayAMPM');
+  var napsFrequency = localStorage.getItem('napsFrequency');
+  var sleepStorageArray = [sleepQualityPref, weeknightHour,
+  weeknightMin, weeknightAMPM, weekendnightHour, weekendnightMin,
+  weekendnightAMPM, weekdayHour, weekdayMin, weekdayAMPM,
+  weekenddayHour, weekenddayMin, weekenddayAMPM, napsFrequency];
+
+  var storageCount = 0;
+  for (var i = 0; i < sleepStorageArray.length; i++){
+    let storagecheck = sleepStorageArray[i];
+    if (storagecheck !== null && storagecheck !== 'null' && storagecheck !== '' && storagecheck !== undefined){
+      storageCount += 1;
+    };
+  }
+  if (storageCount == sleepStorageArray.length){
+    document.getElementById('sleep-answers').style.display = 'block';
+    document.getElementById('sleep-quality-answer').innerHTML = sleepQualityPref;
+    document.getElementById('sleep-weeknight-answer').innerHTML = weeknightHour + ':' + weeknightMin + ' ' + weeknightAMPM;
+    document.getElementById('sleep-weekendnight-answer').innerHTML = weekendnightHour + ':' + weekendnightMin + ' ' + weekendnightAMPM;
+    document.getElementById('sleep-weekday-answer').innerHTML = weekdayHour + ':' + weekdayMin + ' ' + weekdayAMPM;
+    document.getElementById('sleep-weekendday-answer').innerHTML = weekenddayHour + ':' + weekenddayMin + ' ' + weekenddayAMPM;
+    document.getElementById('sleep-naps-answer').innerHTML = napsFrequency;
+
+    document.getElementById('sleep-questions').style.display = 'none';
+    document.getElementById('sleep-submit').style.display = 'none';
+  }
+}
+
+// on change 
+// check values
+// if full: show submit
+// else: hide submit
+function sleepCheckShowSubmit(){
+  var sleepQualityPref = sleepqualitypref;
+  var weeknightHour = document.getElementById('weeknight-hour').innerText;
+  var weeknightMin = document.getElementById('weeknight-minutes').innerText;
+  var weeknightAMPM = document.getElementById('weeknight-ampm').innerText;
+  var weekendnightHour = document.getElementById('weekendnight-hour').innerText;
+  var weekendnightMin = document.getElementById('weekendnight-minutes').innerText;
+  var weekendnightAMPM = document.getElementById('weekendnight-ampm').innerText;
+  var weekdayHour = document.getElementById('weekday-hour').innerText;
+  var weekdayMin = document.getElementById('weekday-minutes').innerText;
+  var weekdayAMPM = document.getElementById('weekday-ampm').innerText;
+  var weekenddayHour = document.getElementById('weekendday-hour').innerText;
+  var weekenddayMin = document.getElementById('weekendday-minutes').innerText;
+  var weekenddayAMPM = document.getElementById('weekendday-ampm').innerText;
+  var napsFrequency = document.getElementById('naps').innerText;
+  var sleepStorageArray = [sleepQualityPref, weeknightHour,
+  weeknightMin, weeknightAMPM, weekendnightHour, weekendnightMin,
+  weekendnightAMPM, weekdayHour, weekdayMin, weekdayAMPM,
+  weekenddayHour, weekenddayMin, weekenddayAMPM, napsFrequency];
+
+  var storageCount = 0;
+  for (var i = 0; i < sleepStorageArray.length; i++){
+    let storagecheck = sleepStorageArray[i];
+    if (storagecheck !== null && storagecheck !== 'null' && storagecheck !== '' && storagecheck !== undefined
+    && storagecheck !== 'Hour ' && storagecheck !==
+    'Minutes ' && storagecheck !== 
+    'AM/PM'  && storagecheck !== 
+    'Duration ' && storagecheck !== 'How often '){
+      storageCount += 1;
+    };
+  }
+  
+  if (storageCount == sleepStorageArray.length){
+    document.getElementById('sleep-submit').style.display = 'block';
+  } else {
+    document.getElementById('sleep-submit').style.display = 'none';
+  }
+  
+}
+
+// on submit
+// get values from buttons and dropdowns
+// update local storage
+// fill p-tags with values from local storage
+// hide questions, hide submit, show answers
+function sleepPrefSubmit(){
+  var sleepQualityPref = sleepqualitypref;
+  var weeknightHour = document.getElementById('weeknight-hour').innerHTML;
+  var weeknightMin = document.getElementById('weeknight-minutes').innerHTML;
+  var weeknightAMPM = document.getElementById('weeknight-ampm').innerHTML;
+  var weekendnightHour = document.getElementById('weekendnight-hour').innerHTML;
+  var weekendnightMin = document.getElementById('weekendnight-minutes').innerHTML;
+  var weekendnightAMPM = document.getElementById('weekendnight-ampm').innerHTML;
+  var weekdayHour = document.getElementById('weekday-hour').innerHTML;
+  var weekdayMin = document.getElementById('weekday-minutes').innerHTML;
+  var weekdayAMPM = document.getElementById('weekday-ampm').innerHTML;
+  var weekenddayHour = document.getElementById('weekendday-hour').innerHTML;
+  var weekenddayMin = document.getElementById('weekendday-minutes').innerHTML;
+  var weekenddayAMPM = document.getElementById('weekendday-ampm').innerHTML;
+  var napsFrequency = document.getElementById('naps').innerHTML;
+  
+  localStorage.setItem('sleepqualitypref', sleepQualityPref);
+  localStorage.setItem('weeknightHour', weeknightHour);
+  localStorage.setItem('weeknightMin', weeknightMin);
+  localStorage.setItem('weeknightAMPM', weeknightAMPM);
+  localStorage.setItem('weekendnightHour', weekendnightHour);
+  localStorage.setItem('weekendnightMin', weekendnightMin);
+  localStorage.setItem('weekendnightAMPM', weekendnightAMPM);
+  localStorage.setItem('weekdayHour', weekdayHour);
+  localStorage.setItem('weekdayMin', weekdayMin);
+  localStorage.setItem('weekdayAMPM', weekdayAMPM);
+  localStorage.setItem('weekenddayHour', weekenddayHour);
+  localStorage.setItem('weekenddayMin', weekenddayMin);
+  localStorage.setItem('weekenddayAMPM', weekenddayAMPM);
+  localStorage.setItem('napsFrequency', napsFrequency);
+  
+  localStorage.setItem('sleepqualitypref', sleepqualitypref)
+
+  document.getElementById('sleep-answers').style.display = 'block';
+  document.getElementById('sleep-quality-answer').innerHTML = sleepQualityPref;
+  document.getElementById('sleep-weeknight-answer').innerHTML = weeknightHour + ':' + weeknightMin + ' ' + weeknightAMPM;
+  document.getElementById('sleep-weekendnight-answer').innerHTML = weekendnightHour + ':' + weekendnightMin + ' ' + weekendnightAMPM;
+  document.getElementById('sleep-weekday-answer').innerHTML = weekdayHour + ':' + weekdayMin + ' ' + weekdayAMPM;
+  document.getElementById('sleep-weekendday-answer').innerHTML = weekenddayHour + ':' + weekenddayMin + ' ' + weekenddayAMPM;
+  document.getElementById('sleep-naps-answer').innerHTML = napsFrequency;
+
+  document.getElementById('sleep-questions').style.display = 'none';
+  document.getElementById('sleep-submit').style.display = 'none';
+}
+
+// on reset entries
+// reset values in buttons and dropdowns
+// clear local storage
+// show questions, hide submit, hide answers
+function resetSleepPref(){
+  sleepqualitypref = null;
+  localStorage.setItem('sleepqualitypref', null);
+  localStorage.getItem('weeknightHour', null);
+  localStorage.setItem('weeknightMin', null);
+  localStorage.setItem('weeknightAMPM', null);
+  localStorage.setItem('weekendnightHour', null);
+  localStorage.setItem('weekendnightMin', null);
+  localStorage.setItem('weekendnightAMPM', null);
+  localStorage.setItem('weekdayHour', null);
+  localStorage.setItem('weekdayMin', null);
+  localStorage.setItem('weekdayAMPM', null);
+  localStorage.setItem('weekenddayHour', null);
+  localStorage.setItem('weekenddayMin', null);
+  localStorage.setItem('weekenddayAMPM', null);
+  localStorage.setItem('napsFrequency', null);
+
+  document.getElementById('sleep-answers').style.display = 'none';
+  document.getElementById('sleep-questions').style.display = 'block';
+  document.getElementById('sleep-submit').style.display = 'none';
+
+  window.location.reload();
 }
 
 // - - - - - 

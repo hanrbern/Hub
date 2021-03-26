@@ -11,7 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="makeDailyButtons();createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list'); submitMoodAndLikertforPreferences(); checkProfSubmitted();checkWalkingAidAnswers();">
+<body onload="makeDailyButtons();createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list'); submitMoodAndLikertforPreferences(); checkProfSubmitted();checkWalkingAidAnswers();sleepPrefStorage()">
 
     <!-- Header -->
     <div class="header">
@@ -53,7 +53,7 @@
             <p>You indicated that you use the following types of assistive devices when you are walking:</p>
             
             <div style="display: block;">
-              <p style="display: inline;">(1) In and around your room: </p>
+              <p style="display: inline;">(1) In and around a single room: </p>
               <p id="room-answer" style="display: inline;"></p>
             </div>
 
@@ -79,7 +79,7 @@
           <p>The following questions will ask you about the type of assistive devices that you use in various situations. Please select any and all that apply.</p>
           <p style="font-weight: 800;">When you are walking:</p>
           <div id='aid-in-room'>
-            <p>(1) In and around your room:</p>
+            <p>(1) In and around a single room:</p>
             <label class='walking-aid-container'>No assistive device
               <input type='checkbox' id='room-none' onchange="checkChange(this, this.id)">
               <span class="checkmark"></span>
@@ -164,6 +164,256 @@
 
           <button class="btn" style="display: none;" id='walking-aid-submit' onclick="submitWalkingAid()">Submit</button>
         </div>
+        </div>
+
+        <button class="collapsible" id="collapsible-sleep" style="background-color:rgb(252, 173, 173); font-size: large; font-weight: 600;">Sleep</button>
+        <div class="content" style="background-color: rgb(245, 197, 197);">
+          <div id='sleep-answers' style="background-color: rgb(248, 248, 180); padding: 3%; display: none;">
+            <p>You indicated the following about your typical sleep patterns:</p>
+            
+            <div style="display: block;">
+              <p style="display: inline;">Overnight sleep quality:</p>
+              <p id="sleep-quality-answer" style="display: inline;"></p>
+            </div>
+
+            <div style="display: block;">
+              <p style="display: inline;">Bedtime on a weeknight:</p>
+              <p id="sleep-weeknight-answer" style="display: inline;"></p>
+            </div>
+
+            <div style="display: block;">
+              <p style="display: inline;">Bedtime on a weekend:</p>
+              <p id="sleep-weekendnight-answer" style="display: inline;"></p>
+            </div>
+
+            <div style="display: block;">
+              <p style="display: inline;">Waketime on a weekday:</p>
+              <p id="sleep-weekday-answer" style="display: inline;"></p>
+            </div>
+
+            <div style="display: block;">
+              <p style="display: inline;">Waketime on a weekend:</p>
+              <p id="sleep-weekendday-answer" style="display: inline;"></p>
+            </div>
+
+            <div style="display: block;">
+              <p style="display: inline;">Frequency of naps:</p>
+              <p id="sleep-naps-answer" style="display: inline;"></p>
+            </div>
+
+            <button class="btnx" onclick="resetSleepPref()">Reset Entries</button>
+          </div>
+          
+          <div id='sleep-questions'>
+            <p>The following questions will ask you about your typical sleep patterns.</p>
+            <div class="sleep-container" id="sleep-quality">
+              <p>How would you rate your typical overnight sleep quality?</p>
+              <button class="btn" style="background-color: #04c3db;" onclick="sleepCheckShowSubmit();sleepQualityPref('Very Good')" id="sleepqual1">Very Good</button>
+              <button class="btn" style="background-color: #4ecdde;" onclick="sleepCheckShowSubmit();sleepQualityPref('Fairly Good')" id="sleepqual2">Fairly Good</button>
+              <button class="btn" style="background-color: #81d3de;" onclick="sleepCheckShowSubmit();sleepQualityPref('Fairly Bad')" id="sleepqual3">Fairly Bad</button>
+              <button class="btn" style="background-color: #a9d8de;" onclick="sleepCheckShowSubmit();sleepQualityPref('Very Bad')" id="sleepqual4">Very Bad</button>
+            </div>
+            <p>What time do you typically go to sleep on a weeknight?</p>
+            <div class="sleep-container" id="weeknight">
+              <div class="dropdown">
+                <button class="dropbtn-new" id="weeknight-hour" onclick="dropdown('dropdown-weeknight-hour')">Hour
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content-new" id="dropdown-weeknight-hour">
+                  <a onclick="changeHour(1, 'weeknight-hour');sleepCheckShowSubmit()">1</a>
+                  <a onclick="changeHour(2, 'weeknight-hour');sleepCheckShowSubmit()">2</a>
+                  <a onclick="changeHour(3, 'weeknight-hour');sleepCheckShowSubmit()">3</a>
+                  <a onclick="changeHour(4, 'weeknight-hour');sleepCheckShowSubmit()">4</a>
+                  <a onclick="changeHour(5, 'weeknight-hour');sleepCheckShowSubmit()">5</a>
+                  <a onclick="changeHour(6, 'weeknight-hour');sleepCheckShowSubmit()">6</a>
+                  <a onclick="changeHour(7, 'weeknight-hour');sleepCheckShowSubmit()">7</a>
+                  <a onclick="changeHour(8, 'weeknight-hour');sleepCheckShowSubmit()">8</a>
+                  <a onclick="changeHour(9, 'weeknight-hour');sleepCheckShowSubmit()">9</a>
+                  <a onclick="changeHour(10, 'weeknight-hour');sleepCheckShowSubmit()">10</a>
+                  <a onclick="changeHour(11, 'weeknight-hour');sleepCheckShowSubmit()">11</a>
+                  <a onclick="changeHour(12, 'weeknight-hour');sleepCheckShowSubmit()">12</a>
+                </div>
+              </div>
+              <div class="dropdown">
+                <button class="dropbtn-new" id="weeknight-minutes" onclick="dropdown('dropdown-weeknight-minutes')">Minutes
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content-new" id="dropdown-weeknight-minutes">
+                  <a onclick="changeMin('00', 'weeknight-minutes');sleepCheckShowSubmit()">00</a>
+                  <a onclick="changeMin('10', 'weeknight-minutes');sleepCheckShowSubmit()">10</a>
+                  <a onclick="changeMin('20', 'weeknight-minutes');sleepCheckShowSubmit()">20</a>
+                  <a onclick="changeMin('30', 'weeknight-minutes');sleepCheckShowSubmit()">30</a>
+                  <a onclick="changeMin('40', 'weeknight-minutes');sleepCheckShowSubmit()">40</a>
+                  <a onclick="changeMin('50', 'weeknight-minutes');sleepCheckShowSubmit()">50</a>
+                </div>
+              </div>
+              <div class="dropdown">
+                <button class="dropbtn-new" id="weeknight-ampm" onclick="dropdown('dropdown-weeknight-ampm')">AM/PM
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content-new" id="dropdown-weeknight-ampm">
+                  <a onclick="changeAMPM('AM', 'weeknight-ampm');sleepCheckShowSubmit()">AM</a>
+                  <a onclick="changeAMPM('PM', 'weeknight-ampm');sleepCheckShowSubmit()">PM</a>
+                </div>
+              </div>
+            </div>
+            
+            <br><br>
+            <div class="sleep-container" id="weekendnight">
+              <p style="display: block;">What time do you typically go to sleep on a weekend?</p>
+              <div class="dropdown">
+                <button class="dropbtn-new" id="weekendnight-hour" onclick="dropdown('dropdown-weekendnight-hour')">Hour
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content-new" id="dropdown-weekendnight-hour">
+                  <a onclick="changeHour(1, 'weekendnight-hour');sleepCheckShowSubmit()">1</a>
+                  <a onclick="changeHour(2, 'weekendnight-hour');sleepCheckShowSubmit()">2</a>
+                  <a onclick="changeHour(3, 'weekendnight-hour');sleepCheckShowSubmit()">3</a>
+                  <a onclick="changeHour(4, 'weekendnight-hour');sleepCheckShowSubmit()">4</a>
+                  <a onclick="changeHour(5, 'weekendnight-hour');sleepCheckShowSubmit()">5</a>
+                  <a onclick="changeHour(6, 'weekendnight-hour');sleepCheckShowSubmit()">6</a>
+                  <a onclick="changeHour(7, 'weekendnight-hour');sleepCheckShowSubmit()">7</a>
+                  <a onclick="changeHour(8, 'weekendnight-hour');sleepCheckShowSubmit()">8</a>
+                  <a onclick="changeHour(9, 'weekendnight-hour');sleepCheckShowSubmit()">9</a>
+                  <a onclick="changeHour(10, 'weekendnight-hour');sleepCheckShowSubmit()">10</a>
+                  <a onclick="changeHour(11, 'weekendnight-hour');sleepCheckShowSubmit()">11</a>
+                  <a onclick="changeHour(12, 'weekendnight-hour');sleepCheckShowSubmit()">12</a>
+                </div>
+              </div>
+              <div class="dropdown">
+                <button class="dropbtn-new" id="weekendnight-minutes" onclick="dropdown('dropdown-weekendnight-minutes')">Minutes
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content-new" id="dropdown-weekendnight-minutes">
+                  <a onclick="changeMin('00', 'weekendnight-minutes');sleepCheckShowSubmit()">00</a>
+                  <a onclick="changeMin('10', 'weekendnight-minutes');sleepCheckShowSubmit()">10</a>
+                  <a onclick="changeMin('20', 'weekendnight-minutes');sleepCheckShowSubmit()">20</a>
+                  <a onclick="changeMin('30', 'weekendnight-minutes');sleepCheckShowSubmit()">30</a>
+                  <a onclick="changeMin('40', 'weekendnight-minutes');sleepCheckShowSubmit()">40</a>
+                  <a onclick="changeMin('50', 'weekendnight-minutes');sleepCheckShowSubmit()">50</a>
+                </div>
+              </div>
+              <div class="dropdown">
+                <button class="dropbtn-new" id="weekendnight-ampm" onclick="dropdown('dropdown-weekendnight-ampm')">AM/PM
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content-new" id="dropdown-weekendnight-ampm">
+                  <a onclick="changeAMPM('AM', 'weekendnight-ampm');sleepCheckShowSubmit()">AM</a>
+                  <a onclick="changeAMPM('PM', 'weekendnight-ampm');sleepCheckShowSubmit()">PM</a>
+                </div>
+              </div>
+            </div>
+
+            <br><br>
+            <div class="sleep-container" id="weekday">
+              <p>What time do you typically wake up on a weekday?</p>
+              <div class="dropdown">
+                <button class="dropbtn-new" id="weekday-hour" onclick="dropdown('dropdown-weekday-hour')">Hour
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content-new" id="dropdown-weekday-hour">
+                  <a onclick="changeHour(1, 'weekday-hour');sleepCheckShowSubmit()">1</a>
+                  <a onclick="changeHour(2, 'weekday-hour');sleepCheckShowSubmit()">2</a>
+                  <a onclick="changeHour(3, 'weekday-hour');sleepCheckShowSubmit()">3</a>
+                  <a onclick="changeHour(4, 'weekday-hour');sleepCheckShowSubmit()">4</a>
+                  <a onclick="changeHour(5, 'weekday-hour');sleepCheckShowSubmit()">5</a>
+                  <a onclick="changeHour(6, 'weekday-hour');sleepCheckShowSubmit()">6</a>
+                  <a onclick="changeHour(7, 'weekday-hour');sleepCheckShowSubmit()">7</a>
+                  <a onclick="changeHour(8, 'weekday-hour');sleepCheckShowSubmit()">8</a>
+                  <a onclick="changeHour(9, 'weekday-hour');sleepCheckShowSubmit()">9</a>
+                  <a onclick="changeHour(10, 'weekday-hour');sleepCheckShowSubmit()">10</a>
+                  <a onclick="changeHour(11, 'weekday-hour');sleepCheckShowSubmit()">11</a>
+                  <a onclick="changeHour(12, 'weekday-hour');sleepCheckShowSubmit()">12</a>
+                </div>
+              </div>
+              <div class="dropdown">
+                <button class="dropbtn-new" id="weekday-minutes" onclick="dropdown('dropdown-weekday-minutes')">Minutes
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content-new" id="dropdown-weekday-minutes">
+                  <a onclick="changeMin('00', 'weekday-minutes');sleepCheckShowSubmit()">00</a>
+                  <a onclick="changeMin('10', 'weekday-minutes');sleepCheckShowSubmit()">10</a>
+                  <a onclick="changeMin('20', 'weekday-minutes');sleepCheckShowSubmit()">20</a>
+                  <a onclick="changeMin('30', 'weekday-minutes');sleepCheckShowSubmit()">30</a>
+                  <a onclick="changeMin('40', 'weekday-minutes');sleepCheckShowSubmit()">40</a>
+                  <a onclick="changeMin('50', 'weekday-minutes');sleepCheckShowSubmit()">50</a>
+                </div>
+              </div>
+              <div class="dropdown">
+                <button class="dropbtn-new" id="weekday-ampm" onclick="dropdown('dropdown-weekday-ampm')">AM/PM
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content-new" id="dropdown-weekday-ampm">
+                  <a onclick="changeAMPM('AM', 'weekday-ampm');sleepCheckShowSubmit()">AM</a>
+                  <a onclick="changeAMPM('PM', 'weekday-ampm');sleepCheckShowSubmit()">PM</a>
+                </div>
+              </div>
+            </div>
+            <br><br>
+            <div class="sleep-container" id="weekendday">
+              <p>What time do you typically wake up on a weekend?</p>
+              <div class="dropdown">
+                <button class="dropbtn-new" id="weekendday-hour" onclick="dropdown('dropdown-weekendday-hour')">Hour
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content-new" id="dropdown-weekendday-hour">
+                  <a onclick="changeHour(1, 'weekendday-hour');sleepCheckShowSubmit()">1</a>
+                  <a onclick="changeHour(2, 'weekendday-hour');sleepCheckShowSubmit()">2</a>
+                  <a onclick="changeHour(3, 'weekendday-hour');sleepCheckShowSubmit()">3</a>
+                  <a onclick="changeHour(4, 'weekendday-hour');sleepCheckShowSubmit()">4</a>
+                  <a onclick="changeHour(5, 'weekendday-hour');sleepCheckShowSubmit()">5</a>
+                  <a onclick="changeHour(6, 'weekendday-hour');sleepCheckShowSubmit()">6</a>
+                  <a onclick="changeHour(7, 'weekendday-hour');sleepCheckShowSubmit()">7</a>
+                  <a onclick="changeHour(8, 'weekendday-hour');sleepCheckShowSubmit()">8</a>
+                  <a onclick="changeHour(9, 'weekendday-hour');sleepCheckShowSubmit()">9</a>
+                  <a onclick="changeHour(10, 'weekendday-hour');sleepCheckShowSubmit()">10</a>
+                  <a onclick="changeHour(11, 'weekendday-hour');sleepCheckShowSubmit()">11</a>
+                  <a onclick="changeHour(12, 'weekendday-hour');sleepCheckShowSubmit()">12</a>
+                </div>
+              </div>
+              <div class="dropdown">
+                <button class="dropbtn-new" id="weekendday-minutes" onclick="dropdown('dropdown-weekendday-minutes')">Minutes
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content-new" id="dropdown-weekendday-minutes">
+                  <a onclick="changeMin('00', 'weekendday-minutes');sleepCheckShowSubmit()">00</a>
+                  <a onclick="changeMin('10', 'weekendday-minutes');sleepCheckShowSubmit()">10</a>
+                  <a onclick="changeMin('20', 'weekendday-minutes');sleepCheckShowSubmit()">20</a>
+                  <a onclick="changeMin('30', 'weekendday-minutes');sleepCheckShowSubmit()">30</a>
+                  <a onclick="changeMin('40', 'weekendday-minutes');sleepCheckShowSubmit()">40</a>
+                  <a onclick="changeMin('50', 'weekendday-minutes');sleepCheckShowSubmit()">50</a>
+                </div>
+              </div>
+              <div class="dropdown">
+                <button class="dropbtn-new" id="weekendday-ampm" onclick="dropdown('dropdown-weekendday-ampm')">AM/PM
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content-new" id="dropdown-weekendday-ampm">
+                  <a onclick="changeAMPM('AM', 'weekendday-ampm');sleepCheckShowSubmit()">AM</a>
+                  <a onclick="changeAMPM('PM', 'weekendday-ampm');sleepCheckShowSubmit()">PM</a>
+                </div>
+              </div>
+            </div>
+            <br><br>
+            <p>How often do you take naps or daytime sleeps do you typically take in a week?</p>
+            <div class="dropdown">
+              <button class="dropbtn-new" id="naps" onclick="dropdown('dropdown-naps')">How often
+                <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-content-new" id="dropdown-naps">
+                <a onclick="changeAMPM('Never', 'naps');sleepCheckShowSubmit()">Never</a>
+                <a onclick="changeAMPM('Rarely', 'naps');sleepCheckShowSubmit()">Rarely</a>
+                <a onclick="changeAMPM('Once or twice a week', 'naps');sleepCheckShowSubmit()">Once or twice a week</a>
+                <a onclick="changeAMPM('Many times a week', 'naps');sleepCheckShowSubmit()">Many times a week</a>
+                <a onclick="changeAMPM('Every day', 'naps');sleepCheckShowSubmit()">Every day</a>
+                <a onclick="changeAMPM('More than once a day a few days a week', 'naps');sleepCheckShowSubmit()">More than once a day a few days a week</a>
+                <a onclick="changeAMPM('More than once a day every day', 'naps');sleepCheckShowSubmit()">More than once a day every day</a>
+              </div>
+            </div>
+            <br><br>
+            <button class="btn" id='sleep-submit' style="display: none;" onclick="sleepPrefSubmit()">Submit</button>
+          </div>
+
         </div>
 
         <button class="collapsible" id='collapsible-activity-buttons' style="background-color: #91e691; font-size: large; font-weight: 600;">Activities: Work, Daily</button>
@@ -324,6 +574,33 @@
           <button id="submit-mood" class="btn" style="display: none" onclick="submitMoodAndLikertforPreferences()">Submit</button>
         </div>
 
+        <button class="collapsible" id="collapsible-falls" style="background-color: rgb(247, 247, 130); font-size: large; font-weight: 600;">Falls</button>
+        <div class="content" style="background-color: rgb(245, 245, 154);">
+          <div id="fall-questions">
+            <p>In general, how afraid of falling are you? Select a number from 0 to 10, with 0 being not afraid, 5 being somewhat afraid, and 10 being extremely afraid.</p> 
+            <div id="fall-afraid" class="dropdown" style="display: block;">
+              <p style="display: inline;">How afraid of falling:</p>
+              <button class="dropbtn-new" id="dropdown-fall-afraid" onclick="dropdown('content-dropdown-fall-afraid')">Select a number <i class="fa fa-caret-down"></i></button>
+              <div class="dropdown-content-new" id="content-dropdown-fall-afraid">
+                <a onclick="changeSelection('0', 'dropdown-fall-afraid')">0 - not afraid</a>
+                <a onclick="changeSelection('1', 'dropdown-fall-afraid')">1</a>
+                <a onclick="changeSelection('2', 'dropdown-fall-afraid')">2</a>
+                <a onclick="changeSelection('3', 'dropdown-fall-afraid')">3</a>
+                <a onclick="changeSelection('4', 'dropdown-fall-afraid')">4</a>
+                <a onclick="changeSelection('5', 'dropdown-fall-afraid')">5 - somewhat afraid</a>
+                <a onclick="changeSelection('6', 'dropdown-fall-afraid')">6</a>
+                <a onclick="changeSelection('7', 'dropdown-fall-afraid')">7</a>
+                <a onclick="changeSelection('8', 'dropdown-fall-afraid')">8</a>
+                <a onclick="changeSelection('9', 'dropdown-fall-afraid')">9</a>
+                <a onclick="changeSelection('10', 'dropdown-fall-afraid')">10 - extremely afraid</a>
+              </div>
+            </div>
+
+            
+          </div>
+        </div>
+        
+        
         <button class="collapsible" id='collapsible-profile' style="background-color: rgb(245, 191, 76); font-size: large; font-weight: 600;">Profile</button>
         <div class="content" style="background-color: rgb(250, 225, 173);">
           <div id='profile-entries' style="background-color: rgb(202, 180, 237); padding: 3%; display: block;">

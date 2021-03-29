@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="checkSleepEntries();getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');">
+<body onload="checkSleepEntries();getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood'); onloadNoNap()">
 
   <!-- Header -->
   <div class="header">
@@ -89,7 +89,11 @@
         <p id="logmsg3"></p>
         <p id="logmsg4"></p>
         <div id="nap-entries"></div>
-        <p style="display: inline;" id="nomore-msg">Nothing else to log.</p>
+        <div id='no-naps-div' style="display: none;">
+          <p style="display: inline;">You did not nap today.</p>
+          <button class="btnx" style="display: inline;" onclick="onremoveNoNap()">X</button>
+        </div>
+        <p style="display: none;" id="nomore-msg">Nothing else to log.</p>
         <button id="nomore-btnx" style="display: inline;" class="btnx" onclick="nomoreSleep('3')">X</button>
       </div>
       
@@ -263,6 +267,8 @@
           </div>
         </div>
         <button class="btn" onclick="logNap()" id="log-nap">Submit</button>
+        <br><br>
+        <button class="btnx" id="no-nap-btn" onclick="onclickNoNap()">I did not nap today</button>
         <br><br>
         <button class="btn" id="sleep-nomore" onclick="nomoreSleep('1')">Nothing else to log</button>
         <button class='btn' id="sleep-nomore-submit" onclick="nomoreSleep('2')">Submit</button>

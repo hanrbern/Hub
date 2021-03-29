@@ -827,8 +827,8 @@ function checkNomoreSleep(){
   var BedTime = localStorage.getItem('logmessage2');
   var WakeTime = localStorage.getItem('logmessage3');
   if (localStorage.getItem('sleepComplete') == 'True'){
-    document.getElementById('nomore-msg').style.display = 'inline';
-    document.getElementById('nomore-btnx').style.display = 'inline';
+      document.getElementById('nomore-msg').style.display = 'inline';
+      document.getElementById('nomore-btnx').style.display = 'inline';
     document.getElementById('sleep-nomore').style.display = 'none';
     document.getElementById('sleep-nomore').style.background = 'white';
     document.getElementById('sleep-nomore-submit').style.display = 'none';
@@ -879,8 +879,8 @@ function nomoreSleep(value) {
     document.getElementById('sleep-nomore').style.display = 'none';
     document.getElementById('sleep-nomore-submit').style.display = 'none';
     // statement appears
-    document.getElementById('nomore-msg').style.display = 'inline';
-    document.getElementById('nomore-btnx').style.display = 'inline';
+      document.getElementById('nomore-msg').style.display = 'inline';
+      document.getElementById('nomore-btnx').style.display = 'inline';
     // storage updated --> show checkmark now instead of count
     localStorage.setItem('sleepComplete', 'True');
     FlagCountCheck();
@@ -2591,6 +2591,78 @@ function resetSleepPref(){
   document.getElementById('sleep-submit').style.display = 'none';
 
   window.location.reload();
+}
+
+//onload
+// check if fall answers are filled in local storage
+// if filled, show answers, set p-tags to local storage, hide questions, hide submit
+// if empty, hide answers, show  questions, hide submit button
+function checkFallsPref(){
+  var fallAfraid = localStorage.getItem('fallAfraid');
+  var fallBalance = localStorage.getItem('fallBalance');
+  var fallPast = localStorage.getItem('fallPast');
+
+  if (fallAfraid !== null && fallAfraid !== 'null' && fallAfraid !== '' && fallAfraid !== undefined
+  && fallBalance !== null && fallBalance !== 'null' && fallBalance !== '' && fallBalance !== undefined
+  && fallPast !== null && fallPast !== 'null' && fallPast !== '' && fallPast !== undefined){
+    document.getElementById('fall-answers').style.display = 'block';
+    document.getElementById('number-fall-afraid').innerHTML = fallAfraid;
+    document.getElementById('number-fall-balance').innerHTML = fallBalance;
+    document.getElementById('number-fall-past').innerHTML = fallPast;
+    document.getElementById('fall-questions').style.display = 'none';
+    document.getElementById('fall-submit').style.display = 'none';
+  } else {
+    document.getElementById('fall-answers').style.display = 'none';
+    document.getElementById('fall-questions').style.display = 'block';
+    document.getElementById('fall-submit').style.display = 'none';
+  }
+}
+
+// on x button
+// delete all in local storage
+// hide answers, show questions, hide submit button
+// reload page
+function resetFallsPref(){
+  localStorage.setItem('fallAfraid', '');
+  localStorage.setItem('fallBalance', '');
+  localStorage.setItem('fallPast', '');
+  document.getElementById('fall-answers').style.display = 'none';
+  document.getElementById('fall-questions').style.display = 'block';
+  document.getElementById('fall-submit').style.display = 'none';
+  window.location.reload();
+}
+
+// on change
+// check if all fields entered
+// if all entered, show submit button
+// if not, hide submit button
+function checkFallsPrefEntries(){
+  var fallAfraid = document.getElementById('dropdown-fall-afraid').innerText;
+  var fallBalance = document.getElementById('dropdown-fall-balance').innerText;
+  var fallPast = document.getElementById('input-fall-past').value;
+  if (fallAfraid !== 'Select a number ' && fallBalance !== 'Select a number ' && fallPast){
+    document.getElementById('fall-submit').style.display = 'block';
+  } else {
+    document.getElementById('fall-submit').style.display = 'none';
+  }
+}
+
+// on submit
+// update local storage
+// show answers, set p-tags to local storage, hide questions, hide submit
+function fallPrefSubmit(){
+  var fallAfraid = document.getElementById('dropdown-fall-afraid').innerText;
+  var fallBalance = document.getElementById('dropdown-fall-balance').innerText;
+  var fallPast = document.getElementById('input-fall-past').value;
+  localStorage.setItem('fallAfraid', fallAfraid);
+  localStorage.setItem('fallBalance', fallBalance);
+  localStorage.setItem('fallPast', fallPast);
+  document.getElementById('fall-answers').style.display = 'block';
+  document.getElementById('number-fall-afraid').innerHTML = fallAfraid;
+  document.getElementById('number-fall-balance').innerHTML = fallBalance;
+  document.getElementById('number-fall-past').innerHTML = fallPast;
+  document.getElementById('fall-questions').style.display = 'none';
+  document.getElementById('fall-submit').style.display = 'none';
 }
 
 // - - - - - 

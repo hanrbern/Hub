@@ -11,7 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="makeDailyButtons();createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list'); submitMoodAndLikertforPreferences(); checkProfSubmitted();checkWalkingAidAnswers();sleepPrefStorage()">
+<body onload="makeDailyButtons();createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list'); submitMoodAndLikertforPreferences(); checkProfSubmitted();checkWalkingAidAnswers();sleepPrefStorage(); checkFallsPref()">
 
     <!-- Header -->
     <div class="header">
@@ -574,29 +574,72 @@
           <button id="submit-mood" class="btn" style="display: none" onclick="submitMoodAndLikertforPreferences()">Submit</button>
         </div>
 
-        <button class="collapsible" id="collapsible-falls" style="background-color: rgb(247, 247, 130); font-size: large; font-weight: 600;">Falls</button>
+        <button class="collapsible" id="collapsible-falls" style="background-color: rgb(253, 253, 110); font-size: large; font-weight: 600;">Falls</button>
         <div class="content" style="background-color: rgb(245, 245, 154);">
+          <div id="fall-answers" style="background-color: rgb(181, 247, 236); padding: 3%;">
+            <p>You indicated the following about falls:</p>
+            <div style="display: block;">
+              <p style="display: inline;">Fear of falling on a scale from 0 (not afraid) to 10 (extremely afraid):</p>
+              <p style="display: inline;" id="number-fall-afraid"></p>
+            </div>
+            
+            <div style="display: block;">
+              <p style="display: inline;">Overall balance on a scale from 0 (very poor) to 10 (very good):</p>
+              <p style="display: inline;" id="number-fall-balance"></p>
+            </div>
+
+            <div style="display: block;">
+              <p style="display: inline;">Number of falls in the past 12 months:</p>
+              <p style="display: inline;" id="number-fall-past"></p>
+            </div>
+
+            <button class="btnx" onclick="resetFallsPref()">Reset Entries</button>
+
+          </div>
+
           <div id="fall-questions">
             <p>In general, how afraid of falling are you? Select a number from 0 to 10, with 0 being not afraid, 5 being somewhat afraid, and 10 being extremely afraid.</p> 
             <div id="fall-afraid" class="dropdown" style="display: block;">
-              <p style="display: inline;">How afraid of falling:</p>
-              <button class="dropbtn-new" id="dropdown-fall-afraid" onclick="dropdown('content-dropdown-fall-afraid')">Select a number <i class="fa fa-caret-down"></i></button>
-              <div class="dropdown-content-new" id="content-dropdown-fall-afraid">
-                <a onclick="changeSelection('0', 'dropdown-fall-afraid')">0 - not afraid</a>
-                <a onclick="changeSelection('1', 'dropdown-fall-afraid')">1</a>
-                <a onclick="changeSelection('2', 'dropdown-fall-afraid')">2</a>
-                <a onclick="changeSelection('3', 'dropdown-fall-afraid')">3</a>
-                <a onclick="changeSelection('4', 'dropdown-fall-afraid')">4</a>
-                <a onclick="changeSelection('5', 'dropdown-fall-afraid')">5 - somewhat afraid</a>
-                <a onclick="changeSelection('6', 'dropdown-fall-afraid')">6</a>
-                <a onclick="changeSelection('7', 'dropdown-fall-afraid')">7</a>
-                <a onclick="changeSelection('8', 'dropdown-fall-afraid')">8</a>
-                <a onclick="changeSelection('9', 'dropdown-fall-afraid')">9</a>
-                <a onclick="changeSelection('10', 'dropdown-fall-afraid')">10 - extremely afraid</a>
+              <p style="display: inline;">Afraid of falling:</p>
+              <button style="font-size: large;" class="dropbtn-new" id="dropdown-fall-afraid" onclick="dropdown('content-dropdown-fall-afraid')">Select a number <i class="fa fa-caret-down"></i></button>
+              <div style="font-size: large;" class="dropdown-content-new" id="content-dropdown-fall-afraid">
+                <a onclick="changeSelection('0', 'dropdown-fall-afraid'); checkFallsPrefEntries()">0 - not afraid</a>
+                <a onclick="changeSelection('1', 'dropdown-fall-afraid'); checkFallsPrefEntries()">1</a>
+                <a onclick="changeSelection('2', 'dropdown-fall-afraid'); checkFallsPrefEntries()">2</a>
+                <a onclick="changeSelection('3', 'dropdown-fall-afraid'); checkFallsPrefEntries()">3</a>
+                <a onclick="changeSelection('4', 'dropdown-fall-afraid'); checkFallsPrefEntries()">4</a>
+                <a onclick="changeSelection('5', 'dropdown-fall-afraid'); checkFallsPrefEntries()">5 - somewhat afraid</a>
+                <a onclick="changeSelection('6', 'dropdown-fall-afraid'); checkFallsPrefEntries()">6</a>
+                <a onclick="changeSelection('7', 'dropdown-fall-afraid'); checkFallsPrefEntries()">7</a>
+                <a onclick="changeSelection('8', 'dropdown-fall-afraid'); checkFallsPrefEntries()">8</a>
+                <a onclick="changeSelection('9', 'dropdown-fall-afraid'); checkFallsPrefEntries()">9</a>
+                <a onclick="changeSelection('10', 'dropdown-fall-afraid'); checkFallsPrefEntries()">10 - extremely afraid</a>
               </div>
             </div>
-
-            
+            <br><br>
+            <p>In general, how would you rate your overall balance? Select a number from 0 to 10, with 0 being very poor, 5 being pretty good, and 10 being very good.</p>
+            <div id="fall-balance" class="dropdown" style="display: block;">
+              <p style="display: inline;">Balance:</p>
+              <button class="dropbtn-new" id="dropdown-fall-balance" onclick="dropdown('content-dropdown-fall-balance')" style="font-size: large;">Select a number <i class="fa fa-caret-down"></i></button>
+              <div style="font-size: large;" class="dropdown-content-new" id="content-dropdown-fall-balance">
+                <a onclick="changeSelection('0', 'dropdown-fall-balance'); checkFallsPrefEntries()">0 - very poor</a>
+                <a onclick="changeSelection('1', 'dropdown-fall-balance'); checkFallsPrefEntries()">1</a>
+                <a onclick="changeSelection('2', 'dropdown-fall-balance'); checkFallsPrefEntries()">2</a>
+                <a onclick="changeSelection('3', 'dropdown-fall-balance'); checkFallsPrefEntries()">3</a>
+                <a onclick="changeSelection('4', 'dropdown-fall-balance'); checkFallsPrefEntries()">4</a>
+                <a onclick="changeSelection('5', 'dropdown-fall-balance'); checkFallsPrefEntries()">5 - pretty good</a>
+                <a onclick="changeSelection('6', 'dropdown-fall-balance'); checkFallsPrefEntries()">6</a>
+                <a onclick="changeSelection('7', 'dropdown-fall-balance'); checkFallsPrefEntries()">7</a>
+                <a onclick="changeSelection('8', 'dropdown-fall-balance'); checkFallsPrefEntries()">8</a>
+                <a onclick="changeSelection('9', 'dropdown-fall-balance'); checkFallsPrefEntries()">9</a>
+                <a onclick="changeSelection('10', 'dropdown-fall-balance'); checkFallsPrefEntries()">10 - very good</a>
+              </div>
+            </div>
+            <br><br><br>
+            <p style="display: inline-block;">How many falls did you experience in the past 12 months?</p>
+            <input type="number" min="0" style="font-size: large; width: 60px; display: inline-block;" id="input-fall-past" oninput="checkFallsPrefEntries()">
+            <br><br>
+            <button class="btn" id="fall-submit" onclick="fallPrefSubmit()">Submit</button>
           </div>
         </div>
         

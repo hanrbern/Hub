@@ -11,7 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="makeDailyButtons();createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list'); submitMoodAndLikertforPreferences(); checkProfSubmitted();checkWalkingAidAnswers();sleepPrefStorage(); checkFallsPref()">
+<body onload="makeDailyButtons();createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list'); activityPrefFlagCheck(); submitMoodAndLikertforPreferences(); moodPrefFlagCheck(); checkProfSubmitted();checkWalkingAidAnswers();sleepPrefStorage(); checkFallsPref(); checkPrefComplete()">
 
     <!-- Header -->
     <div class="header">
@@ -41,6 +41,50 @@
           <p id="current-date"></p>
           <p>Current Time:</p>
           <p id="current-time"></p>
+
+          <h3>Entries made:</h3>
+          <div class="dailylog" >
+            <p id='walkingaid-check' class="metric" style="background-color: rgb(167, 142, 207);">&#10003</p>
+            <p id='walkingaid-flag' class="metric" style="background-color: rgb(167, 142, 207);">&#128681</p>
+            <p class="metric" style="background-color: rgb(167, 142, 207);">Walking Aid</p>
+          </div>    
+          
+          <div class="dailylog">
+            <p id='sleep-check' class="metric" style="background-color: rgb(252, 173, 173);">&#10003</p>
+            <p id='sleep-flag' class="metric" style="background-color: rgb(252, 173, 173);">&#128681</p>
+            <p class="metric" style="background-color: rgb(252, 173, 173);">Sleep</p>
+          </div> 
+
+          <div class="dailylog">
+            <p id='activitieswork-check' class="metric" style="background-color: #91e691;">&#10003</p>
+            <p id='activitieswork-flag' class="metric" style="background-color: #91e691;">&#128681</p>
+            <p class="metric" style="background-color: #91e691;">Activities: Work</p>
+          </div> 
+
+          <div class="dailylog">
+            <p id='activitiesexercise-check' class="metric" style="background-color: #81b1eb;">&#10003</p>
+            <p id='activitiesexercise-flag' class="metric" style="background-color: #81b1eb;">&#128681</p>
+            <p class="metric" style="background-color: #81b1eb;">Activities: Exercise</p>
+          </div> 
+
+          <div class="dailylog">
+            <p id='mood-check' class="metric" style="background-color: rgb(120, 248, 227);">&#10003</p>
+            <p id='mood-flag' class="metric" style="background-color: rgb(120, 248, 227);">&#128681</p>
+            <p class="metric" style="background-color: rgb(120, 248, 227);">Mood</p>
+          </div> 
+
+          <div class="dailylog">
+            <p id='falls-check' class="metric" style="background-color: rgb(253, 253, 110);">&#10003</p>
+            <p id='falls-flag' class="metric" style="background-color: rgb(253, 253, 110);">&#128681</p>
+            <p class="metric" style="background-color: rgb(253, 253, 110);">Falls</p>
+          </div> 
+
+          <div class="dailylog">
+            <p id='profile-check' class="metric" style="background-color: rgb(245, 191, 76);">&#10003</p>
+            <p id='profile-flag' class="metric" style="background-color: rgb(245, 191, 76);">&#128681</p>
+            <p class="metric" style="background-color: rgb(245, 191, 76);">Profile</p>
+          </div> 
+
       </div>
       <div class="main">
         <h1>Preferences</h1>

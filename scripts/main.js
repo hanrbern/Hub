@@ -1784,6 +1784,7 @@ function submitMoodAndLikertforPreferences(){
             document.getElementById(id).style.color = 'black';
           };
           var countTot = parseInt(localStorage.getItem('moodCountPref'));
+        moodPrefFlagCheck();
         }
       if (!document.getElementById(p.id)){
         element.appendChild(document.createElement("br"))
@@ -1797,6 +1798,7 @@ function submitMoodAndLikertforPreferences(){
   }  
   document.getElementById('submit-mood').style.display = 'none';
   var countTot = parseInt(localStorage.getItem('moodCountPref'));
+  moodPrefFlagCheck();
 }
 
 // - - - - - - 
@@ -1829,6 +1831,9 @@ function DailyActivitySelect(id, activity){
   }
   localStorage.setItem('DailySelectedCount', count);
   localStorage.setItem('DailySelectedArray', JSON.stringify(array));
+
+  // show submit button
+  document.getElementById('daily-preferences-submit').style.display = 'block';
 }
 
 function makeDailyButtons(){
@@ -1844,21 +1849,34 @@ function makeDailyButtons(){
     document.getElementById('preferences-daily-activities').style.display = 'none';
     document.getElementById('daily-preferences-submit').style.display = 'none';
     document.getElementById('change-daily-activities').style.display = 'block';
+    document.getElementById('selected-daily-activities').style.display = 'block';    
+    // show check, hide flag
+    document.getElementById('activitieswork-check').style.display = 'inline';
+    document.getElementById('activitieswork-flag').style.display = 'none';
   } else {
     document.getElementById('preferences-daily-activities').style.display = 'inline';
     document.getElementById('daily-preferences-submit').style.display = 'block';
     document.getElementById('change-daily-activities').style.display = 'none';    
+    document.getElementById('selected-daily-activities').style.display = 'none';    
+
+    // hide check, show flag
+    document.getElementById('activitieswork-check').style.display = 'none';
+    document.getElementById('activitieswork-flag').style.display = 'inline';
   }
   document.getElementById('daily-selected-buttons').style.display = 'inline';
+  document.getElementById('daily-preferences-submit').style.display = 'none';
+
+
 }
 
 function changeDailyActivities(){
   resetCount('DailySelectedCount');
   newArrayLocalStorage('DailySelectedArray');
   document.getElementById('preferences-daily-activities').style.display = 'inline';
-  document.getElementById('daily-preferences-submit').style.display = 'block';
+  document.getElementById('daily-preferences-submit').style.display = 'none';
   document.getElementById('daily-selected-buttons').style.display = 'none';
-  document.getElementById('change-daily-activities').style.display = 'none';    
+  document.getElementById('change-daily-activities').style.display = 'none';
+  document.getElementById('selected-daily-activities').style.display = 'none';    
 
   var parent = document.getElementById('preferences-daily-activities');
   var children = [].slice.call(parent.getElementsByTagName('button'), 0);
@@ -1868,6 +1886,12 @@ function changeDailyActivities(){
     document.getElementById(id).style.color = 'black';
     document.getElementById(id).className = 'btn';
   }
+
+  // hide check, show flag
+  document.getElementById('activitieswork-check').style.display = 'none';
+  document.getElementById('activitieswork-flag').style.display = 'inline';
+
+
 }
 
 function walkingAid(Answer){
@@ -2183,6 +2207,9 @@ function submitWalkingAid(){
 
     document.getElementById('walking-aid-question').style.display = 'none';
   }
+
+  document.getElementById('walkingaid-check').style.display = 'inline';
+  document.getElementById('walkingaid-flag').style.display = 'none';
 }
 
 function resetWalkingAid(){
@@ -2193,6 +2220,9 @@ function resetWalkingAid(){
 
   document.getElementById('walking-aid-answer').style.display = 'none';
   document.getElementById('walking-aid-question').style.display = 'block';
+
+  document.getElementById('walkingaid-check').style.display = 'none';
+  document.getElementById('walkingaid-flag').style.display = 'inline';
 }
 
 // onload
@@ -2201,6 +2231,8 @@ function checkWalkingAidAnswers(){
   if (roomStatement == null || roomStatement == 'null'){
     document.getElementById('walking-aid-answer').style.display = 'none';
     document.getElementById('walking-aid-question').style.display = 'block';
+    document.getElementById('walkingaid-check').style.display = 'none';
+    document.getElementById('walkingaid-flag').style.display = 'inline';
   } else {
     document.getElementById('walking-aid-answer').style.display = 'block';
     document.getElementById('walking-aid-question').style.display = 'none';
@@ -2208,6 +2240,8 @@ function checkWalkingAidAnswers(){
     document.getElementById('short-answer').innerHTML = localStorage.getItem('shortStatement');
     document.getElementById('long-answer').innerHTML = localStorage.getItem('longStatement');
     document.getElementById('outside-answer').innerHTML = localStorage.getItem('outsideStatement');
+    document.getElementById('walkingaid-check').style.display = 'inline';
+    document.getElementById('walkingaid-flag').style.display = 'none';
   }
 }
 
@@ -2254,8 +2288,14 @@ function selectActivity(activityID){
   localStorage.setItem('activitySelections', JSON.stringify(array));
   createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list');
   var countTot = parseInt(localStorage.getItem('fallCount'));
-  document.getElementById('num-falls').innerHTML = countTot;
-  FlagCountCheck();
+  if (document.getElementById('num-falls')){
+    document.getElementById('num-falls').innerHTML = countTot;
+    FlagCountCheck();
+  }
+  
+  // show check, hide flag
+  document.getElementById('activitiesexercise-check').style.display = 'inline';
+  document.getElementById('activitiesexercise-flag').style.display = 'none';
 }
 
 var coll = document.getElementsByClassName("collapsible");
@@ -2273,7 +2313,31 @@ for (i = 0; i < coll.length; i++) {
   });
 }
 
+function activityPrefFlagCheck(){
+  var array = JSON.parse(localStorage.getItem('activitySelections'));
+  if (array.length == 0){
+    // hide check, show flag
+    document.getElementById('activitiesexercise-check').style.display = 'none';
+    document.getElementById('activitiesexercise-flag').style.display = 'inline';
+  } else {
+    // show check, hide flag
+    document.getElementById('activitiesexercise-check').style.display = 'inline';
+    document.getElementById('activitiesexercise-flag').style.display = 'none';
+  }
+}
 
+function moodPrefFlagCheck(){
+  var moodCountPref = parseInt(localStorage.getItem('moodCountPref'));
+  if (moodCountPref == 8){
+    // show check, hide flag
+    document.getElementById('mood-check').style.display = 'inline';
+    document.getElementById('mood-flag').style.display = 'none';
+  } else {
+    // hide check, show flag
+    document.getElementById('mood-check').style.display = 'none';
+    document.getElementById('mood-flag').style.display = 'inline';
+  }
+}
 
 // onload
 function checkProfSubmitted(){
@@ -2291,6 +2355,10 @@ function checkProfSubmitted(){
 
     // hide submit button
     document.getElementById('profile-submit').style.display = 'none';
+
+    // show check, hide flag
+    document.getElementById('profile-check').style.display = 'inline';
+    document.getElementById('profile-flag').style.display = 'none';
   } else {
     var age = localStorage.getItem('ageProfile');
     if (age == null || age == 'null' || age == ''){
@@ -2323,11 +2391,18 @@ function checkProfSubmitted(){
       // hide question 
       document.getElementById('live-alone-questions').style.display = 'none';   
     }
+    // hide check, show flag
+    document.getElementById('profile-check').style.display = 'none';
+    document.getElementById('profile-flag').style.display = 'inline';
   };
   document.getElementById('profile-submit').style.display = 'none';
 }
 
 function ProfSubmit(){
+  if (document.getElementById('profile-age').value == ''){
+    alert('You must enter an age before submitting')
+  } else {
+
   localStorage.setItem('ProfSubmitted', 'True');
 
   if (localStorage.getItem('ageProfile') !== '' && localStorage.getItem('ageProfile') !== null && localStorage.getItem('ageProfile') !== 'null'){
@@ -2358,6 +2433,11 @@ function ProfSubmit(){
 
   // hide submit button
   document.getElementById('profile-submit').style.display = 'none';
+
+  // show check, hide flag
+  document.getElementById('profile-check').style.display = 'inline';
+  document.getElementById('profile-flag').style.display = 'none';
+}
 }
 
 function updateAge(){
@@ -2386,6 +2466,9 @@ function resetAge(){
   localStorage.setItem('ageProfile', null);
   document.getElementById('age-questions').style.display = 'block';
   document.getElementById('age-answer-div').style.display = 'none';
+  // hide check, show flag
+  document.getElementById('profile-check').style.display = 'none';
+  document.getElementById('profile-flag').style.display = 'inline';
 }
 
 function resetLiveAlone(){
@@ -2395,6 +2478,9 @@ function resetLiveAlone(){
   buttonsInDiv(undefined, 'live-alone-questions', undefined, undefined);
   document.getElementById('living-alone-div').style.display = 'none';
   document.getElementById('live-alone-questions').style.display = 'block';
+  // hide check, show flag
+  document.getElementById('profile-check').style.display = 'none';
+  document.getElementById('profile-flag').style.display = 'inline';
 }
 
 // global variables
@@ -2468,6 +2554,14 @@ function sleepPrefStorage(){
 
     document.getElementById('sleep-questions').style.display = 'none';
     document.getElementById('sleep-submit').style.display = 'none';
+
+    // show check, hide flag
+    document.getElementById('sleep-check').style.display = 'inline';
+    document.getElementById('sleep-flag').style.display = 'none';
+  } else {
+    // hide check, show flag
+    document.getElementById('sleep-check').style.display = 'none';
+    document.getElementById('sleep-flag').style.display = 'inline';
   }
 }
 
@@ -2563,6 +2657,10 @@ function sleepPrefSubmit(){
 
   document.getElementById('sleep-questions').style.display = 'none';
   document.getElementById('sleep-submit').style.display = 'none';
+
+  // show check, hide flag
+  document.getElementById('sleep-check').style.display = 'inline';
+  document.getElementById('sleep-flag').style.display = 'none';
 }
 
 // on reset entries
@@ -2590,6 +2688,10 @@ function resetSleepPref(){
   document.getElementById('sleep-questions').style.display = 'block';
   document.getElementById('sleep-submit').style.display = 'none';
 
+  // hide check, show flag
+  document.getElementById('sleep-check').style.display = 'none';
+  document.getElementById('sleep-flag').style.display = 'block';
+
   window.location.reload();
 }
 
@@ -2611,10 +2713,16 @@ function checkFallsPref(){
     document.getElementById('number-fall-past').innerHTML = fallPast;
     document.getElementById('fall-questions').style.display = 'none';
     document.getElementById('fall-submit').style.display = 'none';
+    // show check, hide flag
+    document.getElementById('falls-check').style.display = 'inline';
+    document.getElementById('falls-flag').style.display = 'none';
   } else {
     document.getElementById('fall-answers').style.display = 'none';
     document.getElementById('fall-questions').style.display = 'block';
     document.getElementById('fall-submit').style.display = 'none';
+    // hide check, show flag
+    document.getElementById('falls-check').style.display = 'none';
+    document.getElementById('falls-flag').style.display = 'inline';
   }
 }
 
@@ -2630,6 +2738,9 @@ function resetFallsPref(){
   document.getElementById('fall-questions').style.display = 'block';
   document.getElementById('fall-submit').style.display = 'none';
   window.location.reload();
+  // hide check, show flag
+  document.getElementById('falls-check').style.display = 'none';
+  document.getElementById('falls-flag').style.display = 'inline';
 }
 
 // on change
@@ -2663,6 +2774,9 @@ function fallPrefSubmit(){
   document.getElementById('number-fall-past').innerHTML = fallPast;
   document.getElementById('fall-questions').style.display = 'none';
   document.getElementById('fall-submit').style.display = 'none';
+  // show check, hide flag
+  document.getElementById('falls-check').style.display = 'inline';
+  document.getElementById('falls-flag').style.display = 'none';
 }
 
 // - - - - - 
@@ -2754,15 +2868,22 @@ function createPAndXButtonFromArray(arrayName, countName, divID){
       localStorage.setItem(arrayName, JSON.stringify(newarr));
       decreaseCountStorage(countName);
       var countTot = parseInt(localStorage.getItem('fallCount'));
-      document.getElementById('num-falls').innerHTML = countTot;
+      if (document.getElementById('num-falls')){document.getElementById('num-falls').innerHTML = countTot;}
       localStorage.setItem('fallsComplete', 'False');
-      checkNoMoreFalls();
-      FlagCountCheck();
-      if (newarr.length == 0){
-        document.getElementById('fall-statement').style.display = 'block';
-        document.getElementById('nofall-image').style.display = 'inline';
-      }
-      createPAndXButtonFromArray('FallEntryArray', 'fallCount', 'fall-entries');
+      if (document.getElementById('num-falls')){
+        checkNoMoreFalls();
+        FlagCountCheck();
+        if (newarr.length == 0){
+          document.getElementById('fall-statement').style.display = 'block';
+          document.getElementById('nofall-image').style.display = 'inline';
+        }
+        createPAndXButtonFromArray('FallEntryArray', 'fallCount', 'fall-entries');
+      };
+      if (document.getElementById('activitiesexercise-flag')){
+        activityPrefFlagCheck();
+      } 
+      
+      
     }
     if (!document.getElementById(p.id)){element.appendChild(p);};
     if (!document.getElementById(button.id)){element.appendChild(button);};
@@ -2905,4 +3026,58 @@ function FlagCountCheck(){
     document.getElementById('num-activity').style.display = 'none';
     document.getElementById('activity-check').style.display = 'inline';
     document.getElementById('activity-flag').style.display = 'none';}
+}
+
+// CHECK IF PREFERENCES ARE COMPLETE
+function checkPrefComplete(){
+  var walkingAid = localStorage.getItem('roomStatement');
+  var walkingAidComplete = false;
+  if (walkingAid !== null && walkingAid !== 'null'){
+    walkingAidComplete = true;
+  };
+  var sleep = localStorage.getItem('napsFrequency');
+  var sleepComplete = false;
+  if (sleep !== null && sleep !== 'null' && sleep !== undefined){
+    sleepComplete = true;
+  };
+  var actWork = localStorage.getItem('DailySelectedArray');
+  var actWorkComplete = false;
+  if (actWork !== null && actWork !== 'null' && actWork !== undefined){
+    var actWorkArray = JSON.parse(actWork);
+    if (actWorkArray.length !== 0){
+      actWorkComplete = true;
+    }
+  };  
+  var actEx = localStorage.getItem('activitySelections');
+  var actExComplete = false;
+  if (actEx !== null && actEx !== 'null' && actEx !== undefined){
+    var actExArray = JSON.parse(actEx);
+    if (actExArray.length !== 0){
+      actExComplete = true;
+    };
+  };
+  var mood = localStorage.getItem('moodCountPref');
+  var moodComplete = false;
+  if (parseInt(mood) == 8){
+    moodComplete = true;
+  };
+  var falls = localStorage.getItem('fallPast');
+  var fallsComplete = false;
+  if (falls !== null && falls !== 'null' && falls !== undefined){
+    fallsComplete = true;
+  };
+  var profile = localStorage.getItem('ProfSubmitted');
+  var profileComplete = false;
+  if (profile == 'True'){
+    profileComplete = true;
+  };
+
+  if (walkingAidComplete == true && sleepComplete == true && actWorkComplete == true &&
+    actExComplete == true && moodComplete == true && fallsComplete == true && profileComplete == true){
+      // preferences page is complete
+      alert('preferences page is complete!')
+    } else {
+      // preferences page is incomplete
+      alert('preferences page is incomplete')
+    };
 }

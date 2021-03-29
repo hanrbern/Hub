@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="checkSleepEntries();getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood'); onloadNoNap()">
+<body onload="checkSleepEntries();getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');checkPrefComplete()">
 
   <!-- Header -->
   <div class="header">
@@ -268,7 +268,7 @@
         </div>
         <button class="btn" onclick="logNap()" id="log-nap">Submit</button>
         <br><br>
-        <button class="btnx" id="no-nap-btn" onclick="onclickNoNap()">I did not nap today</button>
+        <button class="btnx" id="no-nap-btn" style="display: none;">I did not nap today</button>
         <br><br>
         <button class="btn" id="sleep-nomore" onclick="nomoreSleep('1')">Nothing else to log</button>
         <button class='btn' id="sleep-nomore-submit" onclick="nomoreSleep('2')">Submit</button>

@@ -11,7 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     </head>
-<body onload="getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');FlagCountCheck(); checkPrefComplete('home')">
+<body onload="getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');FlagCountCheck(); checkPrefComplete('home'); checkAllComplete()">
 
     <!-- Header -->
     <div class="header">
@@ -27,6 +27,7 @@
         <a href="activity.html">Activity</a>
         <a href="mood.html">Mood</a>
         <a href="falls.html">Falls</a>
+        <a href="other.html">Other</a>
         <a href="javascript:void(0);" class="icon" onclick="respNav()">
           <i class="fa fa-bars"></i>
         </a>
@@ -79,11 +80,39 @@
         <div class="main">
             <p>Hello! Welcome to the Hub.</p>
             <div id="home-to-pref" style="display: none;">
-                <p>Please answer all of the questions on the preferences page before going anywhere else.</p>
+                <p>Please answer all of the questions on the preferences page before going anywhere else.
+                    This will take approximately 15 minutes to complete.
+                </p>
                 <a href="info.html"> <button class="btn">Navigate to Preferences Page</button></a>
             </div>
-            <p>Once a day, you </p>
 
+            <p>
+                Please visit every page at least once a day to answer all of the questions. 
+                For the sleep page, enter the details about your previous night's sleep in the morning (first 3 questions). 
+                For the Activity, Mood, and Falls pages, and for the nap (daytime sleep) question on the Sleep page,  answer questions about the current day.
+                You may prefer to enter all of your information at the end of the day or multiple times throughout the day.
+            </p>
+
+            <p>The panel on the left or top of your screen shows your progress. 
+                A flag (&#128681) indicates that the entries are incomplete, 
+                a check mark (&#10003) indicates that the entries are complete, 
+                and a number indicates the number of entries that have been entered so far.  
+            </p>
+
+            <div id="day-complete-submit">
+                <p>You have answered questions on every page today. 
+                    Once you submit, you will not be able to change any of your answers for today.
+                    Please confirm that all of the information has been entered correctly before submitting.
+                </p>
+                <button class="btn" onclick="submitAllPages()">Submit Entries for Today</button>
+            </div>
+
+            <div id='day-incomplete'>
+                <p>You have not completed all of  your entries for the day. 
+                    Please answer the questions on every page and then return here to submit your entries for the day.
+                </p>
+            </div>
+ 
         </div>
         </div>
       </div>

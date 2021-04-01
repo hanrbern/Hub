@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>The Hub</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name='author' content='Hannah'>
+        <meta name='description' content="This is a Hub created by NiMBaL to be used to complement data collected from wearable sensors.">
+        <link href="styles/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <!-- Header -->
+        <div class="header">
+            <img src="images/nimbal_logo_nobg.ico" alt='Neuroscience Mobility and Balance Lab Logo' width="250" height="80"> 
+            <h1>Welcome to the Hub!</h1>
+        </div>
+
+        <!-- Navigation Bar -->
+        <div class="topnav" id="myTopnav">
+            <a href="index.html" >Home</a>
+            <a href="info.html">Preferences</a>
+            <a href="sleep.html">Sleep</a>
+            <a href="activity.html">Activity</a>
+            <a href="mood.html">Mood</a>
+            <a href="falls.html">Falls</a>
+            <a href="other.html" class="active">Other</a>
+            <a href="javascript:void(0);" class="icon" onclick="respNav()">
+            <i class="fa fa-bars"></i>
+            </a>
+        </div>
+
+        <div class="row">
+            <div class="side">
+                <p id="p-username" style="display: inline">Welcome! Please log in</p>
+                <button onclick='setUsername()' style='display: inline' class="btn" id="btn-username">Change ID</button>
+                <br><p style="display: inline;">Today's Date:</p>
+                <p style="display: inline;" id="current-date"></p>
+                <br><p style="display: inline;">Current Time:</p>
+                <p style="display: inline;" id="current-time"></p>
+            </div>
+
+            <div class="main">
+                <h2>Other Information</h2>
+
+                <button class="collapsible" id='collapsible-interactive-tutorial' style="background-color: skyblue; font-size: large; font-weight: 600;">Interactive Tutorial</button>
+                <div class="content" style="background-color: rgb(164, 217, 238);">
+                    <p>You will see a number of different things to interact with on each of the pages including: dropdowns, buttons, checkboxes, text input fields.</p>
+                </div>
+            </div> 
+
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class='copyright'>
+                <span>&#169 NiMBaL 2020-2021</span>
+            </div>
+        </div>
+
+        <button onclick="topFunction()" id="top-btn" title="Go to top">Top</button>
+        <script src="scripts/main.js">
+        </script>
+    </body>
+</html>

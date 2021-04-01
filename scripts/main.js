@@ -21,7 +21,12 @@ let pUsername = document.getElementById('p-username');
 function setUsername() {
     let myName = prompt('Please enter your ID.'); // prompt displays a dialogue box, similar to alert()
     localStorage.setItem('name', myName); // calls on an API localStorage
-    pUsername.textContent = 'Welcome ' + myName + '!';
+    if (myName == 'null' || myName == null){
+      pUsername.textContent = 'Please enter your participant ID';
+    } else {
+      pUsername.textContent = 'ID: ' + myName;
+    }
+    
   }
 
   if(!localStorage.getItem('name')) {
@@ -892,7 +897,7 @@ function nomoreSleep(value) {
     localStorage.setItem('sleepComplete', 'False')
     document.getElementById('nomore-msg').style.display = 'none';
     document.getElementById('nomore-btnx').style.display = 'none';
-    document.getElementById('')
+    document.getElementById('nap').style.display = 'block';
     if (sleepqual != null && BedTime != null && WakeTime != null){
       document.getElementById('sleep-nomore').style.display = 'inline';
       document.getElementById('sleep-nomore').style.background = 'white';
@@ -3096,3 +3101,29 @@ function checkPrefComplete(page){
     };
 }
 
+// CHECK IF ALL PAGES ARE COMPLETE
+function checkAllComplete(){
+  var sleepComplete = localStorage.getItem('sleepComplete');
+  var moodCount = localStorage.getItem('moodCount');
+  var fallsComplete = localStorage.getItem('fallsComplete');
+  var activityComplete = localStorage.getItem('activityComplete');
+
+  if (sleepComplete == 'True' 
+  && parseInt(moodCount) == 8 
+  && fallsComplete == 'True'
+  && activityComplete == 'True'){
+    document.getElementById('day-complete-submit').style.display = 'block';
+    document.getElementById('day-incomplete').style.display = 'none';
+  } else {
+    document.getElementById('day-complete-submit').style.display = 'none';
+    document.getElementById('day-incomplete').style.display = 'block';
+  }
+}
+
+function submitAllPages(){
+  if (window.confirm('Once you submit, you will not be able to change any of your answers for today. Please confirm that all of the information has been entered correctly before submitting.')){
+    alert('You clicked ok')
+  } else {
+    alert('You clicked cancel')
+  }
+}

@@ -832,9 +832,11 @@ function checkNomoreSleep(){
     document.getElementById('sleep-nomore').style.display = 'none';
     document.getElementById('sleep-nomore').style.background = 'white';
     document.getElementById('sleep-nomore-submit').style.display = 'none';
+    document.getElementById('nap').style.display = 'none';
   } else if (localStorage.getItem('sleepComplete') == 'False'){
     document.getElementById('nomore-msg').style.display = 'none';
     document.getElementById('nomore-btnx').style.display = 'none';
+    document.getElementById('nap').style.display = 'block';
     if (sleepqual != null && BedTime != null && WakeTime != null){
       document.getElementById('sleep-nomore').style.display = 'inline';
       document.getElementById('sleep-nomore').style.background = 'white';
@@ -883,11 +885,14 @@ function nomoreSleep(value) {
       document.getElementById('nomore-btnx').style.display = 'inline';
     // storage updated --> show checkmark now instead of count
     localStorage.setItem('sleepComplete', 'True');
+    // hide naps entry field
+    document.getElementById('nap').style.display = 'none';
     FlagCountCheck();
   } else if (value == '3'){
     localStorage.setItem('sleepComplete', 'False')
     document.getElementById('nomore-msg').style.display = 'none';
     document.getElementById('nomore-btnx').style.display = 'none';
+    document.getElementById('')
     if (sleepqual != null && BedTime != null && WakeTime != null){
       document.getElementById('sleep-nomore').style.display = 'inline';
       document.getElementById('sleep-nomore').style.background = 'white';
@@ -3029,7 +3034,8 @@ function FlagCountCheck(){
 }
 
 // CHECK IF PREFERENCES ARE COMPLETE
-function checkPrefComplete(){
+function checkPrefComplete(page){
+  var page = page;
   var walkingAid = localStorage.getItem('roomStatement');
   var walkingAidComplete = false;
   if (walkingAid !== null && walkingAid !== 'null'){
@@ -3075,9 +3081,18 @@ function checkPrefComplete(){
   if (walkingAidComplete == true && sleepComplete == true && actWorkComplete == true &&
     actExComplete == true && moodComplete == true && fallsComplete == true && profileComplete == true){
       // preferences page is complete
-      alert('preferences page is complete!')
-    } else {
+      if (page == 'home'){
+        document.getElementById('home-to-pref').style.display = 'none';
+      } else {
+      document.getElementById('pref-modal').style.display = 'none';
+        };
+  } else {
       // preferences page is incomplete
-      alert('preferences page is incomplete')
+      if (page == 'home'){
+        document.getElementById('home-to-pref').style.display = 'block';
+      } else {
+        document.getElementById('pref-modal').style.display = 'block';
+      }
     };
 }
+

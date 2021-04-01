@@ -11,7 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     </head>
-<body onload="getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');FlagCountCheck();checkPrefComplete()">
+<body onload="getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');FlagCountCheck(); checkPrefComplete('home')">
 
     <!-- Header -->
     <div class="header">
@@ -77,32 +77,14 @@
             </div>
         </div>
         <div class="main">
-            <!-- <h2>Entries made today:</h2>
-            <div class="dailylog">
-                <p id="num-sleep" class="metric">0</p>
-                <p class="metric">Sleep</p>
-                <a href="sleep.html"><button class="btn">View</button></a>
-                
+            <p>Hello! Welcome to the Hub.</p>
+            <div id="home-to-pref" style="display: none;">
+                <p>Please answer all of the questions on the preferences page before going anywhere else.</p>
+                <a href="info.html"> <button class="btn">Navigate to Preferences Page</button></a>
             </div>
-            <div class="dailylog">
-                <p id="num-activity" class="metric" style="background-color: rgb(167, 142, 207);">0</p>
-                <p class="metric" style="background-color: rgb(167, 142, 207);">Activity</p>
-                <a href="activity.html"><button class="btn">View</button></a>
-            </div>
-            <div class="dailylog">
-                <p id="num-mood" class="metric" style="background-color: rgb(224, 135, 52);">0</p>
-                <p class="metric" style="background-color: rgb(224, 135, 52);">Mood</p>
-                <a href="mood.html"><button class="btn">View</button></a>
-            </div> -->
-            <!-- checkmark: &#10003, x-mark: &#10007 -->
-            <!-- <div class="dailylog">
-                <p id="num-falls" class="metric" style="background-color: rgb(120, 214, 132);">0</p>
-                <p class="metric" style="background-color: rgb(120, 214, 132);">Falls</p>
-                <a href="falls.html"><button class="btn">View</button></a>
-            </div>
-            <div> -->
-                <a href="info.html"> <button class="btn">Update preferences</button></a>
-            </div>
+            <p>Once a day, you </p>
+
+        </div>
         </div>
       </div>
 

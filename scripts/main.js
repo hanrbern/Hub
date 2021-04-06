@@ -2,7 +2,8 @@
 // RESPONSIVE NAVBAR
 // - - - - -
 
-const { start } = require('node:repl');
+
+// const { start } = require('node:repl');
 
 function respNav() {
     var x = document.getElementById("myTopnav");
@@ -3253,6 +3254,32 @@ function submitAllPages(){
     fallWalkingAid=JSON.parse(localStorage.getItem('fallWalkingAid'))
     )
     alert('Wrote to Falls page')
+
+    writePreferencesPage(study=study, site=site, subject=subject, 
+    walkingAidSingleRoom=localStorage.getItem('roomStatement'),
+    walkingAidShortHall=localStorage.getItem('shortStatement'),
+    walkingAidLongHall=localStorage.getItem('longStatement'),
+    walkingAidOutside=localStorage.getItem('outsideStatement'), 
+    sleepQuality=localStorage.getItem('sleepqualitypref'),
+    sleepBedWeeknight=localStorage.getItem('weeknightHour') + ':' + localStorage.getItem('weeknightMin') + ' ' + localStorage.getItem('weeknightAMPM'),
+    sleepBedWeekend=localStorage.getItem('weekendnightHour') + ':' + localStorage.getItem('weekendnightMin') + ' ' + localStorage.getItem('weekendnightAMPM'),
+    sleepWakeWeekday=localStorage.getItem('weekdayHour') + ':' + localStorage.getItem('weekdayMin') + ' ' + localStorage.getItem('weekdayAMPM'),
+    sleepWakeWeekend=localStorage.getItem('weekenddayHour') + ':' + localStorage.getItem('weekenddayMin') + ' ' + localStorage.getItem('weekenddayAMPM'),
+    sleepNapsFrequency=localStorage.getItem('napsFrequency'),
+    moodAfraid=localStorage.getItem('afraidPref'),
+    moodConfused=localStorage.getItem('confusedPref'),
+    moodSad=localStorage.getItem('sadPref'),
+    moodAngry=localStorage.getItem('angryPref'),
+    moodEnergetic=localStorage.getItem('moodPref'),
+    moodTired=localStorage.getItem('tiredPref'),
+    moodHappy=localStorage.getItem('happyPref'),
+    moodTense=localStorage.getItem('tensePref'),
+    fallsFear=localStorage.getItem('fallAfraid'),
+    fallsBalance=localStorage.getItem('fallBalance'),
+    fallsNumPast=localStorage.getItem('fallPast'),
+    profileAge=localStorage.getItem('ageProfile'),
+    profileLiveAlone=localStorage.getItem('liveAloneStatement'),
+    )
     
   } else {
     alert('You clicked cancel')

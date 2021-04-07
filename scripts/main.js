@@ -574,6 +574,12 @@ function submitActivityFromPreferences(){
   activitiesArray.push(activity);
   starttimesArray.push(hour + ':' + min + ' ' + ampm);
   durationsArray.push(duration);
+
+  // for csv-writer
+  var newActivity = activity;
+  var newStartTime = hour + ':' + min + ' ' + ampm;
+  var newDuration = duration;
+
   localStorage.setItem('activities', JSON.stringify(activitiesArray));
   localStorage.setItem('starttimes', JSON.stringify(starttimesArray));
   localStorage.setItem('durations', JSON.stringify(durationsArray));
@@ -601,6 +607,12 @@ function submitActivityFromPreferences(){
         element.removeChild(button);
         let newarr = removeItemOnce(JSON.parse(localStorage.getItem(arrayName)), p.innerHTML);
         localStorage.setItem(arrayName, JSON.stringify(newarr));
+
+        // for csv-writer
+        let newActivityArr = removeItemOnce(JSON.parse(localStorage.getItem('activities')), newActivity);
+        let newStartTimeArr = removeItemOnce(JSON.parse(localStorage.getItem('starttimes')), newStartTime);
+        let newDurationArr = removeItemOnce(JSON.parse(localStorage.getItem('durations')), newDuration);
+
         decreaseCountStorage(countName);
         var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
         document.getElementById('num-activity').innerHTML = countTot;
@@ -1022,6 +1034,8 @@ function logNap(){
   var napDurationsData = localStorage.getItem('napdurations');
   var napTimesArray = JSON.parse(napTimesData);
   var napDurationsArray = JSON.parse(napDurationsData);
+  var newNapTime = Hour + ':' + Minute + ' ' + AMPM;
+  var newNapDur = NapDur;
   napTimesArray.push(Hour + ':' + Minute + ' ' + AMPM);
   napDurationsArray.push(NapDur);
   localStorage.setItem('naptimes', JSON.stringify(napTimesArray));
@@ -1045,6 +1059,13 @@ function logNap(){
     // remove the text from the array
     newarr = removeItemOnce(JSON.parse(localStorage.getItem('NapEntryArray')), newP.innerHTML)
     localStorage.setItem('NapEntryArray', JSON.stringify(newarr));
+
+    // for csv-writer
+    newNapTimeArr = removeItemOnce(JSON.parse(localStorage.getItem('naptimes')), newNapTime);
+    newNapDurArr = removeItemOnce(JSON.parse(localStorage.getItem('napdurations')), newNapDur);
+    localStorage.setItem('naptimes', JSON.stringify(newNapTimeArr));
+    localStorage.setItem('napdurations', JSON.stringify(newNapDurArr));
+
     // decrease count by 1
     decreaseCountStorage('sleepCount')
     var countTot = parseInt(localStorage.getItem('sleepCount'));
@@ -2943,6 +2964,21 @@ function createPAndXButtonFromArray(arrayName, countName, divID){
   var arrayName = arrayName;
   var countName = countName;
   var divID = divID;
+
+  if (arrayName == 'FallEntryArray'){
+    var newFallOrNearFall = fallOrNearFall;
+    var newFallTime = fallTime;
+    var newFallLocation = fallLocation;
+    var newFallLocationInside = fallLocationInside;
+    var newFallActivity = fallActivity;
+    var newfallCause = fallCause;
+    var newfallWalkingAid = fallWalkingAid;
+    var newfallInjured = fallInjured;
+    var newfallMedical = fallMedical;
+    var newfallMoreDetails = fallMoreDetails;  
+  }
+
+
   if (localStorage.getItem(arrayName) == null){newArrayLocalStorage(arrayName)};
   var retrievedData = localStorage.getItem(arrayName);
   var array = JSON.parse(retrievedData);
@@ -2963,6 +2999,33 @@ function createPAndXButtonFromArray(arrayName, countName, divID){
       element.removeChild(button);
       let newarr = removeItemOnce(JSON.parse(localStorage.getItem(arrayName)), p.innerHTML);
       localStorage.setItem(arrayName, JSON.stringify(newarr));
+
+      // for csv-writer
+      if (arrayName == 'FallEntryArray'){
+        let newFallOrNearFallArr = removeItemOnce(JSON.parse(localStorage.getItem('fallOrNearFall')), newFallOrNearFall);
+        let newFallTimeArr = removeItemOnce(JSON.parse(localStorage.getItem('fallTime')), newFallTime);
+        let newFallLocationArr = removeItemOnce(JSON.parse(localStorage.getItem('fallLocation')), newFallLocation);
+        let newFallLocationInsideArr = removeItemOnce(JSON.parse(localStorage.getItem('fallLocationInside')), newFallLocationInside);
+        let newFallActivityArr = removeItemOnce(JSON.parse(localStorage.getItem('fallActivity')), newFallActivity);
+        let newfallCauseArr = removeItemOnce(JSON.parse(localStorage.getItem('fallCause')), newfallCause);
+        let newfallWalkingAidArr = removeItemOnce(JSON.parse(localStorage.getItem('fallInjured')), newfallWalkingAid);
+        let newfallInjuredArr = removeItemOnce(JSON.parse(localStorage.getItem('fallMedical')), newfallInjured);
+        let newfallMedicalArr = removeItemOnce(JSON.parse(localStorage.getItem('fallMoreDetails')), newfallMedical);
+        let newfallMoreDetailsArr = removeItemOnce(JSON.parse(localStorage.getItem('fallWalkingAid')), newfallMoreDetails);  
+        localStorage.setItem('fallOrNearFall', JSON.stringify(newFallOrNearFallArr));
+        localStorage.setItem('fallTime', JSON.stringify(newFallTimeArr));
+        localStorage.setItem('fallLocation', JSON.stringify(newFallLocationArr));
+        localStorage.setItem('fallLocationInside', JSON.stringify(newFallLocationInsideArr));
+        localStorage.setItem('fallActivity', JSON.stringify(newFallActivityArr));
+        localStorage.setItem('fallCause', JSON.stringify(newfallCauseArr));
+        localStorage.setItem('fallInjured', JSON.stringify(newfallWalkingAidArr));
+        localStorage.setItem('fallMedical', JSON.stringify(newfallInjuredArr));
+        localStorage.setItem('fallMoreDetails', JSON.stringify(newfallMedicalArr));
+        localStorage.setItem('fallWalkingAid', JSON.stringify(newfallMoreDetailsArr));
+      }
+
+
+
       decreaseCountStorage(countName);
       var countTot = parseInt(localStorage.getItem('fallCount'));
       if (document.getElementById('num-falls')){document.getElementById('num-falls').innerHTML = countTot;}
@@ -3282,6 +3345,7 @@ function submitAllPages(){
     )
     
   } else {
+    NEWwriteTimestamps('Test', 'UW', '1001', ['p-10', 'b-9'], ['11:53', '10:05'])
     alert('You clicked cancel')
   }
 }
@@ -3607,4 +3671,44 @@ function writePreferencesPage(study, site, subject,
           .then(() => {
               console.log('...Done');
           });
+}
+
+function NEWwriteTimestamps(study, site, subject, events, times){
+  var study = study;
+  var site = site;
+  var subject = subject;
+  var events = events;
+  var times = times;
+
+  var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
+  var dateFormat = join(new Date, date, '')
+  var dateISO = (new Date).toISOString()
+
+  const rows = [
+      ['ID', 'DATE', 'EVENT', 'TIME']
+  ]
+
+  for (var i = 0; i < events.length; i++){
+      var event = events[i];
+      var time = times[i];
+
+      record = [subject, dateISO, event, time]
+      rows.push(record)
+  }
+
+  let filename = 'data/' + study + '_' + site + '_' + subject + '_Timestamps_' + dateFormat;
+  let csvContent = 'date:text/csv;charset=utf-8';
+  rows.forEach(function(rowArray) {
+      let row = rowArray.join(",");
+      csvContent += row + "\r\n";
+  });
+  
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", filename + '.csv');
+  document.body.appendChild(link); // Required for FF
+
+  link.click()
+  console.log('Done')
 }

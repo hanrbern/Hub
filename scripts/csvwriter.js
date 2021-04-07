@@ -356,3 +356,44 @@ function writeTimestamps(study, site, subject, events, times){
         });
 }
 
+function NEWwriteTimestamps(study, site, subject, events, times){
+    var study = study;
+    var site = site;
+    var subject = subject;
+    var events = events;
+    var times = times;
+
+    var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
+    var dateFormat = join(new Date, date, '')
+    var dateISO = (new Date).toISOString()
+
+    const rows = [
+        ['ID', 'DATE', 'EVENT', 'TIME']
+    ]
+
+    for (var i = 0; i < events.length; i++){
+        var event = events[i];
+        var time = times[i];
+
+        record = [subject, dateISO, event, time]
+        rows.push(record)
+    }
+
+    let filename = 'data/' + study + '_' + site + '_' + subject + '_Timestamps_' + dateFormat;
+    let csvContent = 'date:text/csv;charset=utf-8';
+    rows.forEach(function(rowArray) {
+        let row = rowArray.join(",");
+        csvContent += row + "\r\n";
+    });
+    
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", filename + '.csv');
+    document.body.appendChild(link); // Required for FF
+
+    link.click()
+    console.log('Done')
+}
+
+NEWwriteTimestamps('Test', 'UW', '1001', ['p-10', 'b-9'], ['11:53', '10:05'])

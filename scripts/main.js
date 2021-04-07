@@ -3696,8 +3696,8 @@ function NEWwriteTimestamps(study, site, subject, events, times){
       rows.push(record)
   }
 
-  let filename = 'data/' + study + '_' + site + '_' + subject + '_Timestamps_' + dateFormat;
-  let csvContent = 'date:text/csv;charset=utf-8';
+  let filename = 'https://github.com/hanrbern/Hub/tree/main/data' + study + '_' + site + '_' + subject + '_Timestamps_' + dateFormat;
+  let csvContent = 'data:text/csv;charset=utf-8';
   rows.forEach(function(rowArray) {
       let row = rowArray.join(",");
       csvContent += row + "\r\n";

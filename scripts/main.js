@@ -20,9 +20,11 @@ function respNav() {
 
 let btnUsername = document.getElementById('btn-username');
 let pUsername = document.getElementById('p-username');
+let pStudy = document.getElementById('p-study');
+let pSite = document.getElementById('p-site');
 
 function setUsername() {
-    let myName = prompt('Please enter your ID.'); // prompt displays a dialogue box, similar to alert()
+    let myName = prompt('Please enter your participant ID'); // prompt displays a dialogue box, similar to alert()
     localStorage.setItem('name', myName); // calls on an API localStorage
     if (myName == 'null' || myName == null){
       pUsername.textContent = 'Please enter your participant ID';
@@ -30,6 +32,21 @@ function setUsername() {
       pUsername.textContent = 'ID: ' + myName;
     }
     
+    let myStudy = prompt('Please enter the study code' );
+    let mySite = prompt('Please enter the site code');
+    localStorage.setItem('study', myStudy);
+    localStorage.setItem('site', mySite);
+    if (myStudy == 'null' || myStudy == null){
+      pStudy.textContent = 'Please enter the study code';
+    } else {
+      pStudy.textContent = 'Study: ' + myStudy;
+    };
+    if (mySite == 'null' || mySite == null){
+      pSite.textContent = 'Please enter the site code';
+    } else {
+      pSite.textContent = 'Site: ' + mySite;
+    }
+
   }
 
   if(!localStorage.getItem('name')) {
@@ -37,6 +54,12 @@ function setUsername() {
   } else {
     let storedName = localStorage.getItem('name');
     pUsername.textContent = 'ID: ' + storedName;
+
+    let storedStudy = localStorage.getItem('study');
+    pStudy.textContent = 'Study: ' + storedStudy;
+
+    let storedSite = localStorage.getItem('site');
+    pSite.textContent = 'Site: ' + storedSite;
   }
 
   btnUsername.onclick = function() {
@@ -169,8 +192,10 @@ function decreaseCountStorage(name){
 
 function countStorage(name){
   var name = name; 
+  if (localStorage.hasOwnProperty(name) == false){localStorage.setItem(name, 0)};
   str_count = localStorage.getItem(name);
-  if (str_count == null || str_count == "null"){
+
+  if (str_count == null || str_count == "null" || str_count == undefined){
     count = 0;
   } else {
     count = parseInt(str_count);
@@ -411,6 +436,8 @@ function activityButtonsFromPreferences(){
         document.getElementById('activity-dur-preferences').innerHTML = 'Duration <i class="fa fa-caret-down"></i>';
         document.getElementById('activity-submit-preferences').style.display = 'none';
         
+        if (localStorage.hasOwnProperty('activityCountDaily') == false){localStorage.setItem('activityCountDaily', 0)};
+        if (localStorage.hasOwnProperty('activityCountPreferences') == false){localStorage.setItem('activityCountPreferences', 0)};
         var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
         document.getElementById('num-activity').innerHTML = countTot;
         localStorage.setItem('activityComplete', 'False')
@@ -450,6 +477,8 @@ function dailyActivitiesFromPreferences(){
       document.getElementById('daily-activities-duration').style.display = 'none';
       document.getElementById('daily-submit').style.display = 'none';
       
+      if (localStorage.hasOwnProperty('activityCountDaily') == false){localStorage.setItem('activityCountDaily', 0)};
+      if (localStorage.hasOwnProperty('activityCountPreferences') == false){localStorage.setItem('activityCountPreferences', 0)};
       var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
       document.getElementById('num-activity').innerHTML = countTot;
       localStorage.setItem('activityComplete', 'False')
@@ -472,7 +501,7 @@ function dailyActivityTime(buttonID){
 
 function loadActivity(){
   document.getElementById('start-and-duration').style.display = 'none';
-  if (localStorage.getItem('ActivityStatementArray') !== null){
+  if (localStorage.getItem('ActivityStatementArray') !== null && JSON.parse(localStorage.getItem('ActivityStatementArray')).length !== 0){
     var arrayName = 'ActivityStatementArray';
     var divID = 'logged-activities-preferences';
     var countName = 'activityCountPreferences';
@@ -490,6 +519,27 @@ function loadActivity(){
       button.style.display = 'inline';
       button.innerHTML = 'X';
       button.className = 'btnx';
+
+      let newActivity = array[i].split("<br>")[1];
+      newActivity = newActivity.split(" for")[0];
+
+      if (array[i].includes("starting at")){
+        var res = array[i].split("starting at ");
+      } else if (array[i].includes("in the")){
+        var res = array[i].split("in the ");
+      };
+      let newStartTime = res[1].split('.')[0];
+      
+      let str = array[i].split("for ")[1];
+      if (str.includes("starting at")){
+        var res = str.split("starting at ");
+      } else if (str.includes("in the")){
+        var res = str.split("in the ");
+      };
+      let newDuration = res[0].split(',')[0];
+      
+      console.log([JSON.parse(localStorage.getItem('activities')), JSON.parse(localStorage.getItem('starttimes')), JSON.parse(localStorage.getItem('durations'))])
+
       button.onclick = function(){
         element.removeChild(p);
         element.removeChild(button);
@@ -497,6 +547,17 @@ function loadActivity(){
         localStorage.setItem(arrayName, JSON.stringify(newarr));
         decreaseCountStorage(countName);
 
+        // for csv-writer
+        let newActivityArr = removeItemOnce(JSON.parse(localStorage.getItem('activities')), newActivity);
+        let newStartTimeArr = removeItemOnce(JSON.parse(localStorage.getItem('starttimes')), newStartTime);
+        let newDurationArr = removeItemOnce(JSON.parse(localStorage.getItem('durations')), newDuration);
+        localStorage.setItem('activities', JSON.stringify(newActivityArr));
+        localStorage.setItem('starttimes', JSON.stringify(newStartTimeArr));
+        localStorage.setItem('durations', JSON.stringify(newDurationArr));
+        console.log([JSON.parse(localStorage.getItem('activities')), JSON.parse(localStorage.getItem('starttimes')), JSON.parse(localStorage.getItem('durations'))])
+
+        if (localStorage.hasOwnProperty('activityCountDaily') == false){localStorage.setItem('activityCountDaily', 0)};
+        if (localStorage.hasOwnProperty('activityCountPreferences') == false){localStorage.setItem('activityCountPreferences', 0)};
         var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
         document.getElementById('num-activity').innerHTML = countTot;
         localStorage.setItem('activityComplete', 'False')
@@ -508,12 +569,16 @@ function loadActivity(){
     }
     document.getElementById('logged-activities-preferences').display = 'block';
     localStorage.setItem(countName, array.length);
+  } else {
+    newArrayLocalStorage('activities');
+    newArrayLocalStorage('starttimes');
+    newArrayLocalStorage('durations');
   };
   loadActivityPart2();
 }
 
 function loadActivityPart2(){
-  if (localStorage.getItem('DailyActivityStatementArray') !== null){
+  if (localStorage.getItem('DailyActivityStatementArray') !== null && JSON.parse(localStorage.getItem('DailyActivityStatementArray')).length !== 0){
     var arrayName = 'DailyActivityStatementArray';
     var divID = 'logged-daily-activities';
     var countName = 'activityCountDaily';
@@ -531,15 +596,49 @@ function loadActivityPart2(){
       button.style.display = 'inline';
       button.innerHTML = 'X';
       button.className = 'btnx';
+
+      // for csv-writer
+      let newActivity = array[i].split("<br>")[1];
+      newActivity = newActivity.split(" for")[0];
+
+      if (array[i].includes("starting at")){
+        var res = array[i].split("starting at ");
+      } else if (array[i].includes("in the")){
+        var res = array[i].split("in the ");
+      };
+      let newStartTime = res[1].split('.')[0];
+      
+      let str = array[i].split("for ")[1];
+      if (str.includes("starting at")){
+        var res = str.split("starting at ");
+      } else if (str.includes("in the")){
+        var res = str.split("in the ");
+      };
+      let newDuration = res[0].split(',')[0];
+
       button.onclick = function(){
         element.removeChild(p);
         element.removeChild(button);
         let newarr = removeItemOnce(JSON.parse(localStorage.getItem(arrayName)), p.innerHTML);
         localStorage.setItem(arrayName, JSON.stringify(newarr));
         decreaseCountStorage(countName);
+        if (localStorage.hasOwnProperty('activityCountDaily') == false){localStorage.setItem('activityCountDaily', 0)};
+        if (localStorage.hasOwnProperty('activityCountPreferences') == false){localStorage.setItem('activityCountPreferences', 0)};
         var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
         document.getElementById('num-activity').innerHTML = countTot;
         localStorage.setItem('activityComplete', 'False')
+
+        // for csv-writer
+        console.log([JSON.parse(localStorage.getItem('activities')), JSON.parse(localStorage.getItem('starttimes')), JSON.parse(localStorage.getItem('durations'))])
+        let newActivityArr = removeItemOnce(JSON.parse(localStorage.getItem('activities')), newActivity);
+        let newStartTimeArr = removeItemOnce(JSON.parse(localStorage.getItem('starttimes')), newStartTime);
+        let newDurationArr = removeItemOnce(JSON.parse(localStorage.getItem('durations')), newDuration);
+        localStorage.setItem('activities', JSON.stringify(newActivityArr));
+        localStorage.setItem('starttimes', JSON.stringify(newStartTimeArr));
+        localStorage.setItem('durations', JSON.stringify(newDurationArr));
+        console.log([JSON.parse(localStorage.getItem('activities')), JSON.parse(localStorage.getItem('starttimes')), JSON.parse(localStorage.getItem('durations'))])
+
+
         checkNoMoreActivity();
         FlagCountCheck();
       };
@@ -548,6 +647,10 @@ function loadActivityPart2(){
     }
     document.getElementById('logged-daily-activities').display = 'block';
     localStorage.setItem(countName, array.length);
+  } else {
+    newArrayLocalStorage('activities');
+    newArrayLocalStorage('starttimes');
+    newArrayLocalStorage('durations');
   }
 }
 
@@ -583,6 +686,8 @@ function submitActivityFromPreferences(){
   localStorage.setItem('activities', JSON.stringify(activitiesArray));
   localStorage.setItem('starttimes', JSON.stringify(starttimesArray));
   localStorage.setItem('durations', JSON.stringify(durationsArray));
+  console.log([JSON.parse(localStorage.getItem('activities')), JSON.parse(localStorage.getItem('starttimes')), JSON.parse(localStorage.getItem('durations'))])
+
 
   if (localStorage.getItem('ActivityStatementArray') !== null){
     var arrayName = 'ActivityStatementArray';
@@ -609,11 +714,18 @@ function submitActivityFromPreferences(){
         localStorage.setItem(arrayName, JSON.stringify(newarr));
 
         // for csv-writer
+        console.log([JSON.parse(localStorage.getItem('activities')), JSON.parse(localStorage.getItem('starttimes')), JSON.parse(localStorage.getItem('durations'))])
         let newActivityArr = removeItemOnce(JSON.parse(localStorage.getItem('activities')), newActivity);
         let newStartTimeArr = removeItemOnce(JSON.parse(localStorage.getItem('starttimes')), newStartTime);
         let newDurationArr = removeItemOnce(JSON.parse(localStorage.getItem('durations')), newDuration);
+        localStorage.setItem('activities', JSON.stringify(newActivityArr));
+        localStorage.setItem('starttimes', JSON.stringify(newStartTimeArr));
+        localStorage.setItem('durations', JSON.stringify(newDurationArr));
+        console.log([JSON.parse(localStorage.getItem('activities')), JSON.parse(localStorage.getItem('starttimes')), JSON.parse(localStorage.getItem('durations'))])
 
         decreaseCountStorage(countName);
+        if (localStorage.hasOwnProperty('activityCountDaily') == false){localStorage.setItem('activityCountDaily', 0)};
+        if (localStorage.hasOwnProperty('activityCountPreferences') == false){localStorage.setItem('activityCountPreferences', 0)};
         var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
         document.getElementById('num-activity').innerHTML = countTot;
         localStorage.setItem('activityComplete', 'False')
@@ -625,13 +737,18 @@ function submitActivityFromPreferences(){
     }
     document.getElementById('logged-activities-preferences').display = 'block';
     localStorage.setItem(countName, array.length);
+
+    if (localStorage.hasOwnProperty('activityCountDaily') == false){localStorage.setItem('activityCountDaily', 0)};
+    if (localStorage.hasOwnProperty('activityCountPreferences') == false){localStorage.setItem('activityCountPreferences', 0)};
     var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
+
     document.getElementById('num-activity').innerHTML = countTot;
     localStorage.setItem('activityComplete', 'False')
     checkNoMoreActivity();
     FlagCountCheck();
+    // window.location.reload();
   };
-  // reset acivity buttons
+  // reset activity buttons
   buttonsInDiv('All', 'activities-from-preferences', undefined, undefined);
   // rest question buttons
   document.getElementById('dropdown-hour-preferences').innerHTML = 'Hour <i class="fa fa-caret-down"></i>';
@@ -658,6 +775,29 @@ function submitDailyActivity(){
   var message = '<br>' + activityStatement + ' for ' + duration + ' in the ' + time + '.'; 
   array.push(message);
   localStorage.setItem('DailyActivityStatementArray', JSON.stringify(array));
+
+  // for csv-writer
+  if (localStorage.getItem('activities') == null){newArrayLocalStorage('activities')};
+  if (localStorage.getItem('starttimes') == null){newArrayLocalStorage('starttimes')};
+  if (localStorage.getItem('durations') == null){newArrayLocalStorage('durations')};
+  var activitiesArray = JSON.parse(localStorage.getItem('activities'));
+  var starttimesArray = JSON.parse(localStorage.getItem('starttimes'));
+  var durationsArray = JSON.parse(localStorage.getItem('durations'));
+  activitiesArray.push(activity);
+  starttimesArray.push(time);
+  durationsArray.push(duration);
+
+  // for csv-writer
+  var newActivity = activity;
+  var newStartTime = time;
+  var newDuration = duration;
+
+  localStorage.setItem('activities', JSON.stringify(activitiesArray));
+  localStorage.setItem('starttimes', JSON.stringify(starttimesArray));
+  localStorage.setItem('durations', JSON.stringify(durationsArray));
+  console.log([JSON.parse(localStorage.getItem('activities')), JSON.parse(localStorage.getItem('starttimes')), JSON.parse(localStorage.getItem('durations'))])
+
+
   if (localStorage.getItem('DailyActivityStatementArray') !== null){
     var arrayName = 'DailyActivityStatementArray';
     var divID = 'logged-daily-activities';
@@ -682,9 +822,22 @@ function submitDailyActivity(){
         let newarr = removeItemOnce(JSON.parse(localStorage.getItem(arrayName)), p.innerHTML);
         localStorage.setItem(arrayName, JSON.stringify(newarr));
         decreaseCountStorage(countName);
+        if (localStorage.hasOwnProperty('activityCountDaily') == false){localStorage.setItem('activityCountDaily', 0)};
+        if (localStorage.hasOwnProperty('activityCountPreferences') == false){localStorage.setItem('activityCountPreferences', 0)};
         var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
         document.getElementById('num-activity').innerHTML = countTot;  
         localStorage.setItem('activityComplete', 'False')
+
+        // for csv-writer
+        console.log([JSON.parse(localStorage.getItem('activities')), JSON.parse(localStorage.getItem('starttimes')), JSON.parse(localStorage.getItem('durations'))])
+        let newActivityArr = removeItemOnce(JSON.parse(localStorage.getItem('activities')), newActivity);
+        let newStartTimeArr = removeItemOnce(JSON.parse(localStorage.getItem('starttimes')), newStartTime);
+        let newDurationArr = removeItemOnce(JSON.parse(localStorage.getItem('durations')), newDuration);
+        localStorage.setItem('activities', JSON.stringify(newActivityArr));
+        localStorage.setItem('starttimes', JSON.stringify(newStartTimeArr));
+        localStorage.setItem('durations', JSON.stringify(newDurationArr));
+        console.log([JSON.parse(localStorage.getItem('activities')), JSON.parse(localStorage.getItem('starttimes')), JSON.parse(localStorage.getItem('durations'))])
+
         checkNoMoreActivity();
         FlagCountCheck();   
       };
@@ -693,13 +846,17 @@ function submitDailyActivity(){
     }
     document.getElementById('logged-daily-activities').display = 'block';
     localStorage.setItem(countName, array.length);
+
+    if (localStorage.hasOwnProperty('activityCountDaily') == false){localStorage.setItem('activityCountDaily', 0)};
+    if (localStorage.hasOwnProperty('activityCountPreferences') == false){localStorage.setItem('activityCountPreferences', 0)};
     var countTot = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
     document.getElementById('num-activity').innerHTML = countTot;
     localStorage.setItem('activityComplete', 'False')
     checkNoMoreActivity();
     FlagCountCheck();
+    // window.location.reload();
   };
-  // reset acivity buttons
+  // reset activity buttons
   buttonsInDiv('All', 'daily-activities', undefined, undefined);
   // reset question buttons
   buttonsInDiv('All', 'daily-activity-time', undefined, undefined)
@@ -880,6 +1037,15 @@ function checkNomoreSleep(){
       document.getElementById('sleep-nomore').style.display = 'none';
       document.getElementById('sleep-nomore-submit').style.display = 'none';
     }
+  } else {
+    if (sleepqual != null && BedTime != null && WakeTime != null){
+      document.getElementById('sleep-nomore').style.display = 'inline';
+      document.getElementById('sleep-nomore').style.background = 'white';
+      document.getElementById('sleep-nomore-submit').style.display = 'none';
+    } else {
+      document.getElementById('sleep-nomore').style.display = 'none';
+      document.getElementById('sleep-nomore-submit').style.display = 'none';
+    }
   }
   document.getElementById('bedtime-hour').innerHTML = 'Hour <i class="fa fa-caret-down"></i>';
   document.getElementById('bedtime-minutes').innerHTML = 'Minutes <i class="fa fa-caret-down"></i>';
@@ -895,6 +1061,7 @@ function checkNomoreSleep(){
   document.getElementById('sleepqual4').style.background = '#a9d8de';
   document.getElementById('log-sleep-quality').style.display = 'none';
 
+  if (localStorage.hasOwnProperty('sleepCount') == false){localStorage.setItem('sleepCount', 0)};
   var countTot = parseInt(localStorage.getItem('sleepCount'));
   document.getElementById('num-sleep').innerHTML = countTot;
   FlagCountCheck();
@@ -965,6 +1132,7 @@ function sleepQuality(x) {
     document.getElementById('sleepqual4').style.background = 'rgb(245, 191, 76)';
   }
   document.getElementById('log-sleep-quality').style.display = 'inline';
+  FlagCountCheck();
 }
 
 function logSleepQuality(){
@@ -980,6 +1148,7 @@ function logSleepQuality(){
     // Create button to remove the sleepquality entry
     createClearButton('logmsg1', 'logmessage1', 'clearlogmsg1', 'sleep-quality', 'sleepCount');
   }
+  FlagCountCheck();
   checkNomoreSleep();
 }
 
@@ -1061,13 +1230,17 @@ function logNap(){
     localStorage.setItem('NapEntryArray', JSON.stringify(newarr));
 
     // for csv-writer
+    console.log([JSON.parse(localStorage.getItem('naptimes')), JSON.parse(localStorage.getItem('napdurations'))])
     newNapTimeArr = removeItemOnce(JSON.parse(localStorage.getItem('naptimes')), newNapTime);
     newNapDurArr = removeItemOnce(JSON.parse(localStorage.getItem('napdurations')), newNapDur);
     localStorage.setItem('naptimes', JSON.stringify(newNapTimeArr));
     localStorage.setItem('napdurations', JSON.stringify(newNapDurArr));
+    console.log([JSON.parse(localStorage.getItem('naptimes')), JSON.parse(localStorage.getItem('napdurations'))])
+
 
     // decrease count by 1
     decreaseCountStorage('sleepCount')
+    if (localStorage.hasOwnProperty('sleepCount') == false){localStorage.setItem('sleepCount', 0)};
     var countTot = parseInt(localStorage.getItem('sleepCount'));
     document.getElementById('num-sleep').innerHTML = countTot;
     localStorage.setItem('sleepComplete', 'False');
@@ -1083,6 +1256,7 @@ function logNap(){
   document.getElementById('nap-ampm').innerHTML = 'AM/PM <i class="fa fa-caret-down"></i>';
   document.getElementById('nap-dur').innerHTML = 'Duration <i class="fa fa-caret-down"></i>';
   document.getElementById('log-nap').style.display = 'none';
+  if (localStorage.hasOwnProperty('sleepCount') == false){localStorage.setItem('sleepCount', 0)};
   var countTot = parseInt(localStorage.getItem('sleepCount'));
   document.getElementById('num-sleep').innerHTML = countTot;
   localStorage.setItem('sleepComplete', 'False');
@@ -1116,55 +1290,55 @@ function submitFall(){
   localStorage.setItem('FallEntryArray', JSON.stringify(array));
 
   // for csv-writer
-  if (localStorage.getItem('fallOrNearFall') == null){newArrayLocalStorage('fallOrNearFall')};
-  var fallOrNearFallArray = JSON.parse(localStorage.getItem('fallOrNearFall'));
+  if (localStorage.hasOwnProperty('fallOrNearFallCSV') == false){newArrayLocalStorage('fallOrNearFallCSV')};
+  var fallOrNearFallArray = JSON.parse(localStorage.getItem('fallOrNearFallCSV'));
   fallOrNearFallArray.push(fallOrNearFall);
-  localStorage.setItem('fallOrNearFall', fallOrNearFallArray);
+  localStorage.setItem('fallOrNearFallCSV', JSON.stringify(fallOrNearFallArray));
 
-  if (localStorage.getItem('fallTime') == null){newArrayLocalStorage('fallTime')};
-  var fallTimeArray = JSON.parse(localStorage.getItem('fallTime'));
+  if (localStorage.hasOwnProperty('fallTimeCSV') == false){newArrayLocalStorage('fallTimeCSV')};
+  var fallTimeArray = JSON.parse(localStorage.getItem('fallTimeCSV'));
   fallTimeArray.push(fallTime);
-  localStorage.setItem('fallTime', fallTimeArray);
+  localStorage.setItem('fallTimeCSV', JSON.stringify(fallTimeArray));
 
-  if (localStorage.getItem('fallLocation') == null){newArrayLocalStorage('fallLocation')};
-  var fallLocationArray = JSON.parse(localStorage.getItem('fallLocation'));
+  if (localStorage.hasOwnProperty('fallLocationCSV') == false){newArrayLocalStorage('fallLocationCSV')};
+  var fallLocationArray = JSON.parse(localStorage.getItem('fallLocationCSV'));
   fallLocationArray.push(fallLocation);
-  localStorage.setItem('fallLocation', fallLocationArray);
+  localStorage.setItem('fallLocationCSV', JSON.stringify(fallLocationArray));
 
-  if (localStorage.getItem('fallLocationInside') == null){newArrayLocalStorage('fallLocationInside')};
-  var fallLocationInsideArray = JSON.parse(localStorage.getItem('fallLocationInside'));
+  if (localStorage.hasOwnProperty('fallLocationInsideCSV') == false){newArrayLocalStorage('fallLocationInsideCSV')};
+  var fallLocationInsideArray = JSON.parse(localStorage.getItem('fallLocationInsideCSV'));
   fallLocationInsideArray.push(fallLocationInside);
-  localStorage.setItem('fallLocationInside', fallLocationInsideArray);
+  localStorage.setItem('fallLocationInsideCSV', JSON.stringify(fallLocationInsideArray));
 
-  if (localStorage.getItem('fallActivity') == null){newArrayLocalStorage('fallActivity')};
-  var fallActivityArray = JSON.parse(localStorage.getItem('fallActivity'));
+  if (localStorage.hasOwnProperty('fallActivityCSV') == false){newArrayLocalStorage('fallActivityCSV')};
+  var fallActivityArray = JSON.parse(localStorage.getItem('fallActivityCSV'));
   fallActivityArray.push(fallActivity);
-  localStorage.setItem('fallActivity', fallActivityArray);
+  localStorage.setItem('fallActivityCSV', JSON.stringify(fallActivityArray));
 
-  if (localStorage.getItem('fallCause') == null){newArrayLocalStorage('fallCause')};
-  var fallCauseArray = JSON.parse(localStorage.getItem('fallCause'));
+  if (localStorage.hasOwnProperty('fallCauseCSV') == false){newArrayLocalStorage('fallCauseCSV')};
+  var fallCauseArray = JSON.parse(localStorage.getItem('fallCauseCSV'));
   fallCauseArray.push(fallCause);
-  localStorage.setItem('fallCause', fallCauseArray);
+  localStorage.setItem('fallCauseCSV', JSON.stringify(fallCauseArray));
 
-  if (localStorage.getItem('fallInjured') == null){newArrayLocalStorage('fallInjured')};
-  var fallInjuredArray = JSON.parse(localStorage.getItem('fallInjured'));
+  if (localStorage.hasOwnProperty('fallInjuredCSV') == false){newArrayLocalStorage('fallInjuredCSV')};
+  var fallInjuredArray = JSON.parse(localStorage.getItem('fallInjuredCSV'));
   fallInjuredArray.push(fallInjured);
-  localStorage.setItem('fallInjured', fallInjuredArray);
+  localStorage.setItem('fallInjuredCSV', JSON.stringify(fallInjuredArray));
 
-  if (localStorage.getItem('fallMedical') == null){newArrayLocalStorage('fallMedical')};
-  var fallMedicalArray = JSON.parse(localStorage.getItem('fallMedical'));
+  if (localStorage.hasOwnProperty('fallMedicalCSV') == false){newArrayLocalStorage('fallMedicalCSV')};
+  var fallMedicalArray = JSON.parse(localStorage.getItem('fallMedicalCSV'));
   fallMedicalArray.push(fallMedical);
-  localStorage.setItem('fallMedical', fallMedicalArray);
+  localStorage.setItem('fallMedicalCSV', JSON.stringify(fallMedicalArray));
 
-  if (localStorage.getItem('fallMoreDetails') == null){newArrayLocalStorage('fallMoreDetails')};
-  var fallMoreDetailsArray = JSON.parse(localStorage.getItem('fallMoreDetails'));
+  if (localStorage.hasOwnProperty('fallMoreDetailsCSV') == false){newArrayLocalStorage('fallMoreDetailsCSV')};
+  var fallMoreDetailsArray = JSON.parse(localStorage.getItem('fallMoreDetailsCSV'));
   fallMoreDetailsArray.push(fallMoreDetails);
-  localStorage.setItem('fallMoreDetails', fallMoreDetailsArray);
+  localStorage.setItem('fallMoreDetailsCSV', JSON.stringify(fallMoreDetailsArray));
 
-  if (localStorage.getItem('fallWalkingAid') == null){newArrayLocalStorage('fallWalkingAid')};
-  var fallWalkingAidArray = JSON.parse(localStorage.getItem('fallWalkingAid'));
+  if (localStorage.hasOwnProperty('fallWalkingAidCSV') == false){newArrayLocalStorage('fallWalkingAidCSV')};
+  var fallWalkingAidArray = JSON.parse(localStorage.getItem('fallWalkingAidCSV'));
   fallWalkingAidArray.push(fallWalkingAid);
-  localStorage.setItem('fallWalkingAid', fallWalkingAidArray);
+  localStorage.setItem('fallWalkingAidCSV', JSON.stringify(fallWalkingAidArray));
 
   document.getElementById('fall-time').style.display = 'none';
   document.getElementById('fall-location').style.display = 'none';
@@ -1179,14 +1353,16 @@ function submitFall(){
   document.getElementById('fall-image').src = 'images/fall_words.ico';
   document.getElementById('almostfall-image').src = 'images/almostfall_words.ico';
   createPAndXButtonFromArray('FallEntryArray', 'fallCount', 'fall-entries');
+  window.location.reload()
   
   document.getElementById('fall-textarea').value = '';
+  if (localStorage.hasOwnProperty('fallCount') == false){localStorage.setItem('fallCount', 0)};
   var countTot = parseInt(localStorage.getItem('fallCount'));
   document.getElementById('num-falls').innerHTML = countTot;
   localStorage.setItem('fallsComplete', 'False');
   var countTot = parseInt(localStorage.getItem('fallCount'));
   document.getElementById('num-falls').innerHTML = countTot;
-  checkFallEntries();
+  // checkFallEntries();
   checkNoMoreFalls();
   FlagCountCheck();
 }
@@ -1557,6 +1733,18 @@ function submitNoFall(){
   document.getElementById('almostfall-image').style.display = 'none';
   document.getElementById('nofall-image').style.display = 'none';
   document.getElementById('submit-nofall').style.display = 'none';
+
+  localStorage.setItem('fallOrNearFallCSV', JSON.stringify([null]));
+  localStorage.setItem('fallTimeCSV', JSON.stringify([null]));
+  localStorage.setItem('fallLocationCSV', JSON.stringify([null]));
+  localStorage.setItem('fallLocationInsideCSV', JSON.stringify([null]));
+  localStorage.setItem('fallActivityCSV', JSON.stringify([null]));
+  localStorage.setItem('fallCauseCSV', JSON.stringify([null]));
+  localStorage.setItem('fallInjuredCSV', JSON.stringify([null]));
+  localStorage.setItem('fallMedicalCSV',JSON.stringify([null]));
+  localStorage.setItem('fallMoreDetailsCSV', JSON.stringify([null]));
+  localStorage.setItem('fallWalkingAidCSV', JSON.stringify([null]));
+
   FlagCountCheck();
 }
 
@@ -1732,8 +1920,14 @@ function changeLikertMood(divID, buttonID, likert, mood){
       document.getElementById(buttonID).style.color = 'white';
     }
   };
-  if (afraid !==  'null' && confused !==  'null' && sad !==  'null' && angry !==  'null' && energetic !== 'null' && tired !== 'null' && happy !== 'null' && tense !== 'null'){
-    document.getElementById('submit-mood').style.display = 'block';
+  if (
+    (afraid !==  'null' && confused !==  'null' && sad !==  'null' && angry !==  'null' && energetic !== 'null' && tired !== 'null' && happy !== 'null' && tense !== 'null') && 
+    (afraid !==  undefined && confused !==  undefined && sad !==  undefined && angry !==  undefined && energetic !== undefined && tired !== undefined && happy !== undefined && tense !== undefined) && 
+    (afraid !==  null && confused !==  null && sad !==  null && angry !==  null && energetic !== null && tired !== null && happy !== null && tense !== null)
+  )
+    {
+      document.getElementById('submit-mood').style.display = 'block';
+    
   };
 }
 
@@ -1843,6 +2037,7 @@ function submitMoodAndLikert(){
     }
   }  
   document.getElementById('submit-mood').style.display = 'none';
+  if (localStorage.hasOwnProperty('moodCount') == false){localStorage.setItem('moodCount', 0)};
   var countTot = parseInt(localStorage.getItem('moodCount'));
   document.getElementById('num-mood').innerHTML = countTot;
   FlagCountCheck();
@@ -1915,6 +2110,7 @@ function submitMoodAndLikertforPreferences(){
     }
   }  
   document.getElementById('submit-mood').style.display = 'none';
+  if (localStorage.hasOwnProperty('moodCountPref') == false){localStorage.setItem('moodCountPref', 0)};
   var countTot = parseInt(localStorage.getItem('moodCountPref'));
   moodPrefFlagCheck();
 }
@@ -2268,11 +2464,11 @@ function submitWalkingAid(){
     for (var i = 0; i < array.length; i++){
       if (array[i].slice(0, 4) == 'room'){
         if (array[i].slice(5, 11) == 'other'){
-          roomStatement = roomStatement + ' ' + array[i].slice(12, array[i].length) + ','
+          roomStatement = roomStatement + ' ' + array[i].slice(12, array[i].length) + ';'
         } else if (array[i].slice(5, 9) == 'none'){
-          roomStatement = roomStatement + ' no assistive device,'
+          roomStatement = roomStatement + ' no assistive device;'
         } else {
-          roomStatement = roomStatement + ' ' + array[i].slice(5, array[i].length) + ','
+          roomStatement = roomStatement + ' ' + array[i].slice(5, array[i].length) + ';'
         }      
       }
     }
@@ -2280,11 +2476,11 @@ function submitWalkingAid(){
     for (var i = 0; i < array.length; i++){
       if (array[i].slice(0, 5) == 'short'){
         if (array[i].slice(6, 12) == 'other'){
-          shortStatement = shortStatement + ' ' + array[i].slice(13, array[i].length) + ','
+          shortStatement = shortStatement + ' ' + array[i].slice(13, array[i].length) + ';'
         } else if (array[i].slice(6, 10) == 'none'){
-          shortStatement = shortStatement + ' no assistive device,'
+          shortStatement = shortStatement + ' no assistive device;'
         } else {
-          shortStatement = shortStatement + ' ' + array[i].slice(6, array[i].length) + ','
+          shortStatement = shortStatement + ' ' + array[i].slice(6, array[i].length) + ';'
         }      
       }
     }
@@ -2292,11 +2488,11 @@ function submitWalkingAid(){
     for (var i = 0; i < array.length; i++){
       if (array[i].slice(0, 4) == 'long'){
         if (array[i].slice(5, 11) == 'other'){
-          longStatement = longStatement + ' ' + array[i].slice(12, array[i].length) + ','
+          longStatement = longStatement + ' ' + array[i].slice(12, array[i].length) + ';'
         } else if (array[i].slice(5, 9) == 'none'){
-          longStatement = longStatement + ' no assistive device,'
+          longStatement = longStatement + ' no assistive device;'
         } else {
-          longStatement = longStatement + ' ' + array[i].slice(5, array[i].length) + ','
+          longStatement = longStatement + ' ' + array[i].slice(5, array[i].length) + ';'
         }      
       }
     }
@@ -2304,11 +2500,11 @@ function submitWalkingAid(){
     for (var i = 0; i < array.length; i++){
       if (array[i].slice(0, 7) == 'outside'){
         if (array[i].slice(8, 14) == 'other'){
-          outsideStatement = outsideStatement + ' ' + array[i].slice(15, array[i].length) + ','
+          outsideStatement = outsideStatement + ' ' + array[i].slice(15, array[i].length) + ';'
         } else if (array[i].slice(8, 12) == 'none'){
-          outsideStatement = outsideStatement + ' no assistive device,'
+          outsideStatement = outsideStatement + ' no assistive device;'
         } else {
-          outsideStatement = outsideStatement + ' ' + array[i].slice(8, array[i].length) + ','
+          outsideStatement = outsideStatement + ' ' + array[i].slice(8, array[i].length) + ';'
         }      
       }
     }
@@ -2405,6 +2601,7 @@ function selectActivity(activityID){
   // update local storage
   localStorage.setItem('activitySelections', JSON.stringify(array));
   createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list');
+  if (localStorage.hasOwnProperty('fallCount') == false){localStorage.setItem('fallCount', 0)};
   var countTot = parseInt(localStorage.getItem('fallCount'));
   if (document.getElementById('num-falls')){
     document.getElementById('num-falls').innerHTML = countTot;
@@ -2788,7 +2985,7 @@ function sleepPrefSubmit(){
 function resetSleepPref(){
   sleepqualitypref = null;
   localStorage.setItem('sleepqualitypref', null);
-  localStorage.getItem('weeknightHour', null);
+  localStorage.setItem('weeknightHour', null);
   localStorage.setItem('weeknightMin', null);
   localStorage.setItem('weeknightAMPM', null);
   localStorage.setItem('weekendnightHour', null);
@@ -3002,31 +3199,32 @@ function createPAndXButtonFromArray(arrayName, countName, divID){
 
       // for csv-writer
       if (arrayName == 'FallEntryArray'){
-        let newFallOrNearFallArr = removeItemOnce(JSON.parse(localStorage.getItem('fallOrNearFall')), newFallOrNearFall);
-        let newFallTimeArr = removeItemOnce(JSON.parse(localStorage.getItem('fallTime')), newFallTime);
-        let newFallLocationArr = removeItemOnce(JSON.parse(localStorage.getItem('fallLocation')), newFallLocation);
-        let newFallLocationInsideArr = removeItemOnce(JSON.parse(localStorage.getItem('fallLocationInside')), newFallLocationInside);
-        let newFallActivityArr = removeItemOnce(JSON.parse(localStorage.getItem('fallActivity')), newFallActivity);
-        let newfallCauseArr = removeItemOnce(JSON.parse(localStorage.getItem('fallCause')), newfallCause);
-        let newfallWalkingAidArr = removeItemOnce(JSON.parse(localStorage.getItem('fallInjured')), newfallWalkingAid);
-        let newfallInjuredArr = removeItemOnce(JSON.parse(localStorage.getItem('fallMedical')), newfallInjured);
-        let newfallMedicalArr = removeItemOnce(JSON.parse(localStorage.getItem('fallMoreDetails')), newfallMedical);
-        let newfallMoreDetailsArr = removeItemOnce(JSON.parse(localStorage.getItem('fallWalkingAid')), newfallMoreDetails);  
-        localStorage.setItem('fallOrNearFall', JSON.stringify(newFallOrNearFallArr));
-        localStorage.setItem('fallTime', JSON.stringify(newFallTimeArr));
-        localStorage.setItem('fallLocation', JSON.stringify(newFallLocationArr));
-        localStorage.setItem('fallLocationInside', JSON.stringify(newFallLocationInsideArr));
-        localStorage.setItem('fallActivity', JSON.stringify(newFallActivityArr));
-        localStorage.setItem('fallCause', JSON.stringify(newfallCauseArr));
-        localStorage.setItem('fallInjured', JSON.stringify(newfallWalkingAidArr));
-        localStorage.setItem('fallMedical', JSON.stringify(newfallInjuredArr));
-        localStorage.setItem('fallMoreDetails', JSON.stringify(newfallMedicalArr));
-        localStorage.setItem('fallWalkingAid', JSON.stringify(newfallMoreDetailsArr));
+        let newFallOrNearFallArr = removeItemOnce(JSON.parse(localStorage.getItem('fallOrNearFallCSV')), newFallOrNearFall);
+        let newFallTimeArr = removeItemOnce(JSON.parse(localStorage.getItem('fallTimeCSV')), newFallTime);
+        let newFallLocationArr = removeItemOnce(JSON.parse(localStorage.getItem('fallLocationCSV')), newFallLocation);
+        let newFallLocationInsideArr = removeItemOnce(JSON.parse(localStorage.getItem('fallLocationInsideCSV')), newFallLocationInside);
+        let newFallActivityArr = removeItemOnce(JSON.parse(localStorage.getItem('fallActivityCSV')), newFallActivity);
+        let newfallCauseArr = removeItemOnce(JSON.parse(localStorage.getItem('fallCauseCSV')), newfallCause);
+        let newfallWalkingAidArr = removeItemOnce(JSON.parse(localStorage.getItem('fallInjuredCSV')), newfallWalkingAid);
+        let newfallInjuredArr = removeItemOnce(JSON.parse(localStorage.getItem('fallMedicalCSV')), newfallInjured);
+        let newfallMedicalArr = removeItemOnce(JSON.parse(localStorage.getItem('fallMoreDetailsCSV')), newfallMedical);
+        let newfallMoreDetailsArr = removeItemOnce(JSON.parse(localStorage.getItem('fallWalkingAidCSV')), newfallMoreDetails);  
+        localStorage.setItem('fallOrNearFallCSV', JSON.stringify(newFallOrNearFallArr));
+        localStorage.setItem('fallTimeCSV', JSON.stringify(newFallTimeArr));
+        localStorage.setItem('fallLocationCSV', JSON.stringify(newFallLocationArr));
+        localStorage.setItem('fallLocationInsideCSV', JSON.stringify(newFallLocationInsideArr));
+        localStorage.setItem('fallActivityCSV', JSON.stringify(newFallActivityArr));
+        localStorage.setItem('fallCauseCSV', JSON.stringify(newfallCauseArr));
+        localStorage.setItem('fallInjuredCSV', JSON.stringify(newfallWalkingAidArr));
+        localStorage.setItem('fallMedicalCSV', JSON.stringify(newfallInjuredArr));
+        localStorage.setItem('fallMoreDetailsCSV', JSON.stringify(newfallMedicalArr));
+        localStorage.setItem('fallWalkingAidCSV', JSON.stringify(newfallMoreDetailsArr));
       }
 
 
 
       decreaseCountStorage(countName);
+      if (localStorage.hasOwnProperty('fallCount') == false){localStorage.setItem('fallCount', 0)};
       var countTot = parseInt(localStorage.getItem('fallCount'));
       if (document.getElementById('num-falls')){document.getElementById('num-falls').innerHTML = countTot;}
       localStorage.setItem('fallsComplete', 'False');
@@ -3125,13 +3323,42 @@ const capitalize = (s) => {
 // DASHBOARD
 // - - - - -
 function FlagCountCheck(){
-  var sleepCount = parseInt(localStorage.getItem('sleepCount'));
+  if (localStorage.hasOwnProperty('sleepCount') == false){
+    var sleepCount = 0;
+    localStorage.setItem('sleepComplete', 'False');
+  } else {
+    var sleepCount = parseInt(localStorage.getItem('sleepCount'));
+  };
   var sleepComplete = localStorage.getItem('sleepComplete');
-  var activityCount = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
+
+  if (localStorage.hasOwnProperty('activityCountDaily') == false){
+    if (localStorage.hasOwnProperty('activityCountPreferences') == false){
+      var activityCount = 0; // both false
+    } else {
+      var activityCount = parseInt(localStorage.getItem('activityCountPreferences'));
+    }
+  } else { // activityCountDaily is true
+    if (localStorage.hasOwnProperty('activityCountPreferences') == false){
+      var activityCount = parseInt(localStorage.getItem('activityCountDaily'));
+    } else {
+      var activityCount = parseInt(localStorage.getItem('activityCountDaily')) + parseInt(localStorage.getItem('activityCountPreferences'));
+    }
+  };
+
   var activityComplete = localStorage.getItem('activityComplete');
-  var moodCount = parseInt(localStorage.getItem('moodCount'));
-  var fallCount = parseInt(localStorage.getItem('fallCount'));
+  if (localStorage.hasOwnProperty('moodCount') == false){
+    var moodCount = 0;
+  } else {
+    var moodCount = parseInt(localStorage.getItem('moodCount'));
+  };
+
+  if (localStorage.hasOwnProperty('fallCount') == false){
+    var fallCount = 0;
+  } else {
+    var fallCount = parseInt(localStorage.getItem('fallCount'));
+  };
   var fallsComplete = localStorage.getItem('fallsComplete');
+
   if (sleepCount == 0){
     document.getElementById('num-sleep').style.display = 'none';
     document.getElementById('sleep-check').style.display = 'none';
@@ -3144,6 +3371,10 @@ function FlagCountCheck(){
     document.getElementById('num-sleep').style.display = 'none';
     document.getElementById('sleep-check').style.display = 'inline';
     document.getElementById('sleep-flag').style.display = 'none';
+  } else{
+    document.getElementById('num-sleep').style.display = 'none';
+    document.getElementById('sleep-check').style.display = 'none';
+    document.getElementById('sleep-flag').style.display = 'inline';
   };
   if (moodCount == 0){
     document.getElementById('num-mood').style.display = 'none';
@@ -3153,10 +3384,14 @@ function FlagCountCheck(){
     document.getElementById('num-mood').style.display = 'none';
     document.getElementById('mood-check').style.display = 'inline';
     document.getElementById('mood-flag').style.display = 'none';
-  } else {
+  } else if (moodCount > 0 && moodCount < 8){
     document.getElementById('num-mood').style.display = 'inline';
     document.getElementById('mood-check').style.display = 'none';
     document.getElementById('mood-flag').style.display = 'none';
+  } else {
+    document.getElementById('num-mood').style.display = 'none';
+    document.getElementById('mood-check').style.display = 'none';
+    document.getElementById('mood-flag').style.display = 'inline';
   };
   // if complete: show the checkmark
   if (fallsComplete == 'True'){
@@ -3173,6 +3408,10 @@ function FlagCountCheck(){
       document.getElementById('falls-check').style.display = 'none';
       document.getElementById('falls-flag').style.display = 'none';
     }
+  } else {
+    document.getElementById('num-falls').style.display = 'none';
+    document.getElementById('falls-check').style.display = 'none';
+    document.getElementById('falls-flag').style.display = 'inline';
   };
   if (activityCount == 0){
     document.getElementById('num-activity').style.display = 'none';
@@ -3185,8 +3424,13 @@ function FlagCountCheck(){
   } else if (activityComplete == 'True'){
     document.getElementById('num-activity').style.display = 'none';
     document.getElementById('activity-check').style.display = 'inline';
-    document.getElementById('activity-flag').style.display = 'none';}
-}
+    document.getElementById('activity-flag').style.display = 'none';
+  } else {
+    document.getElementById('num-activity').style.display = 'none';
+    document.getElementById('activity-check').style.display = 'none';
+    document.getElementById('activity-flag').style.display = 'inline';
+  };
+} 
 
 // CHECK IF PREFERENCES ARE COMPLETE
 function checkPrefComplete(page){
@@ -3272,27 +3516,29 @@ function checkAllComplete(){
 
 function submitAllPages(){
   if (window.confirm('Once you submit, you will not be able to change any of your answers for today. Please confirm that all of the information has been entered correctly before submitting.')){
-    var study = 'Test';
-    var site = 'UW';
+    var study = localStorage.getItem('study');
+    var site = localStorage.getItem('site');
     var subject = localStorage.getItem('name');
+    if (localStorage.hasOwnProperty('naptimes') == false){localStorage.setItem('naptimes', JSON.stringify([null]))};
+    if (localStorage.hasOwnProperty('napdurations') == false){localStorage.setItem('napdurations', JSON.stringify([null]))};
     
-    writeSleepPage(study=study, site=site, subject=subject, 
+    CLIENTwriteSleepPage(study=study, site=site, subject=subject, 
     quality=localStorage.getItem('quality'), 
     bedtime=localStorage.getItem('bedtime'), 
     waketime=localStorage.getItem('waketime'), 
     naptimes=JSON.parse(localStorage.getItem('naptimes')),
     napdurations=JSON.parse(localStorage.getItem('napdurations')),
     );
-    alert('Wrote Sleep Page to csv');
+    console.log('Wrote Sleep Page to csv');
 
-    writeActivityPage(study=study, site=site, subject=subject,
+    CLIENTwriteActivityPage(study=study, site=site, subject=subject,
     activities=JSON.parse(localStorage.getItem('activities')),
     starttimes=JSON.parse(localStorage.getItem('starttimes')),
     durations=JSON.parse(localStorage.getItem('durations'))
     );
-    alert('Wrote Activity Page to csv');
+    console.log('Wrote Activity Page to csv');
 
-    writeMoodPage(study=study, site=site, subject=subject,
+    CLIENTwriteMoodPage(study=study, site=site, subject=subject,
     afraid=localStorage.getItem('afraid'),
     confused=localStorage.getItem('confused'),
     sad=localStorage.getItem('sad'),
@@ -3302,23 +3548,24 @@ function submitAllPages(){
     happy=localStorage.getItem('happy'),
     tense=localStorage.getItem('tense')
     );
-    alert('Wrote to Mood Page');
+    console.log('Wrote Mood Page to csv');
 
-    writeFallsPage(study=study, site=site, subject=subject,
-    fallOrNearFall=JSON.parse(localStorage.getItem('fallOrNearFall')),
-    fallTime=JSON.parse(localStorage.getItem('fallTime')),
-    fallLocation=JSON.parse(localStorage.getItem('fallLocation')),
-    fallLocationInside=JSON.parse(localStorage.getItem('fallLocationInside')),
-    fallActivity=JSON.parse(localStorage.getItem('fallActivity')),
-    fallCause=JSON.parse(localStorage.getItem('fallCause')),
-    fallInjured=JSON.parse(localStorage.getItem('fallInjured')),
-    fallMedical=JSON.parse(localStorage.getItem('fallMedical')),
-    fallMoreDetails=JSON.parse(localStorage.getItem('fallMoreDetails')),
-    fallWalkingAid=JSON.parse(localStorage.getItem('fallWalkingAid'))
+    CLIENTwriteFallsPage(study=study, site=site, subject=subject,
+    fallOrNearFall=JSON.parse(localStorage.getItem('fallOrNearFallCSV')),
+    fallTime=JSON.parse(localStorage.getItem('fallTimeCSV')),
+    fallLocation=JSON.parse(localStorage.getItem('fallLocationCSV')),
+    fallLocationInside=JSON.parse(localStorage.getItem('fallLocationInsideCSV')),
+    fallActivity=JSON.parse(localStorage.getItem('fallActivityCSV')),
+    fallCause=JSON.parse(localStorage.getItem('fallCauseCSV')),
+    fallInjured=JSON.parse(localStorage.getItem('fallInjuredCSV')),
+    fallMedical=JSON.parse(localStorage.getItem('fallMedicalCSV')),
+    fallMoreDetails=JSON.parse(localStorage.getItem('fallMoreDetailsCSV')),
+    fallWalkingAid=JSON.parse(localStorage.getItem('fallWalkingAidCSV'))
     )
-    alert('Wrote to Falls page')
+    console.log('Wrote Falls Page to csv')
 
-    writePreferencesPage(study=study, site=site, subject=subject, 
+    console.log(localStorage.getItem('fallAfraid'), localStorage.getItem('fallBalance'), localStorage.getItem('fallPast'))
+    CLIENTwritePreferencesPage(study=study, site=site, subject=subject, 
     walkingAidSingleRoom=localStorage.getItem('roomStatement'),
     walkingAidShortHall=localStorage.getItem('shortStatement'),
     walkingAidLongHall=localStorage.getItem('longStatement'),
@@ -3333,7 +3580,7 @@ function submitAllPages(){
     moodConfused=localStorage.getItem('confusedPref'),
     moodSad=localStorage.getItem('sadPref'),
     moodAngry=localStorage.getItem('angryPref'),
-    moodEnergetic=localStorage.getItem('moodPref'),
+    moodEnergetic=localStorage.getItem('energeticPref'),
     moodTired=localStorage.getItem('tiredPref'),
     moodHappy=localStorage.getItem('happyPref'),
     moodTense=localStorage.getItem('tensePref'),
@@ -3343,10 +3590,133 @@ function submitAllPages(){
     profileAge=localStorage.getItem('ageProfile'),
     profileLiveAlone=localStorage.getItem('liveAloneStatement'),
     )
-    
+    console.log('Wrote Preferences Page to csv')
+
+    // reset storage items which aren't linked to preferences page
+    // localStorage.removeItem('activities');
+    // localStorage.removeItem('activityComplete');
+    // localStorage.removeItem('activityCountDaily');
+    // localStorage.removeItem('activityCountPreferences');
+    // localStorage.removeItem('activitySelectionsCount');
+    // localStorage.removeItem('ActivityStatementArray');
+    // localStorage.removeItem('afraid');
+    // localStorage.removeItem('angry');
+    // localStorage.removeItem('bedtime');
+    // localStorage.removeItem('confused');
+
+    // localStorage.removeItem('dailyActivity');
+    // localStorage.removeItem('DailyActivityStatementArray');
+    // localStorage.removeItem('dailyActivityTime');
+    // localStorage.removeItem('durations');
+    // localStorage.removeItem('energetic');
+    // localStorage.removeItem('fallActivity');
+    // localStorage.removeItem('fallAfraid');
+    // localStorage.removeItem('fallBalance');
+    // localStorage.removeItem('fallCause');
+    // localStorage.removeItem('fallCount');
+
+    // localStorage.removeItem('FallEntryArray');
+    // localStorage.removeItem('fallInjuredCSV');
+    // localStorage.removeItem('fallLocationCSV');
+    // localStorage.removeItem('fallLocationInsideCSV');
+    // localStorage.removeItem('fallMedicalCSV');
+    // localStorage.removeItem('fallMoreDetailsCSV');
+    // localStorage.removeItem('fallOrNearFallCSV');
+    // localStorage.removeItem('fallsComplete');
+    // localStorage.removeItem('fallTimeCSV');
+    // localStorage.removeItem('fallWalkingAidCSV');
+    // localStorage.removeItem('fallActivityCSV');
+    // localStorage.removeItem('fallCauseCSV');
+
+    // localStorage.removeItem('happy');
+    // localStorage.removeItem('logmessage1');
+    // localStorage.removeItem('logmessage2');
+    // localStorage.removeItem('logmessage3');
+    // localStorage.removeItem('logmessage4');
+    // localStorage.removeItem('moodCount');
+    // localStorage.removeItem('moodCount');
+    // localStorage.removeItem('napdurations');
+    // localStorage.removeItem('NapEntryArray');
+    // localStorage.removeItem('naptimes');
+
+    // localStorage.removeItem('noFallsToday');
+    // localStorage.removeItem('quality');
+    // localStorage.removeItem('sad');
+    // localStorage.removeItem('sleepComplete');
+    // localStorage.removeItem('sleepCount');
+    // localStorage.removeItem('starttimes');
+    // localStorage.removeItem('tense');
+    // localStorage.removeItem('tired');
+    // localStorage.removeItem('waketime');
+    // localStorage.removeItem('walkingAid');
+
+    // localStorage.removeItem('walkingAidArray');
+
+    // window.location.reload()
   } else {
-    NEWwriteTimestamps('Test', 'UW', '1001', ['p-10', 'b-9'], ['11:53', '10:05'])
-    alert('You clicked cancel')
+    // reset storage items which aren't linked to preferences page
+    localStorage.removeItem('activities');
+    localStorage.removeItem('activityComplete');
+    localStorage.removeItem('activityCountDaily');
+    localStorage.removeItem('activityCountPreferences');
+    localStorage.removeItem('activitySelectionsCount');
+    localStorage.removeItem('ActivityStatementArray');
+    localStorage.removeItem('afraid');
+    localStorage.removeItem('angry');
+    localStorage.removeItem('bedtime');
+    localStorage.removeItem('confused');
+
+    localStorage.removeItem('dailyActivity');
+    localStorage.removeItem('DailyActivityStatementArray');
+    localStorage.removeItem('dailyActivityTime');
+    localStorage.removeItem('durations');
+    localStorage.removeItem('energetic');
+    localStorage.removeItem('fallActivity');
+    localStorage.removeItem('fallAfraid');
+    localStorage.removeItem('fallBalance');
+    localStorage.removeItem('fallCause');
+    localStorage.removeItem('fallCount');
+
+    localStorage.removeItem('FallEntryArray');
+    localStorage.removeItem('fallInjuredCSV');
+    localStorage.removeItem('fallLocationCSV');
+    localStorage.removeItem('fallLocationInsideCSV');
+    localStorage.removeItem('fallMedicalCSV');
+    localStorage.removeItem('fallMoreDetailsCSV');
+    localStorage.removeItem('fallOrNearFallCSV');
+    localStorage.removeItem('fallsComplete');
+    localStorage.removeItem('fallTimeCSV');
+    localStorage.removeItem('fallWalkingAidCSV');
+    localStorage.removeItem('fallActivityCSV');
+    localStorage.removeItem('fallCauseCSV');
+
+    localStorage.removeItem('happy');
+    localStorage.removeItem('logmessage1');
+    localStorage.removeItem('logmessage2');
+    localStorage.removeItem('logmessage3');
+    localStorage.removeItem('logmessage4');
+    localStorage.removeItem('moodCount');
+    localStorage.removeItem('moodCount');
+    localStorage.removeItem('napdurations');
+    localStorage.removeItem('NapEntryArray');
+    localStorage.removeItem('naptimes');
+
+    localStorage.removeItem('noFallsToday');
+    localStorage.removeItem('quality');
+    localStorage.removeItem('sad');
+    localStorage.removeItem('sleepComplete');
+    localStorage.removeItem('sleepCount');
+    localStorage.removeItem('starttimes');
+    localStorage.removeItem('tense');
+    localStorage.removeItem('tired');
+    localStorage.removeItem('waketime');
+    localStorage.removeItem('walkingAid');
+
+    localStorage.removeItem('walkingAidArray');
+
+    window.location.reload()
+
+    // alert('You clicked cancel')
   }
 }
 
@@ -3361,7 +3731,7 @@ function join(t, a, s) {
   return a.map(format).join(s);
 }
 
-function writeSleepPage(study, site, subject, quality, bedtime, waketime, naptimes, napdurations){
+function CLIENTwriteSleepPage(study, site, subject, quality, bedtime, waketime, naptimes, napdurations){
   var study = study;
   var site = site;
   var subject = subject;
@@ -3373,44 +3743,43 @@ function writeSleepPage(study, site, subject, quality, bedtime, waketime, naptim
 
   var naps = '';
   for (var i = 0; i < naptimes.length; i++){
-      var naps = naps + naptimes[i] + ',';
+      var naps = naps + naptimes[i] + ';';
   }
 
   var napdurationmin = '';
   for (var i = 0; i < napdurations.length; i++){
-      var napdurationmin = napdurationmin + napdurations[i] + ',';
+      var napdurationmin = napdurationmin + napdurations[i] + ';';
   }
 
   var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
   var dateFormat = join(new Date, date, '')
   var dateISO = (new Date).toISOString()
 
-  const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-  const csvWriter = createCsvWriter({
-      path: 'data/' + study + '_' + site + '_' + subject + '_Sleep_' + dateFormat,
-      header: [
-          {id: 'id', title: 'ID'},
-          {id: 'date', title: 'DATE'},
-          {id: 'quality', title: 'QUALITY'},
-          {id: 'bedtime', title: 'BEDTIME'},
-          {id: 'waketime', title: 'WAKETIME'},
-          {id: 'naps', title: 'NAPS'},
-          {id: 'napdurationmin', title: 'NAPDURATIONMIN'}
-      ] 
-  });
-
-  const records = [
-      {id: subject, date: dateISO, quality: quality, bedtime: bedtime, waketime: waketime, naps: naps, napdurationmin: napdurationmin}
+  const rows = [
+      ['ID', 'ID',  'DATE', 'QUALITY', 'BEDTIME', 'WAKETIME', 'NAPS', 'NAPDURATIONMIN']
   ];
+
+  record = [subject, dateISO, quality, bedtime, waketime, naps, napdurationmin];
+  rows.push(record)
   
-  csvWriter.writeRecords(records)
-      .then(() => {
-          console.log('...Done');
-      });
+  let filename = 'https://github.com/hanrbern/Hub/tree/main/data/' + study + '_' + site + '_' + subject + '_Sleep_' + dateFormat;
+
+  let csvContent = 'data:text/csv;charset=utf-8';
+  rows.forEach(function(rowArray) {
+      let row = rowArray.join(",");
+      csvContent += row + "\r\n";
+  });
+  
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", filename + '.csv');
+  document.body.appendChild(link);
+  link.click()
 
 }
 
-function writeActivityPage(study, site, subject, activities, starttimes, durations){
+function CLIENTwriteActivityPage(study, site, subject, activities, starttimes, durations){
   var study = study;
   var site = site;
   var subject = subject;
@@ -3422,37 +3791,37 @@ function writeActivityPage(study, site, subject, activities, starttimes, duratio
   var dateFormat = join(new Date, date, '')
   var dateISO = (new Date).toISOString()
 
-  const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-  const csvWriter = createCsvWriter({
-      path: 'data/' + study + '_' + site + '_' + subject + '_Acitivity_' + dateFormat,
-      header: [
-          {id: 'id', title: 'ID'},
-          {id: 'date', title: 'DATE'},
-          {id: 'activity', title: 'ACTIVITY'},
-          {id: 'starttime', title: 'STARTTIME'},
-          {id: 'duration', title: 'DURATION'},
-      ] 
-  });
+  const records = [
+      ['ID', 'ID', 'DATE', 'ACTIVITY', 'STARTTIME', 'DURATION']
+  ];
 
-  const records = [];
+  let filename = 'https://github.com/hanrbern/Hub/tree/main/data/' + study + '_' + site + '_' + subject + '_Activity_' + dateFormat;
 
   for (var i = 0; i < activities.length; i++){
       var activity = activities[i];
       var starttime = starttimes[i];
       var duration = durations[i];
 
-      record = {id: subject, date: dateISO, activity: activity, starttime: starttime, duration: duration}
+      record = [subject, dateISO, activity, starttime, duration]
       records.push(record)
   }
   
-  csvWriter.writeRecords(records)
-      .then(() => {
-          console.log('...Done');
-      });
+  let csvContent = 'data:text/csv;charset=utf-8';
+  records.forEach(function(rowArray) {
+      let row = rowArray.join(",");
+      csvContent += row + "\r\n";
+  });
+  
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", filename + '.csv');
+  document.body.appendChild(link);
 
+  link.click()
 }
 
-function writeMoodPage(study, site, subject, afraid, confused, sad, angry, energetic, tired, happy, tense){
+function CLIENTwriteMoodPage(study, site, subject, afraid, confused, sad, angry, energetic, tired, happy, tense){
   var study = study;
   var site = site;
   var subject = subject;
@@ -3466,38 +3835,35 @@ function writeMoodPage(study, site, subject, afraid, confused, sad, angry, energ
   var tense = tense;
 
   var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
-  var dateFormat = join(new Date, date, '')
+  var dateFormat = join(new Date, date, '');
   var dateISO = (new Date).toISOString()
 
-  const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-  const csvWriter = createCsvWriter({
-      path: 'data/' + study + '_' + site + '_' + subject + '_Mood_' + dateFormat,
-      header: [
-          {id: 'id', title: 'ID'},
-          {id: 'date', title: 'DATE'},
-          {id: 'afraid', title: 'AFRAID'},
-          {id: 'confused', title: 'CONFUSED'},
-          {id: 'sad', title: 'SAD'},
-          {id: 'angry', title: 'ANGRY'},
-          {id: 'energetic', title: 'ENERGETIC'},
-          {id: 'tired', title: 'TIRED'},
-          {id: 'happy', title: 'HAPPY'},
-          {id: 'tense', title: 'TENSE'},
-      ] 
-  });
-
   const records = [
-      {id: subject, date: dateISO, afraid: afraid, confused: confused, sad: sad, angry: angry, energetic: energetic, tired: tired, happy: happy, tense: tense}
+    ['ID', 'ID', 'DATE', 'AFRAID', 'CONFUSED', 'SAD', 'ANGRY', 'ENERGETIC', 'TIRED', 'HAPPY', 'TENSE']
   ];
+  let filename = 'https://github.com/hanrbern/Hub/tree/main/data/' + study + '_' + site + '_' + subject + '_Mood_' + dateFormat;
+
+
+  const record = [subject, dateISO, afraid, confused, sad,  angry, energetic, tired, happy, tense];
+  records.push(record);
+
+  let csvContent = 'data:text/csv;charset=utf-8';
+  records.forEach(function(rowArray) {
+      let row = rowArray.join(",");
+      csvContent += row + "\r\n";
+  });
   
-  csvWriter.writeRecords(records)
-      .then(() => {
-          console.log('...Done');
-      });
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", filename + '.csv');
+  document.body.appendChild(link);
+
+  link.click()
 
 }
 
-function writeFallsPage(study, site, subject, fallOrNearFall, fallTime, fallLocation, fallLocationInside, fallActivity, fallCause, fallInjured, fallMedical, fallMoreDetails, fallWalkingAid){
+function CLIENTwriteFallsPage(study, site, subject, fallOrNearFall, fallTime, fallLocation, fallLocationInside, fallActivity, fallCause, fallInjured, fallMedical, fallMoreDetails, fallWalkingAid){
   var study = study;
   var site = site;
   var subject = subject;
@@ -3513,29 +3879,13 @@ function writeFallsPage(study, site, subject, fallOrNearFall, fallTime, fallLoca
   var fallWalkingAid = fallWalkingAid;
 
   var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
-  var dateFormat = join(new Date, date, '')
+  var dateFormat = join(new Date, date, '');
   var dateISO = (new Date).toISOString()
 
-  const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-  const csvWriter = createCsvWriter({
-      path: 'data/' + study + '_' + site + '_' + subject + '_Falls_' + dateFormat,
-      header: [
-          {id: 'id', title: 'ID'},
-          {id: 'date', title: 'DATE'},
-          {id: 'fallOrNearFall', title: 'FALLORNEARFALL'},
-          {id: 'fallTime', title: 'FALLTIME'},
-          {id: 'fallLocation', title: 'FALLLOCATION'},
-          {id: 'fallLocationInside', title: 'FALLLOCATIONINSIDE'},
-          {id: 'fallActivity', title: 'FALLACTIVITY'},
-          {id: 'fallCause', title: 'FALLCAUSE'},
-          {id: 'fallInjured', title: 'FALLINJURED'},
-          {id: 'fallMedical', title: 'FALLMEDICAL'},
-          {id: 'fallMoreDetails', title: 'FALLMOREDETAILS'},
-          {id: 'fallWalkingAid', title: 'FALLWALKINGAID'},
-      ] 
-  });
-
-  const records = [];
+  const records = [
+    ['ID', 'ID', 'DATE', 'FALLORNEARFALL', 'FALLTIME', 'FALLLOCATION', 'FALLLOCATIONINSIDE', 'FALLACTIVITY', 'FALLCAUSE', 'FALLINJURED', 'FALLMEDICAL', 'FALLMOREDETAILS', 'FALLWALKINGAID']
+  ];
+    let filename = 'https://github.com/hanrbern/Hub/tree/main/data/' + study + '_' + site + '_' + subject + '_Falls_' + dateFormat;
 
   for (var i = 0; i < fallOrNearFall.length; i++){
       var fallornearfall = fallOrNearFall[i];
@@ -3549,26 +3899,27 @@ function writeFallsPage(study, site, subject, fallOrNearFall, fallTime, fallLoca
       var moreDetails = fallMoreDetails[i];
       var walkingAid = fallWalkingAid[i];
 
-      record = {id: subject, date: dateISO, fallOrNearFall: fallornearfall,
-                  fallTime: time,
-                  fallLocation: location,
-                  fallLocationInside: locationInside,
-                  fallActivity: activity,
-                  fallCause: cause,
-                  fallInjured: injured,
-                  fallMedical: medical,
-                  fallMoreDetails: moreDetails,
-                  fallWalkingAid: walkingAid}
+      record = [subject, dateISO, fallornearfall, time, location, locationInside, activity, cause, injured,  medical, moreDetails, walkingAid];
+
       records.push(record)
   }
-  
-  csvWriter.writeRecords(records)
-      .then(() => {
-          console.log('...Done');
-      });
+  let csvContent = 'data:text/csv;charset=utf-8';
+    records.forEach(function(rowArray) {
+        let row = rowArray.join(",");
+        csvContent += row + "\r\n";
+    });
+
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", filename + '.csv');
+  document.body.appendChild(link); 
+
+  link.click()
+
 }
 
-function writePreferencesPage(study, site, subject, 
+function CLIENTwritePreferencesPage(study, site, subject, 
   walkingAidSingleRoom, walkingAidShortHall, walkingAidLongHall, walkingAidOutside,
   sleepQuality, sleepBedWeeknight, sleepBedWeekend, sleepWakeWeekday, sleepWakeWeekend, sleepNapsFrequency,
   moodAfraid, moodConfused, moodSad, moodAngry, moodEnergetic, moodTired, moodHappy, moodTense,
@@ -3576,104 +3927,88 @@ function writePreferencesPage(study, site, subject,
   profileAge, profileLiveAlone, 
   ){
   
-      var study = study;
-      var site = site;
-      var subject = subject;
-      var walkingAidSingleRoom = walkingAidSingleRoom;
-      var walkingAidShortHall = walkingAidShortHall;
-      var walkingAidLongHall = walkingAidLongHall;
-      var walkingAidOutside = walkingAidOutside;
-      var sleepQuality = sleepQuality;
-      var sleepBedWeeknight = sleepBedWeeknight;
-      var sleepBedWeekend = sleepBedWeekend;
-      var sleepWakeWeekday = sleepWakeWeekday;
-      var sleepWakeWeekend = sleepWakeWeekend;
-      var sleepNapsFrequency = sleepNapsFrequency;
-      var moodAfraid = moodAfraid;
-      var moodConfused = moodConfused;
-      var moodSad = moodSad;
-      var moodAngry = moodAngry;
-      var moodEnergetic = moodEnergetic;
-      var moodTired = moodTired;
-      var moodHappy = moodHappy;
-      var moodTense = moodTense;
-      var fallsFear = fallsFear;
-      var fallsBalance = fallsBalance;
-      var fallsNumPast = fallsNumPast;
-      var profileAge = profileAge;
-      var profileLiveAlone = profileLiveAlone;
+  var study = study;
+  var site = site;
+  var subject = subject;
+  var walkingAidSingleRoom = walkingAidSingleRoom;
+  var walkingAidShortHall = walkingAidShortHall;
+  var walkingAidLongHall = walkingAidLongHall;
+  var walkingAidOutside = walkingAidOutside;
+  var sleepQuality = sleepQuality;
+  var sleepBedWeeknight = sleepBedWeeknight;
+  var sleepBedWeekend = sleepBedWeekend;
+  var sleepWakeWeekday = sleepWakeWeekday;
+  var sleepWakeWeekend = sleepWakeWeekend;
+  var sleepNapsFrequency = sleepNapsFrequency;
+  var moodAfraid = moodAfraid;
+  var moodConfused = moodConfused;
+  var moodSad = moodSad;
+  var moodAngry = moodAngry;
+  var moodEnergetic = moodEnergetic;
+  var moodTired = moodTired;
+  var moodHappy = moodHappy;
+  var moodTense = moodTense;
+  var fallsFear = fallsFear;
+  var fallsBalance = fallsBalance;
+  var fallsNumPast = fallsNumPast;
+  var profileAge = profileAge;
+  var profileLiveAlone = profileLiveAlone;
 
-      var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
-      var dateFormat = join(new Date, date, '')
-      var dateISO = (new Date).toISOString()
+  var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
+  var dateFormat = join(new Date, date, '')
+  var dateISO = (new Date).toISOString()
 
-      const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-      const csvWriter = createCsvWriter({
-          path: 'data/' + study + '_' + site + '_' + subject + '_Preferences_' + dateFormat,
-          header: [
-              {id: 'id', title: 'ID'},
-              {id: 'date', title: 'DATE'},
-              {id: 'walkingAidSingleRoom', title: 'WALKINGAIDSINGLEROOM'},
-              {id: 'walkingAidShortHall', title: 'WALKINGAIDSHORTHALL'},
-              {id: 'walkingAidLongHall', title: 'WALKINGAIDLONGHALL'},
-              {id: 'walkingAidOutside', title: 'WALKINGAIDOUTSIDE'},
-              {id: 'sleepQuality', title: 'SLEEPQUALITY'},
-              {id: 'sleepBedWeeknight', title: 'SLEEPBEDWEEKNIGHT'},
-              {id: 'sleepBedWeekend', title: 'SLEEPBEDWEEKEND'},
-              {id: 'sleepWakeWeekday', title: 'SLEEPWAKEWEEKDAY'},
-              {id: 'sleepWakeWeekend', title: 'SLEEPWAKEWEEKEND'},
-              {id: 'sleepNapsFrequency', title: 'SLEEPNAPSFREQUENCY'},
-              {id: 'moodAfraid', title: 'MOODAFRAID'},
-              {id: 'moodConfused', title: 'MOODCONFUSED'},
-              {id: 'moodSad', title: 'MOODSAD'},
-              {id: 'moodAngry', title: 'MOODANGRY'},
-              {id: 'moodEnergetic', title: 'MOODENERGETIC'},
-              {id: 'moodTired', title: 'MOODTIRED'},
-              {id: 'moodHappy', title: 'MOODHAPPY'},
-              {id: 'moodTense', title: 'MOODTENSE'},
-              {id: 'fallsFear', title: 'FALLSFEAR'},
-              {id: 'fallsBalance', title: 'FALLSBALANCE'},
-              {id: 'fallsNumPast', title: 'FALLSNUMPAST'},
-              {id: 'profileAge', title: 'PROFILEAGE'},
-              {id: 'profileLiveAlone', title: 'PROFILELIVEALONE'},
+  const records = [
+    ['ID', 'ID', 'DATE', 'WALKINGAIDSINGLEROOM', 'WALKINGAIDSHORTHALL', 'WALKINGAIDLONGHALL', 'WALKINGAIDOUTSIDE', 'SLEEPQUALITY', 'SLEEPBEDWEEKNIGHT', 'SLEEPBEDWEEKEND', 'SLEEPWAKEWEEKDAY', 'SLEEPWAKEWEEKEND', 'SLEEPNAPSFREQUENCY', 'MOODAFRAID', 'MOODCONFUSED', 'MOODSAD',  'MOODANGRY',  'MOODENERGETIC',  'MOODTIRED',  'MOODHAPPY',  'MOODTENSE',  'FALLSFEAR',  'FALLSBALANCE',  'FALLSNUMPAST',  'PROFILEAGE',  'PROFILELIVEALONE']
+  ];
+  let filename = 'https://github.com/hanrbern/Hub/tree/main/data/' + study + '_' + site + '_' + subject + '_Preferences_' + dateFormat;
 
-          ] 
-      });
+  const record = [subject,
+      dateISO,
+      walkingAidSingleRoom,
+      walkingAidShortHall,
+      walkingAidLongHall,
+      walkingAidOutside,
+      sleepQuality,
+      sleepBedWeeknight,
+      sleepBedWeekend,
+      sleepWakeWeekday,
+      sleepWakeWeekend,
+      sleepNapsFrequency,
+      moodAfraid,
+      moodConfused,
+      moodSad,
+      moodAngry,
+      moodEnergetic,
+      moodTired,
+      moodHappy,
+      moodTense,
+      fallsFear,
+      fallsBalance,
+      fallsNumPast,
+      profileAge,
+      profileLiveAlone];
 
-      const records = [
-          {id: subject, date: dateISO, 
-              walkingAidSingleRoom: walkingAidSingleRoom,
-              walkingAidShortHall: walkingAidShortHall,
-              walkingAidLongHall: walkingAidLongHall,
-              walkingAidOutside: walkingAidOutside,
-              sleepQuality: sleepQuality,
-              sleepBedWeeknight: sleepBedWeeknight,
-              sleepBedWeekend: sleepBedWeekend,
-              sleepWakeWeekday: sleepWakeWeekday,
-              sleepWakeWeekend: sleepWakeWeekend,
-              sleepNapsFrequency: sleepNapsFrequency,
-              moodAfraid: moodAfraid,
-              moodConfused: moodConfused,
-              moodSad: moodSad,
-              moodAngry: moodAngry,
-              moodEnergetic: moodEnergetic,
-              moodTired: moodTired,
-              moodHappy: moodHappy,
-              moodTense: moodTense,
-              fallsFear: fallsFear,
-              fallsBalance: fallsBalance,
-              fallsNumPast: fallsNumPast,
-              profileAge: profileAge,
-              profileLiveAlone: profileLiveAlone,}
-      ];
-      
-      csvWriter.writeRecords(records)
-          .then(() => {
-              console.log('...Done');
-          });
+  records.push(record);
+
+  let csvContent = 'data:text/csv;charset=utf-8';
+    records.forEach(function(rowArray) {
+        let row = rowArray.join(",");
+        csvContent += row + "\r\n";
+    });
+
+
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", filename + '.csv');
+  document.body.appendChild(link); 
+
+  link.click();
+  
 }
 
-function NEWwriteTimestamps(study, site, subject, events, times){
+function CLIENTwriteTimestamps(study, site, subject, events, times){
   var study = study;
   var site = site;
   var subject = subject;
@@ -3685,7 +4020,7 @@ function NEWwriteTimestamps(study, site, subject, events, times){
   var dateISO = (new Date).toISOString()
 
   const rows = [
-      ['ID', 'DATE', 'EVENT', 'TIME']
+      ['ID', 'ID', 'DATE', 'EVENT', 'TIME']
   ]
 
   for (var i = 0; i < events.length; i++){

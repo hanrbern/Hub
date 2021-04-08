@@ -356,7 +356,258 @@ function writeTimestamps(study, site, subject, events, times){
         });
 }
 
-function NEWwriteTimestamps(study, site, subject, events, times){
+function CLIENTwriteSleepPage(study, site, subject, quality, bedtime, waketime, naptimes, napdurations){
+    var study = study;
+    var site = site;
+    var subject = subject;
+    var quality = quality;
+    var bedtime = bedtime;
+    var waketime = waketime;
+    var naptimes = naptimes;
+    var napdurations = napdurations;
+
+    var naps = '';
+    for (var i = 0; i < naptimes.length; i++){
+        var naps = naps + naptimes[i] + ',';
+    }
+
+    var napdurationmin = '';
+    for (var i = 0; i < napdurations.length; i++){
+        var napdurationmin = napdurationmin + napdurations[i] + ',';
+    }
+
+    var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
+    var dateFormat = join(new Date, date, '')
+    var dateISO = (new Date).toISOString()
+
+    const rows = [
+        ['ID', 'DATE', 'QUALITY', 'BEDTIME', 'WAKETIME', 'NAPS', 'NAPDURATIONMIN']
+    ]
+
+    record = [subject, dateISO, quality, bedtime, waketime, naps, napdurationmin]
+    rows.push(record)
+    
+    let filename = 'https://github.com/hanrbern/Hub/tree/main/data/' + study + '_' + site + '_' + subject + '_Sleep_' + dateFormat;
+
+    let csvContent = 'data:text/csv;charset=utf-8';
+    rows.forEach(function(rowArray) {
+        let row = rowArray.join(",");
+        csvContent += row + "\r\n";
+    });
+    
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", filename + '.csv');
+    document.body.appendChild(link);
+    link.click()
+
+}
+
+function CLIENTwriteActivityPage(study, site, subject, activities, starttimes, durations){
+    var study = study;
+    var site = site;
+    var subject = subject;
+    var activities = activities;
+    var starttimes = starttimes;
+    var durations = durations;
+
+    var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
+    var dateFormat = join(new Date, date, '')
+    var dateISO = (new Date).toISOString()
+
+    const records = [
+        ['ID', 'DATE', 'ACTIVITY', 'STARTTIME', 'DURATION']
+    ];
+
+    let filename = 'https://github.com/hanrbern/Hub/tree/main/data/' + study + '_' + site + '_' + subject + '_Acitivity_' + dateFormat;
+
+    for (var i = 0; i < activities.length; i++){
+        var activity = activities[i];
+        var starttime = starttimes[i];
+        var duration = durations[i];
+
+        record = [subject, dateISO, activity, starttime, duration]
+        records.push(record)
+    }
+    
+    let csvContent = 'data:text/csv;charset=utf-8';
+    rows.forEach(function(rowArray) {
+        let row = rowArray.join(",");
+        csvContent += row + "\r\n";
+    });
+    
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", filename + '.csv');
+    document.body.appendChild(link);
+
+    link.click()
+}
+
+function CLIENTwriteMoodPage(study, site, subject, afraid, confused, sad, angry, energetic, tired, happy, tense){
+    var study = study;
+    var site = site;
+    var subject = subject;
+    var afraid = afraid;
+    var confused = confused;
+    var sad = sad;
+    var angry = angry;
+    var energetic = energetic;
+    var tired = tired;
+    var happy = happy;
+    var tense = tense;
+
+    var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
+    var dateFormat = join(new Date, date, '');
+    var dateISO = (new Date).toISOString()
+
+    const records = ['ID', 'DATE', 'AFRAID', 'CONFUSED', 'SAD', 'ANGRY', 'ENERGETIC', 'TIRED', 'HAPPY', 'TENSE'];
+    let filename = 'https://github.com/hanrbern/Hub/tree/main/data/' + study + '_' + site + '_' + subject + '_Mood_' + dateFormat;
+
+    const record = [subject, dateISO, afraid, confused, sad,  angry, energetic, tired, happy, tense]
+    records.push(record)
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", filename + '.csv');
+    document.body.appendChild(link); // Required for FF
+
+    link.click()
+
+}
+
+function CLIENTwriteFallsPage(study, site, subject, fallOrNearFall, fallTime, fallLocation, fallLocationInside, fallActivity, fallCause, fallInjured, fallMedical, fallMoreDetails, fallWalkingAid){
+    var study = study;
+    var site = site;
+    var subject = subject;
+    var fallOrNearFall = fallOrNearFall;
+    var fallTime = fallTime;
+    var fallLocation = fallLocation;
+    var fallLocationInside = fallLocationInside;
+    var fallActivity = fallActivity;
+    var fallCause = fallCause;
+    var fallInjured = fallInjured;
+    var fallMedical = fallMedical;
+    var fallMoreDetails = fallMoreDetails;
+    var fallWalkingAid = fallWalkingAid;
+
+    var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
+    var dateFormat = join(new Date, date, '');
+    var dateISO = (new Date).toISOString()
+
+    const records = ['ID', 'DATE', 'FALLORNEARFALL', 'FALLTIME', 'FALLLOCATION', 'FALLLOCATIONINSIDE', 'FALLACTIVITY', 'FALLCAUSE', 'FALLINJURED', 'FALLMEDICAL', 'FALLMOREDETAILS', 'FALLWALKINGAID'];
+    let filename = 'https://github.com/hanrbern/Hub/tree/main/data/' + study + '_' + site + '_' + subject + '_Falls_' + dateFormat;
+
+    for (var i = 0; i < fallOrNearFall.length; i++){
+        var fallornearfall = fallOrNearFall[i];
+        var time = fallTime[i];
+        var location = fallLocation[i];
+        var locationInside = fallLocationInside[i];
+        var activity = fallActivity[i];
+        var cause = fallCause[i];
+        var injured = fallInjured[i];
+        var medical = fallMedical[i];
+        var moreDetails = fallMoreDetails[i];
+        var walkingAid = fallWalkingAid[i];
+
+        record = [subject, dateISO, fallornearfall, time, location, locationInside, activity, cause, injured,  medical, moreDetails, walkingAid];
+
+        records.push(record)
+    }
+    
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", filename + '.csv');
+    document.body.appendChild(link); 
+
+    link.click()
+
+}
+
+function CLIENTwritePreferencesPage(study, site, subject, 
+    walkingAidSingleRoom, walkingAidShortHall, walkingAidLongHall, walkingAidOutside,
+    sleepQuality, sleepBedWeeknight, sleepBedWeekend, sleepWakeWeekday, sleepWakeWeekend, sleepNapsFrequency,
+    moodAfraid, moodConfused, moodSad, moodAngry, moodEnergetic, moodTired, moodHappy, moodTense,
+    fallsFear, fallsBalance, fallsNumPast, 
+    profileAge, profileLiveAlone, 
+    ){
+    
+    var study = study;
+    var site = site;
+    var subject = subject;
+    var walkingAidSingleRoom = walkingAidSingleRoom;
+    var walkingAidShortHall = walkingAidShortHall;
+    var walkingAidLongHall = walkingAidLongHall;
+    var walkingAidOutside = walkingAidOutside;
+    var sleepQuality = sleepQuality;
+    var sleepBedWeeknight = sleepBedWeeknight;
+    var sleepBedWeekend = sleepBedWeekend;
+    var sleepWakeWeekday = sleepWakeWeekday;
+    var sleepWakeWeekend = sleepWakeWeekend;
+    var sleepNapsFrequency = sleepNapsFrequency;
+    var moodAfraid = moodAfraid;
+    var moodConfused = moodConfused;
+    var moodSad = moodSad;
+    var moodAngry = moodAngry;
+    var moodEnergetic = moodEnergetic;
+    var moodTired = moodTired;
+    var moodHappy = moodHappy;
+    var moodTense = moodTense;
+    var fallsFear = fallsFear;
+    var fallsBalance = fallsBalance;
+    var fallsNumPast = fallsNumPast;
+    var profileAge = profileAge;
+    var profileLiveAlone = profileLiveAlone;
+
+    var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
+    var dateFormat = join(new Date, date, '')
+    var dateISO = (new Date).toISOString()
+
+    const records = ['ID', 'DATE', 'WALKINGAIDSINGLEROOM', 'WALKINGAIDSHORTHALL', 'WALKINGAIDLONGHALL', 'WALKINGAIDOUTSIDE', 'SLEEPQUALITY', 'SLEEPBEDWEEKNIGHT', 'SLEEPBEDWEEKEND', 'SLEEPWAKEWEEKDAY', 'SLEEPWAKEWEEKEND', 'SLEEPNAPSFREQUENCY', 'MOODAFRAID', 'MOODCONFUSED', 'MOODSAD',  'MOODANGRY',  'MOODENERGETIC',  'MOODTIRED',  'MOODHAPPY',  'MOODTENSE',  'FALLSFEAR',  'FALLSBALANCE',  'FALLSNUMPAST',  'PROFILEAGE',  'PROFILELIVEALONE'];
+    let filename = 'https://github.com/hanrbern/Hub/tree/main/data/' + study + '_' + site + '_' + subject + '_Preferences_' + dateFormat;
+
+    const record = [subject,
+        dateISO,
+        walkingAidSingleRoom,
+        walkingAidShortHall,
+        walkingAidLongHall,
+        walkingAidOutside,
+        sleepQuality,
+        sleepBedWeeknight,
+        sleepBedWeekend,
+        sleepWakeWeekday,
+        sleepWakeWeekend,
+        sleepNapsFrequency,
+        moodAfraid,
+        moodConfused,
+        moodSad,
+        moodAngry,
+        moodEnergetic,
+        moodTired,
+        moodHappy,
+        moodTense,
+        fallsFear,
+        fallsBalance,
+        fallsNumPast,
+        profileAge,
+        profileLiveAlone];
+
+    records.push(record);
+
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", filename + '.csv');
+    document.body.appendChild(link); 
+
+    link.click();
+    
+}
+
+function CLIENTwriteTimestamps(study, site, subject, events, times){
     var study = study;
     var site = site;
     var subject = subject;
@@ -379,8 +630,8 @@ function NEWwriteTimestamps(study, site, subject, events, times){
         rows.push(record)
     }
 
-    let filename = 'data/' + study + '_' + site + '_' + subject + '_Timestamps_' + dateFormat;
-    let csvContent = 'date:text/csv;charset=utf-8';
+    let filename = 'https://github.com/hanrbern/Hub/tree/main/data' + study + '_' + site + '_' + subject + '_Timestamps_' + dateFormat;
+    let csvContent = 'data:text/csv;charset=utf-8';
     rows.forEach(function(rowArray) {
         let row = rowArray.join(",");
         csvContent += row + "\r\n";
@@ -396,4 +647,5 @@ function NEWwriteTimestamps(study, site, subject, events, times){
     console.log('Done')
 }
 
-NEWwriteTimestamps('Test', 'UW', '1001', ['p-10', 'b-9'], ['11:53', '10:05'])
+// NEWwriteTimestamps('Test', 'UW', '1001', ['p-10', 'b-9'], ['11:53', '10:05'])
+

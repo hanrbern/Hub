@@ -648,4 +648,125 @@ function CLIENTwriteTimestamps(study, site, subject, events, times){
 }
 
 // NEWwriteTimestamps('Test', 'UW', '1001', ['p-10', 'b-9'], ['11:53', '10:05'])
+var newFallOrNearFallArr = [];
+var newFallTimeArr = [];
+var newFallLocationArr = [];
+var newFallLocationInsideArr = [];
+var newFallActivityArr = [];
+var newFallCauseArr = [];
+var newFallInjuredArr = [];
+var newFallMedicalArr = [];
+var newFallMoreDetailsArr = [];
+var newFallWalkingAidArr = [];
+var array = [
+    "<br> You indicated: <br> You fell in the morning while you were inside and in the bathroom. <br> You were standing still before you fell and that it happened because you tripped. <br>You were using a walking aid. <br>You were not injured.<br>You provided additional information: first",
+    "<br> You indicated: <br> You almost fell in the daytime while you were outside. <br> You were standing up before you almost fell and that it happened because you slipped. <br>You were not using a walking aid. <br>You were injured and did not get medical help.<br>You provided additional information: second",
+    "<br> You indicated: <br> You fell in the evening while you were outside. <br> You were sitting down before you fell and that it happened because you were dizzy. <br>You were using a walking aid. <br>You were injured and got medical help.<br>You provided additional information: third"
+]
+for (var i = 0; i < array.length; i++){
+    var str = array[i];
+    var newFallOrNearFall = (str.split('<br> You indicated: <br> You ')[1]).split(' in the ')[0];
+    if (newFallOrNearFall == 'undefined'){
+        var newFallTime = 'undefined';
+        var newFallLocation = 'undefined';
+        var newFallLocationInside = 'undefined';
+        var newFallActivity = 'undefined';
+        var newFallCause = 'undefined';
+        var newFallInjured = 'undefined';
+        var newFallMedical = 'undefined';
+        var newFallMoreDetails = 'undefined';
+        var newFallWalkingAid = 'undefined';
+    } else {
+        var newFallTime = (str.split('in the ')[1]).split(' while you were')[0]
+        var location = (str.split('while you were ')[1]).split('. <br> You were')[0]
+        if (location.slice(0,6) == 'inside'){
+            var newFallLocation = 'inside';
+            if (location.includes('and in the ')){
+                var newFallLocationInside = location.split('and in the ')[1];
+            } else if (location.includes('and on the ')){
+                var newFallLocationInside = location.split('and on the ')[1];
+            } else if (location.includes('and in another')){
+                var newFallLocationInside = 'other location';
+            }
+        } else if (location.slice(0,7) == 'outside'){
+            var newFallLocation = 'outside';
+            var newFallLocationInside = '';
+        }
+        var newFallActivity = (str.split('. <br> You were ')[1]).split(' before you ')[0];
+        var newFallCause = ((str.split(' and that ')[1]).split('.')[0]).split('it happened because you ')[1];
 
+        var injuryMedicalSentence = (str.split('walking aid. <br>You were '))[1];
+        if (injuryMedicalSentence.slice(0, 7) == 'injured'){
+            var newFallInjured = 'injured';
+            var newFallMedical = (str.split('<br>')[5]).split('injured')[1];
+            if (newFallMedical.includes('did not get')){
+                newFallMedical = 'No medical help';
+            } else if (newFallMedical.includes('and got')){
+                newFallMedical = 'Yes medical help';
+            }
+        } else {
+            var newFallInjured = 'not injured';
+            var newFallMedical = '';
+        }
+        var newFallWalkingAid = '<br>' + (str.split('<br>')[4]);
+        if (newFallWalkingAid.includes('were using')){
+            newFallWalkingAid = 'Yes walking aid';
+        } else if (newFallWalkingAid.includes('were not using')){
+            newFallWalkingAid = 'No walking aid';
+        }
+        var newFallMoreDetails = (str.split('.')[4]).split('additional information: ')[1];
+    }
+    newFallOrNearFallArr.push(newFallOrNearFall)
+    newFallTimeArr.push(newFallTime)
+    newFallLocationArr.push(newFallLocation)
+    newFallLocationInsideArr.push(newFallLocationInside)
+    newFallActivityArr.push(newFallActivity)
+    newFallCauseArr.push(newFallCause)
+    newFallInjuredArr.push(newFallInjured)
+    newFallMedicalArr.push(newFallMedical)
+    newFallMoreDetailsArr.push(newFallMoreDetails)
+    newFallWalkingAidArr.push(newFallWalkingAid)
+}
+
+console.log(newFallOrNearFallArr)
+console.log(newFallTimeArr)
+console.log(newFallLocationArr)
+console.log(newFallLocationInsideArr)
+console.log(newFallActivityArr)
+console.log(newFallCauseArr)
+console.log(newFallInjuredArr)
+console.log(newFallMedicalArr)
+console.log(newFallWalkingAidArr)
+console.log(newFallMoreDetailsArr)   
+console.log('Done')
+
+// let newFallOrNearFallArr = removeItemOnce(JSON.parse(localStorage.getItem('fallOrNearFallCSV')), )
+// let newFallOrNearFallArr = JSON.parse(localStorage.getItem('fallOrNearFallCSV')).splice(index, 1);
+// localStorage.setItem('fallOrNearFallCSV', JSON.stringify(newFallOrNearFallArr));
+
+// let newFallTimeArr = JSON.parse(localStorage.getItem('fallTimeCSV')).splice(index, 1);
+// localStorage.setItem('fallTimeCSV', JSON.stringify(newFallTimeArr));
+
+// let newFallLocationArr = JSON.parse(localStorage.getItem('fallLocationCSV')).splice(index, 1);
+// localStorage.setItem('fallLocationCSV', JSON.stringify(newFallLocationArr));
+
+// let newFallLocationInsideArr = JSON.parse(localStorage.getItem('fallLocationInsideCSV')).splice(index, 1);
+// localStorage.setItem('fallLocationInsideCSV', JSON.stringify(newFallLocationInsideArr));
+
+// let newFallActivityArr = JSON.parse(localStorage.getItem('fallActivityCSV')).splice(index, 1);
+// localStorage.setItem('fallActivityCSV', JSON.stringify(newFallActivityArr));
+
+// let newFallCauseArr = JSON.parse(localStorage.getItem('fallCauseCSV')).splice(index, 1);
+// localStorage.setItem('fallCauseCSV', JSON.stringify(newFallCauseArr));
+
+// let newFallInjuredArr = JSON.parse(localStorage.getItem('fallInjuredCSV')).splice(index, 1);
+// localStorage.setItem('fallInjuredCSV', JSON.stringify(newFallInjuredArr));
+
+// let newFallMedicalArr = JSON.parse(localStorage.getItem('fallMedicalCSV')).splice(index, 1);
+// localStorage.setItem('fallMedicalCSV', JSON.stringify(newFallMedicalArr));
+
+// let newFallMoreDetailsArr = JSON.parse(localStorage.getItem('fallMoreDetailsCSV')).splice(index, 1);
+// localStorage.setItem('fallMoreDetailsCSV', JSON.stringify(newFallMoreDetailsArr));
+
+// let newFallWalkingAidArr = JSON.parse(localStorage.getItem('fallWalkingAidCSV')).splice(index, 1);
+// localStorage.setItem('fallWalkingAidCSV', JSON.stringify(newFallWalkingAidArr));

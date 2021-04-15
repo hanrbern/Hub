@@ -3,7 +3,7 @@
 // - - - - -
 
 
-// const { start } = require('node:repl');
+
 
 function respNav() {
     var x = document.getElementById("myTopnav");
@@ -2179,6 +2179,15 @@ function DailyActivitySelect(id, activity){
 
 function makeDailyButtons(){
   var buttonNames = JSON.parse(localStorage.getItem('DailySelectedArray'));
+  // if (buttonNames.length !== 0){
+  //   document.getElementById('daily-preferences-1').style.display = 'none';
+  //   document.getElementById('daily-preferences-2').style.display = 'none';
+  //   document.getElementById('daily-preferences-3').style.display = 'none';
+  //   document.getElementById('daily-preferences-4').style.display = 'none';
+  //   document.getElementById('daily-preferences-5').style.display = 'none';
+  //   document.getElementById('daily-preferences-6').style.display = 'none';
+  // }
+  console.log(buttonNames)
   for (var i = 0; i < buttonNames.length; i++){
     var id = 'daily-selected-' + i;
     var button = document.getElementById(id);
@@ -2190,7 +2199,26 @@ function makeDailyButtons(){
     document.getElementById('preferences-daily-activities').style.display = 'none';
     document.getElementById('daily-preferences-submit').style.display = 'none';
     document.getElementById('change-daily-activities').style.display = 'block';
-    document.getElementById('selected-daily-activities').style.display = 'block';    
+    document.getElementById('selected-daily-activities').style.display = 'block'; 
+
+    // for button in selected-daily-activities: if button.innerText not in buttonNames, then hide it   
+
+    let parent = document.getElementById('selected-daily-activities');
+    var children = [].slice.call(parent.getElementsByTagName('button'), 0);
+    for (var i = 0; i < children.length; i++){
+      let id = children[i].getAttribute('id');
+      let innerText = document.getElementById(id).innerText
+      
+      if (innerText.includes('cooking')){
+        innerText = innerText.slice(0, 27);
+      } else if (innerText.includes('yardwork')){
+        innerText = innerText.slice(0, 28);
+      };
+      if (!buttonNames.includes(innerText)){
+        document.getElementById(id).style.display = 'none';
+      }
+    }
+
     // show check, hide flag
     document.getElementById('activitieswork-check').style.display = 'inline';
     document.getElementById('activitieswork-flag').style.display = 'none';
@@ -2207,12 +2235,12 @@ function makeDailyButtons(){
   document.getElementById('daily-selected-buttons').style.display = 'inline';
   document.getElementById('daily-preferences-submit').style.display = 'none';
 
-
 }
 
 function changeDailyActivities(){
   resetCount('DailySelectedCount');
   newArrayLocalStorage('DailySelectedArray');
+  console.log(JSON.parse(localStorage.getItem('DailySelectedArray')))
   document.getElementById('preferences-daily-activities').style.display = 'inline';
   document.getElementById('daily-preferences-submit').style.display = 'none';
   document.getElementById('daily-selected-buttons').style.display = 'none';
@@ -3523,8 +3551,8 @@ function submitAllPages(){
     var site = localStorage.getItem('site');
     var subject = localStorage.getItem('name');
     if (localStorage.hasOwnProperty('naptimes') == false){localStorage.setItem('naptimes', JSON.stringify([null]))};
-    if (localStorage.hasOwnProperty('napdurations') == false){localStorage.setItem('napdurations', JSON.stringify([null]))};
-    
+    if (localStorage.hasOwnProperty('napdurations') == false){localStorage.setItem('napdurations', JSON.stringify([null]))};    
+
     CLIENTwriteSleepPage(study=study, site=site, subject=subject, 
     quality=localStorage.getItem('quality'), 
     bedtime=localStorage.getItem('bedtime'), 
@@ -3712,9 +3740,13 @@ function submitAllPages(){
     )
     console.log('Wrote Preferences Page to csv')
     // resetStorageItems();
+
+   
+
     
   } else {
     alert('You clicked cancel')    
+
   }
 }
 
@@ -3827,13 +3859,14 @@ function CLIENTwriteSleepPage(study, site, subject, quality, bedtime, waketime, 
       let row = rowArray.join(",");
       csvContent += row + "\r\n";
   });
-  
+
   var encodedUri = encodeURI(csvContent);
   var link = document.createElement("a");
   link.setAttribute("href", encodedUri);
   link.setAttribute("download", filename + '.csv');
   document.body.appendChild(link);
   link.click()
+
 
 }
 
@@ -4063,7 +4096,6 @@ function CLIENTwritePreferencesPage(study, site, subject,
   document.body.appendChild(link); 
 
   link.click();
-  
 }
 
 function CLIENTwriteTimestamps(study, site, subject, events, times){

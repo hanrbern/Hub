@@ -3749,7 +3749,7 @@ function submitAllPages(){
       )
     console.log('Wrote Events and Timestamps to csv')
 
-    // resetStorageItems();
+    resetStorageItems();
 
   } else {
     alert('You clicked cancel')    

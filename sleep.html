@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="checkSleepEntries();getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');checkPrefComplete()">
+<body onload="checkSleepEntries();getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');checkPrefComplete(); logEvent('loaded sleep.html'); logEvent('width and height')">
 
   <!-- Header -->
   <div class="header">
@@ -98,10 +98,10 @@
         <div id="nap-entries"></div>
         <div id='no-naps-div' style="display: none;">
           <p style="display: inline;">You did not nap today.</p>
-          <button class="btnx" style="display: inline;" onclick="onremoveNoNap()">X</button>
+          <button class="btnx" style="display: inline;" onclick="onremoveNoNap(); logEvent('removed nonap')">X</button>
         </div>
         <p style="display: none;" id="nomore-msg">Nothing else to log.</p>
-        <button id="nomore-btnx" style="display: none;" class="btnx" onclick="nomoreSleep('3')">X</button>
+        <button id="nomore-btnx" style="display: none;" class="btnx" onclick="nomoreSleep('3'); logEvent('removed nomoresleep')">X</button>
       </div>
       
       <div class="sleep-container" id="sleep-quality">
@@ -110,7 +110,7 @@
         <button class="btn" style="background-color: #4ecdde;" onclick=";sleepQuality('Fairly Good')" id="sleepqual2">Fairly Good</button>
         <button class="btn" style="background-color: #81d3de;" onclick=";sleepQuality('Fairly Bad')" id="sleepqual3">Fairly Bad</button>
         <button class="btn" style="background-color: #a9d8de;" onclick=";sleepQuality('Very Bad')" id="sleepqual4">Very Bad</button>
-        <button class="btn" onclick="logSleepQuality();" id="log-sleep-quality">Submit</button>
+        <button class="btn" onclick="logSleepQuality(); logEvent('submitted sleepquality')" id="log-sleep-quality">Submit</button>
       </div>
 
       <div class="sleep-container" id="bedtime">
@@ -156,7 +156,7 @@
             <a onclick="changeAMPM('PM', 'bedtime-ampm');">PM</a>
           </div>
         </div>
-        <button class="btn" onclick="logBedTime()" id="log-bed-time">Submit</button>
+        <button class="btn" onclick="logBedTime(); logEvent('submitted bedtime')" id="log-bed-time">Submit</button>
       </div>
       <br><br>
       <div class="sleep-container" id="waketime">
@@ -202,7 +202,7 @@
             <a onclick="changeAMPM('PM', 'waketime-ampm');">PM</a>
           </div>
         </div>
-        <button class="btn" onclick="logWakeTime()" id="log-wake-time">Submit</button>
+        <button class="btn" onclick="logWakeTime(); logEvent('submitted waketime')" id="log-wake-time">Submit</button>
       </div>
       <br><br>
       <div class="sleep-container" id="nap">
@@ -273,12 +273,12 @@
             <a onclick="changeDuration('3 hours', 'nap-dur');">3 hours</a>
           </div>
         </div>
-        <button class="btn" onclick="logNap()" id="log-nap">Submit</button>
+        <button class="btn" onclick="logNap(); logEvent('submitted nap')" id="log-nap">Submit</button>
         <br><br>
         <button class="btnx" id="no-nap-btn" style="display: none;">I did not nap today</button>
         <br><br>
         <button class="btn" id="sleep-nomore" onclick="nomoreSleep('1')" style="display: none;">Nothing else to log</button>
-        <button class='btn' id="sleep-nomore-submit" onclick="nomoreSleep('2')" style="display: none;">Submit</button>
+        <button class='btn' id="sleep-nomore-submit" onclick="nomoreSleep('2'); logEvent('submitted nomoresleep')" style="display: none;">Submit</button>
       </div>
       <br><br>
       <!-- <button class="btn" id='sleep-clear-button' onclick="clearStorage('logmessage1', 'logmessage2', 'logmessage3', 'logmessage4');">Clear Logged Sleep</button> -->

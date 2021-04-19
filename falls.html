@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="checkFallEntries();checkNoMoreFalls();createPAndXButtonFromArray('FallEntryArray', 'fallCount', 'fall-entries');getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');checkPrefComplete()">
+<body onload="checkFallEntries();checkNoMoreFalls();createPAndXButtonFromArray('FallEntryArray', 'fallCount', 'fall-entries');getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');checkPrefComplete(); logEvent('loaded falls.html'); logEvent('width and height')">
 
   <!-- Header -->
   <div class="header">
@@ -92,14 +92,14 @@
         <p>Your logged entries:</p>
         <p id='fall-entries'></p>
         <p style="display: none;" id="nomore-msg">Nothing else to log.</p>
-        <button id="nomore-btnx" style="display: none;" class="btnx" onclick="nomoreFalls('3')">X</button>
+        <button id="nomore-btnx" style="display: none;" class="btnx" onclick="nomoreFalls('3'); logEvent('submitted nomorefalls')">X</button>
         <button class="btn" id='falls-clear-button' style="display: none" onclick="clearStorage('FallEntryArray'); resetCount('fallCount')">Clear Falls</button>
       </div>
       
       <div id='fall-or-near-fall'>
         <h3>Did you experience any falls or near falls today?</h3>
         <p id='msg-nofall' style="display: none;">You indicated that you did not fall today.</p>
-        <button class="btnx" id='btn-nofall' onclick="removeNoFall()" style="display: none;">X</button>
+        <button class="btnx" id='btn-nofall' onclick="removeNoFall(); logEvent('removed nofall')" style="display: none;">X</button>
         <br>
         <input onclick="fallType('fall');" type="image" src="images/fall_words.ico" width="190" height="210" id='fall-image'>
         <input onclick="fallType('near-fall');" type="image" src="images/almostfall_words.ico" width="200" height="210" id='almostfall-image'>
@@ -158,11 +158,11 @@
         <p> If there is anything else that you would like to add, please write it below (e.g. slipped on ice, happened at 10:30 AM, tripped on dog leash). Otherwise, leave it blank and click submit.</p>
         <textarea rows='6' cols='50' style='resize: none; font-size: 18px' id='fall-textarea'></textarea>
       </div>
-      <button id='submit-fall' onclick="submitFall()" class="btn" style="background-color: rgb(167, 232, 211);">Submit</button>
-      <button id='submit-nofall' onclick="submitNoFall()" class="btn" style="background-color: rgb(167, 232, 211); display: none;">Submit</button>
+      <button id='submit-fall' onclick="submitFall(); logEvent('submitted fall')" class="btn" style="background-color: rgb(167, 232, 211);">Submit</button>
+      <button id='submit-nofall' onclick="submitNoFall(); logEvent('submitted nofall')" class="btn" style="background-color: rgb(167, 232, 211); display: none;">Submit</button>
       <br><br>
-      <button class="btn" id="falls-nomore" onclick="nomoreFalls('1')" style="display: none;">Nothing else to log</button>
-      <button class='btn' id="falls-nomore-submit" onclick="nomoreFalls('2')" style="display: none;">Submit</button>
+      <button class="btn" id="falls-nomore" onclick="nomoreFalls('1');" style="display: none;">Nothing else to log</button>
+      <button class='btn' id="falls-nomore-submit" onclick="nomoreFalls('2'); logEvent('submitted nomorefalls')" style="display: none;">Submit</button>
     </div>
     </div>
      <!-- Footer -->

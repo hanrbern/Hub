@@ -46,6 +46,7 @@ function setUsername() {
     } else {
       pSite.textContent = 'Site: ' + mySite;
     }
+    logEvent('submitted IDstudysite')
     window.location.reload()
   }
 
@@ -2260,7 +2261,7 @@ function changeDailyActivities(){
   document.getElementById('activitieswork-check').style.display = 'none';
   document.getElementById('activitieswork-flag').style.display = 'inline';
 
-
+  logEvent('clicked changeactivities')
 }
 
 function walkingAid(Answer){
@@ -2666,6 +2667,8 @@ function selectActivity(activityID){
   // show check, hide flag
   document.getElementById('activitiesexercise-check').style.display = 'inline';
   document.getElementById('activitiesexercise-flag').style.display = 'none';
+
+  logEvent('clicked activityPref')
 }
 
 var coll = document.getElementsByClassName("collapsible");
@@ -3236,7 +3239,7 @@ function createPAndXButtonFromArray(arrayName, countName, divID){
       element.removeChild(button);
       let newarr = removeItemOnce(JSON.parse(localStorage.getItem(arrayName)), p.innerHTML);
       localStorage.setItem(arrayName, JSON.stringify(newarr));
-
+      logEvent('removed ' + p.innerHTML + ' with ' + button.id);
       decreaseCountStorage(countName);
       if (localStorage.hasOwnProperty('fallCount') == false){localStorage.setItem('fallCount', 0)};
       var countTot = parseInt(localStorage.getItem('fallCount'));
@@ -3739,11 +3742,15 @@ function submitAllPages(){
     profileLiveAlone=localStorage.getItem('liveAloneStatement'),
     )
     console.log('Wrote Preferences Page to csv')
+
+    CLIENTwriteTimestamps(study=study, site=site, subject=subject,
+      events=JSON.parse(localStorage.getItem('Events')),
+      times=JSON.parse(localStorage.getItem('Timestamps'))
+      )
+    console.log('Wrote Events and Timestamps to csv')
+
     // resetStorageItems();
 
-   
-
-    
   } else {
     alert('You clicked cancel')    
 
@@ -3808,6 +3815,8 @@ function resetStorageItems(){
   localStorage.removeItem('walkingAid');
 
   localStorage.removeItem('walkingAidArray');
+  localStorage.removeItem('Timestamps');
+  localStorage.removeItem('Events');
   window.location.reload()
 }
 // - - - - - - 
@@ -4110,14 +4119,14 @@ function CLIENTwriteTimestamps(study, site, subject, events, times){
   var dateISO = (new Date).toISOString()
 
   const rows = [
-      ['ID', 'ID', 'DATE', 'EVENT', 'TIME']
+      ['ID', 'ID', 'TIME', 'EVENT']
   ]
 
   for (var i = 0; i < events.length; i++){
       var event = events[i];
       var time = times[i];
 
-      record = [subject, dateISO, event, time]
+      record = [subject, time, event]
       rows.push(record)
   }
 
@@ -4136,4 +4145,26 @@ function CLIENTwriteTimestamps(study, site, subject, events, times){
 
   link.click()
   console.log('Done')
+}
+
+// EVENT FILE
+function logEvent(event){
+  var event = event;
+  if (localStorage.hasOwnProperty('Timestamps') == false){newArrayLocalStorage('Timestamps')};
+  if (localStorage.hasOwnProperty('Events') == false){newArrayLocalStorage('Events')};
+  var timestampsArr = JSON.parse(localStorage.getItem('Timestamps'));
+  var eventsArr = JSON.parse(localStorage.getItem('Events'));
+  
+  var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
+  var dateISO = (new Date).toISOString()
+
+  timestampsArr.push(dateISO);
+
+  if (event == 'width and height'){
+    eventsArr.push('screen width: ' + window.innerWidth + '; screen height: ' + window.innerHeight);
+  } else {
+    eventsArr.push(JSON.stringify(event));
+  }
+  localStorage.setItem('Timestamps', JSON.stringify(timestampsArr));
+  localStorage.setItem('Events', JSON.stringify(eventsArr));
 }

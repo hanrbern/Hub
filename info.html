@@ -11,7 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="makeDailyButtons();createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list'); activityPrefFlagCheck(); submitMoodAndLikertforPreferences(); moodPrefFlagCheck(); checkProfSubmitted();checkWalkingAidAnswers();sleepPrefStorage(); checkFallsPref();">
+<body onload="makeDailyButtons();createPAndXButtonFromArray('activitySelections', 'activitySelectionsCount', 'activity-selected-list'); activityPrefFlagCheck(); submitMoodAndLikertforPreferences(); moodPrefFlagCheck(); checkProfSubmitted();checkWalkingAidAnswers();sleepPrefStorage(); checkFallsPref(); logEvent('loaded info.html'); logEvent('width and height')">
 
     <!-- Header -->
     <div class="header">
@@ -123,7 +123,7 @@
               <p id="outside-answer" style="display: inline;"></p>
             </div>
             
-            <button class="btnx" onclick="resetWalkingAid()">Reset Entries</button>
+            <button class="btnx" onclick="resetWalkingAid(); logEvent('reset walkingaidPref')">Reset Entries</button>
           </div>
 
           <div id='walking-aid-question'>
@@ -213,7 +213,7 @@
             <input type="text" id="outside-other-text" style="display: none; font-size: large;">
           </div>
 
-          <button class="btn" style="display: none;" id='walking-aid-submit' onclick="submitWalkingAid()">Submit</button>
+          <button class="btn" style="display: none;" id='walking-aid-submit' onclick="submitWalkingAid(); logEvent('submitted walkingaidPref')">Submit</button>
         </div>
         </div>
 
@@ -252,7 +252,7 @@
               <p id="sleep-naps-answer" style="display: inline;"></p>
             </div>
 
-            <button class="btnx" onclick="resetSleepPref()">Reset Entries</button>
+            <button class="btnx" onclick="resetSleepPref(); logEvent('reset sleepPref')">Reset Entries</button>
           </div>
           
           <div id='sleep-questions'>
@@ -462,7 +462,7 @@
               </div>
             </div>
             <br><br>
-            <button class="btn" id='sleep-submit' style="display: none;" onclick="sleepPrefSubmit()">Submit</button>
+            <button class="btn" id='sleep-submit' style="display: none;" onclick="sleepPrefSubmit(); logEvent('submitted sleepPref')">Submit</button>
           </div>
 
         </div>
@@ -478,7 +478,7 @@
               <button class="btn" id='daily-preferences-5' onclick="DailyActivitySelect('daily-preferences-5', 'Occupational - Walking')">Occupational - Walking</button>
               <button class="btn" id='daily-preferences-6' onclick="DailyActivitySelect('daily-preferences-6', 'Occupational - Manual Labour')">Occupational - Manual Labour</button>
           </div>
-          <button class="btn" id='daily-preferences-submit' onclick='makeDailyButtons()' style="background: rgb(245, 245, 154);">Submit</button>
+          <button class="btn" id='daily-preferences-submit' onclick='makeDailyButtons(); logEvent("submitted dailyactivitiesPref")' style="background: rgb(245, 245, 154);">Submit</button>
           <div id='selected-daily-activities'>
             <h3>Activities Selected:</h3>
             <p id='daily-selected-count'></p>
@@ -622,7 +622,7 @@
             <button class='btn' style='display: inline-block' id='often-tense'onclick="changeLikertMoodforPreferences('mood-tense', 'often-tense', 'Often', 'tensePref')">Often</button>
             <button class='btn' style='display: inline-block' id='very-often-tense'onclick="changeLikertMoodforPreferences('mood-tense', 'very-often-tense', 'Very Often', 'tensePref')">Very Often</button>
           </div>
-          <button id="submit-mood" class="btn" style="display: none" onclick="submitMoodAndLikertforPreferences()">Submit</button>
+          <button id="submit-mood" class="btn" style="display: none" onclick="submitMoodAndLikertforPreferences(); logEvent('submitted moodandlikertPref')">Submit</button>
         </div>
 
         <button class="collapsible" id="collapsible-falls" style="background-color: rgb(253, 253, 110); font-size: large; font-weight: 600;">Falls</button>
@@ -644,7 +644,7 @@
               <p style="display: inline;" id="number-fall-past"></p>
             </div>
 
-            <button class="btnx" onclick="resetFallsPref()">Reset Entries</button>
+            <button class="btnx" onclick="resetFallsPref(); logEvent('reset fallsPref')">Reset Entries</button>
 
           </div>
 
@@ -690,7 +690,7 @@
             <p style="display: inline-block;">How many falls did you experience in the past 12 months?</p>
             <input type="number" min="0" style="font-size: large; width: 60px; display: inline-block;" id="input-fall-past" oninput="checkFallsPrefEntries()">
             <br><br>
-            <button class="btn" id="fall-submit" onclick="fallPrefSubmit()">Submit</button>
+            <button class="btn" id="fall-submit" onclick="fallPrefSubmit(); logEvent('submitted fallPref')">Submit</button>
           </div>
         </div>
         
@@ -703,12 +703,12 @@
             <div style="display: none;" id='age-answer-div'>
               <p id='age-answer' style="display: inline;">#</p>
               <p style="display: inline;"> years old</p>
-              <button class="btnx" onclick="resetAge()">X</button>
+              <button class="btnx" onclick="resetAge(); logEvent('reset agePref')">X</button>
             </div>
             
             <div style="display: none" id="living-alone-div">
               <p id='living-alone-statement' style="display: inline;"></p>
-              <button class="btnx" style="display: inline;" onclick="resetLiveAlone()">X</button>
+              <button class="btnx" style="display: inline;" onclick="resetLiveAlone(); logEvent('reset livealonePref')">X</button>
             </div>
 
           </div>
@@ -725,7 +725,7 @@
             <button class="btn" id="Yes-live-alone" onclick="buttonsInDiv(this.id, 'live-alone-questions', undefined, undefined); liveAlone('Yes');">Yes</button>
           </div>
 
-          <button id='profile-submit' class="btn" onclick="ProfSubmit();" style="display: none;">Submit</button>
+          <button id='profile-submit' class="btn" onclick="ProfSubmit(); logEvent('submitted profilePref')" style="display: none;">Submit</button>
 
         </div>
       </div>     

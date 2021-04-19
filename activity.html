@@ -11,7 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
   </head>
-<body onload="activityButtonsFromPreferences();FlagCountCheck();dailyActivitiesFromPreferences(); loadActivity();getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood'); checkNoMoreActivity();checkPrefComplete()">
+<body onload="activityButtonsFromPreferences();FlagCountCheck();dailyActivitiesFromPreferences(); loadActivity();getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood'); checkNoMoreActivity();checkPrefComplete(); logEvent('loaded activity.html'); logEvent('width and height')">
 
     <!-- Header -->
     <div class="header">
@@ -92,7 +92,7 @@
           <div id="logged-daily-activities" style="display: block;"></div> 
           <div id='logged-activities-preferences'></div>   
           <p style="display: none;" id="nomore-msg">Nothing else to log.</p>
-          <button id="nomore-btnx" style="display: none;" class="btnx" onclick="nomoreActivity('3')">X</button>
+          <button id="nomore-btnx" style="display: none;" class="btnx" onclick="nomoreActivity('3'); logEvent('submitted nomoreactivity')">X</button>
         </div>
         <br>
           
@@ -124,7 +124,7 @@
             </div>
           </div>
           <br><br><br><br><br>
-          <button class="btn" style="background: rgb(255, 255, 255); display: none;" id="daily-submit" onclick="submitDailyActivity()">Submit</button>
+          <button class="btn" style="background: rgb(255, 255, 255); display: none;" id="daily-submit" onclick="submitDailyActivity(); logEvent('submitted dailyactivity')">Submit</button>
           
         </div>
 
@@ -206,12 +206,12 @@
               </div>
             </div>
             <br><br>
-            <button class="btn" onclick="submitActivityFromPreferences()" id='activity-submit-preferences'>Submit</button>
+            <button class="btn" onclick="submitActivityFromPreferences(); logEvent('submitted activity')" id='activity-submit-preferences'>Submit</button>
           </div>
           <div id='test-activity-preferences-selected'></div>
         </div>
         <button class="btn" id="activity-nomore" onclick="nomoreActivity('1')" style="display: none;">Nothing else to log</button>
-        <button class='btn' id="activity-nomore-submit" onclick="nomoreActivity('2')" style="display: none;">Submit</button>
+        <button class='btn' id="activity-nomore-submit" onclick="nomoreActivity('2'); logEvent('submitted nomoreactivity')" style="display: none;">Submit</button>
       
         <!-- <a onclick="if (confirm('Are you sure you want to leave this page?')){href='info.html'}"><button class="btn">Change activity options</button></a> -->
       </div>

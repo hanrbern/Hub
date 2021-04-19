@@ -617,6 +617,8 @@ function CLIENTwriteTimestamps(study, site, subject, events, times){
     var date = [{year: 'numeric'}, {month: '2-digit'}, {day: '2-digit'}];
     var dateFormat = join(new Date, date, '')
     var dateISO = (new Date).toISOString()
+    console.log(dateFormat)
+    console.log(dateISO)
 
     const rows = [
         ['ID', 'DATE', 'EVENT', 'TIME']
@@ -647,7 +649,7 @@ function CLIENTwriteTimestamps(study, site, subject, events, times){
     console.log('Done')
 }
 
-// NEWwriteTimestamps('Test', 'UW', '1001', ['p-10', 'b-9'], ['11:53', '10:05'])
+CLIENTwriteTimestamps('Test', 'UW', '1001', ['p-10', 'b-9'], ['11:53', '10:05'])
 var newFallOrNearFallArr = [];
 var newFallTimeArr = [];
 var newFallLocationArr = [];
@@ -727,46 +729,3 @@ for (var i = 0; i < array.length; i++){
     newFallMoreDetailsArr.push(newFallMoreDetails)
     newFallWalkingAidArr.push(newFallWalkingAid)
 }
-
-console.log(newFallOrNearFallArr)
-console.log(newFallTimeArr)
-console.log(newFallLocationArr)
-console.log(newFallLocationInsideArr)
-console.log(newFallActivityArr)
-console.log(newFallCauseArr)
-console.log(newFallInjuredArr)
-console.log(newFallMedicalArr)
-console.log(newFallWalkingAidArr)
-console.log(newFallMoreDetailsArr)   
-console.log('Done')
-
-// let newFallOrNearFallArr = removeItemOnce(JSON.parse(localStorage.getItem('fallOrNearFallCSV')), )
-// let newFallOrNearFallArr = JSON.parse(localStorage.getItem('fallOrNearFallCSV')).splice(index, 1);
-// localStorage.setItem('fallOrNearFallCSV', JSON.stringify(newFallOrNearFallArr));
-
-// let newFallTimeArr = JSON.parse(localStorage.getItem('fallTimeCSV')).splice(index, 1);
-// localStorage.setItem('fallTimeCSV', JSON.stringify(newFallTimeArr));
-
-// let newFallLocationArr = JSON.parse(localStorage.getItem('fallLocationCSV')).splice(index, 1);
-// localStorage.setItem('fallLocationCSV', JSON.stringify(newFallLocationArr));
-
-// let newFallLocationInsideArr = JSON.parse(localStorage.getItem('fallLocationInsideCSV')).splice(index, 1);
-// localStorage.setItem('fallLocationInsideCSV', JSON.stringify(newFallLocationInsideArr));
-
-// let newFallActivityArr = JSON.parse(localStorage.getItem('fallActivityCSV')).splice(index, 1);
-// localStorage.setItem('fallActivityCSV', JSON.stringify(newFallActivityArr));
-
-// let newFallCauseArr = JSON.parse(localStorage.getItem('fallCauseCSV')).splice(index, 1);
-// localStorage.setItem('fallCauseCSV', JSON.stringify(newFallCauseArr));
-
-// let newFallInjuredArr = JSON.parse(localStorage.getItem('fallInjuredCSV')).splice(index, 1);
-// localStorage.setItem('fallInjuredCSV', JSON.stringify(newFallInjuredArr));
-
-// let newFallMedicalArr = JSON.parse(localStorage.getItem('fallMedicalCSV')).splice(index, 1);
-// localStorage.setItem('fallMedicalCSV', JSON.stringify(newFallMedicalArr));
-
-// let newFallMoreDetailsArr = JSON.parse(localStorage.getItem('fallMoreDetailsCSV')).splice(index, 1);
-// localStorage.setItem('fallMoreDetailsCSV', JSON.stringify(newFallMoreDetailsArr));
-
-// let newFallWalkingAidArr = JSON.parse(localStorage.getItem('fallWalkingAidCSV')).splice(index, 1);
-// localStorage.setItem('fallWalkingAidCSV', JSON.stringify(newFallWalkingAidArr));

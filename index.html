@@ -11,7 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     </head>
-<body onload="getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');FlagCountCheck(); checkPrefComplete('home'); checkAllComplete()">
+<body onload="getStorage('activityCountPreferences', 'num-activity'); getStorage('sleepCount', 'num-sleep'); getStorage('fallCount', 'num-falls'); getStorage('moodCount', 'num-mood');FlagCountCheck(); checkPrefComplete('home'); checkAllComplete(); logEvent('loaded index.html'); logEvent('width and height')">
 
     <!-- Header -->
     <div class="header">
@@ -109,7 +109,7 @@
                     Once you submit, you will not be able to change any of your answers for today.
                     Please confirm that all of the information has been entered correctly before submitting.
                 </p>
-                <button class="btn" onclick="submitAllPages()">Submit Entries for Today</button>
+                <button class="btn" onclick="submitAllPages(); logEvent('submitted allpages')">Submit Entries for Today</button>
             </div>
 
             <div id='day-incomplete'>
@@ -118,7 +118,7 @@
                 </p>
             </div>
 
-            <button class="btnx"; onclick="resetStorageItems()">RESET STORAGE ITEMS</button>
+            <button class="btnx"; onclick="resetStorageItems(); logEvent('reset allstorage')">RESET STORAGE ITEMS</button>
 
  
         </div>
